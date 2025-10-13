@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "ravencoffee:brownie"
+  },
+  "pattern": [
+    "bbb",
+    "bbb",
+    "bbb"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:brownie_block"
+  }
+}

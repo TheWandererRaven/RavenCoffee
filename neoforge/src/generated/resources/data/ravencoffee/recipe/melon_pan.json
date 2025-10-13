@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": "minecraft:melon_slice",
+    "w": "minecraft:wheat"
+  },
+  "pattern": [
+    " w ",
+    "wmw",
+    " w "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:melon_pan"
+  }
+}

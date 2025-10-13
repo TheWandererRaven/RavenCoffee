@@ -1,0 +1,4 @@
+// 1.21.5	-999999999-01-01T00:00:00	RavenCoffee/Block Loot Tables
+5702e33062adb3eb729c4695bb0968d8e8eaac71 data/ravencoffee/loot_table/blocks/brownie_block.json
+e05acb4fb60871a8152d02b4ff1b8183b5431ff8 data/ravencoffee/loot_table/blocks/coffee_grinder.json
+87b59a9269b2d117324fd9debbd18889f1663bb9 data/ravencoffee/loot_table/blocks/coffee_machine.json

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.05,
+  "ingredient": "ravencoffee:coffee_cherries",
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:roasted_coffee_beans"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "ravencoffee:croissant",
+    "minecraft:cooked_chicken"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:chicken_croissant"
+  }
+}

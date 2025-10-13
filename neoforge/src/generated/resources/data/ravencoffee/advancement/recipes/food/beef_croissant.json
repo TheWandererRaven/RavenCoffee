@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_croissant_and_beef": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cooked_beef",
+              "ravencoffee:croissant"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ravencoffee:beef_croissant"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_croissant_and_beef"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ravencoffee:beef_croissant"
+    ]
+  }
+}

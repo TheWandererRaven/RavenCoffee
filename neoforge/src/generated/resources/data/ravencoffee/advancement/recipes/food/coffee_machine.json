@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_redstone_and_coffee": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:redstone",
+              "minecraft:iron_ingot"
+            ]
+          },
+          {
+            "items": "ravencoffee:ground_coffee"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ravencoffee:coffee_machine"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_redstone_and_coffee"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ravencoffee:coffee_machine"
+    ]
+  }
+}

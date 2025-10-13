@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bagel_and_porkchop": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:porkchop",
+              "ravencoffee:bagel"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ravencoffee:ham_bagel"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bagel_and_porkchop"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ravencoffee:ham_bagel"
+    ]
+  }
+}

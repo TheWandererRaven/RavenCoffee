@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:wheat",
+    "minecraft:paper"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:muffin"
+  }
+}

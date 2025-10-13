@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "ravencoffee:bagel",
+    "minecraft:porkchop"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:ham_bagel"
+  }
+}

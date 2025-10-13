@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bread_and_chicken": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cooked_chicken",
+              "minecraft:bread"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ravencoffee:chicken_sandwich"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bread_and_chicken"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ravencoffee:chicken_sandwich"
+    ]
+  }
+}

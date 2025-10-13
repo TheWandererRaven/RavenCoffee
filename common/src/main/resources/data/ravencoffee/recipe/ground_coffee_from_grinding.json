@@ -1,0 +1,10 @@
+{
+  "type": "ravencoffee:coffee_grinding",
+  "ingredients": [
+    "#ravencoffee:roasted_common_beans"
+  ],
+  "result": {
+    "id": "ravencoffee:ground_coffee",
+    "count": 1
+  }
+}

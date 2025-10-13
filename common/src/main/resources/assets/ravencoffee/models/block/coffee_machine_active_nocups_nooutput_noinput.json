@@ -1,0 +1,6 @@
+{
+	"parent": "ravencoffee:block/coffee_machine_inactive_nocups_nooutput_noinput",
+	"textures": {
+		"3": "ravencoffee:block/coffee_machine_panel_on"
+	}
+}

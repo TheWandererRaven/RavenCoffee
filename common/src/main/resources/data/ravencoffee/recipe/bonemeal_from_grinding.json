@@ -1,0 +1,11 @@
+{
+  "type": "ravencoffee:coffee_grinding",
+  "ingredients": [
+    "minecraft:bone",
+    "minecraft:bone"
+  ],
+  "result": {
+    "id": "minecraft:bone_meal",
+    "count": 9
+  }
+}

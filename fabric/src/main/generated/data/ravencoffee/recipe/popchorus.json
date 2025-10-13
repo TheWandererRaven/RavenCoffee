@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "minecraft:popped_chorus_fruit",
+    "minecraft:popped_chorus_fruit",
+    "minecraft:popped_chorus_fruit"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ravencoffee:popchorus"
+  }
+}

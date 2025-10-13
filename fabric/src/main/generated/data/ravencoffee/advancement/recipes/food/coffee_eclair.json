@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ravencoffee:coffee_eclair"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_wheat": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:cocoa_beans",
+              "ravencoffee:ground_coffee"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wheat"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ravencoffee:coffee_eclair"
+    ]
+  }
+}
