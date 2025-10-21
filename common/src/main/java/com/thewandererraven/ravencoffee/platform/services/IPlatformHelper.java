@@ -1,5 +1,8 @@
 package com.thewandererraven.ravencoffee.platform.services;
 
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerPlayer;
+
 public interface IPlatformHelper {
 
     /**
@@ -23,6 +26,8 @@ public interface IPlatformHelper {
      * @return True if in a development environment, false otherwise.
      */
     boolean isDevelopmentEnvironment();
+
+    void sendCustomPacket(ServerPlayer player, CustomPacketPayload packet);
 
     /**
      * Gets the name of the environment type as a string.

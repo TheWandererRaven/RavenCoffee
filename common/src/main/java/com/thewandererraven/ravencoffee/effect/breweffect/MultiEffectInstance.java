@@ -83,4 +83,12 @@ public class MultiEffectInstance {
             }
         }
     }
+
+    public void setCurrentTicks(int newTicks) {
+        this.ticks = newTicks;
+    }
+
+    public void setCurrentTicksWithRemainingDuration(int remainingDuration) {
+        this.ticks = this.multiEffect.value().totalDuration - remainingDuration - 1;
+    }
 }
