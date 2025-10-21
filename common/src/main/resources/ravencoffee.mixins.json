@@ -5,10 +5,11 @@
   "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_18",
   "mixins": [
-    "MixinServerPlayerEntity",
-    "MixinLivingEntity"
+    "MixinLivingEntity",
+    "MixinServerPlayerEntity"
   ],
   "client": [
+    "MixinGui",
     "MixinMinecraft"
   ],
   "server": [],
