@@ -1,13 +1,10 @@
 package com.thewandererraven.ravencoffee;
 
-import com.thewandererraven.ravencoffee.block.BlocksRegistry;
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
+import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.mixin.screen.HandledScreenMixin;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.world.level.block.ComposterBlock;
 
 public class RavenCoffeeFabric implements ModInitializer {
@@ -26,5 +23,6 @@ public class RavenCoffeeFabric implements ModInitializer {
         for(DataGenItem dataGenItem : DataGenDefinitions.ITEMS)
             if(dataGenItem.compostableValue > 0.0f)
                 ComposterBlock.COMPOSTABLES.put(dataGenItem.mainItem, dataGenItem.compostableValue);
+        PayloadTypeRegistry.playS2C().register(SyncBrewPayload.TYPE, SyncBrewPayload.STREAM_CODEC);
     }
 }
