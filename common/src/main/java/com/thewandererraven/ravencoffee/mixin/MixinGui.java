@@ -1,70 +1,85 @@
 package com.thewandererraven.ravencoffee.mixin;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffect;
+import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectInstance;
+import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
+import com.thewandererraven.ravencoffee.util.IMultiEffectIndicator;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.MobEffectTextureManager;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.function.BooleanSupplier;
 
 @Mixin(Gui.class)
-public class MixinGui {
+public class MixinGui implements IMultiEffectIndicator {
     @Shadow
-    private Minecraft minecraft;
-    private static final ResourceLocation MULTI_EFFECT_BACKGROUND_AMBIENT_SPRITE = ResourceLocation.withDefaultNamespace("hud/effect_background_ambient");
-    private static final ResourceLocation MULTI_EFFECT_BACKGROUND_SPRITE = ResourceLocation.withDefaultNamespace("hud/effect_background");
+    private LayeredDraw layers;
+    private static final ResourceLocation MULTI_EFFECT_BACKGROUND_AMBIENT_SPRITE = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "hud/effect_background_ambient");
+    private static final ResourceLocation MULTI_EFFECT_BACKGROUND_SPRITE = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "hud/effect_background.png");
 
-
-    @Inject(
-            method = "renderEffects",
-            at = @At("TAIL")
+    @Redirect(
+            method = "<init>",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/LayeredDraw;add(Lnet/minecraft/client/gui/LayeredDraw;Ljava/util/function/BooleanSupplier;)Lnet/minecraft/client/gui/LayeredDraw;"
+            )
     )
-    private void ravencoffee$renderMultiEffects(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        MultiEffectInstance currentEffect = null;//this.minecraft.player.getCurrentMultiEffect();
-        if (currentEffect != null && (this.minecraft.screen == null || !this.minecraft.screen.showsActiveEffects())) {
-            int i = 0;
-            int j = 0;
-            int k = guiGraphics.guiWidth() - 25;
-            int l = 1 + 26;
-            MobEffectTextureManager mobeffecttexturemanager = this.minecraft.getMobEffectTextures();
-            //List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
+    private LayeredDraw onInit(LayeredDraw instance, LayeredDraw layeredDraw, BooleanSupplier renderInner) {
+        Gui self = (Gui)(Object)this;
+        this.layers.add((guiGraphics, deltaTracker) -> {
+            Minecraft mc = Minecraft.getInstance();
+            Player player = mc.player;
+            if (player == null) return;
 
-                //MultiEffect baseEffect = currentEffect.multiEffect;
-                    float f = 1.0F;
-                    if (currentEffect.isAmbient()) {
-                        guiGraphics.blitSprite(RenderType::guiTextured, MULTI_EFFECT_BACKGROUND_AMBIENT_SPRITE, k, l, 24, 24);
-                    } else {
-                        guiGraphics.blitSprite(RenderType::guiTextured, MULTI_EFFECT_BACKGROUND_SPRITE, k, l, 24, 24);
-                        if (currentEffect.endsWithin(200)) {
-                            int i1 = currentEffect.getRemainingDuration();
-                            int j1 = 10 - i1 / 20;
-                            f = Mth.clamp((float)i1 / 10.0F / 5.0F * 0.5F, 0.0F, 0.5F) + Mth.cos((float)i1 * (float)Math.PI / 5.0F) * Mth.clamp((float)j1 / 10.0F * 0.25F, 0.0F, 0.25F);
-                            f = Mth.clamp(f, 0.0F, 1.0F);
-                        }
-                    ResourceLocation effectIconLocation = currentEffect.getIconLocation();
-                    float finalF = f;
-                        int i2 = ARGB.white(finalF);
-                        guiGraphics.blitSprite(RenderType::guiTextured, effectIconLocation, k + 3, l + 3, 18, 18, i2);
+            if(player instanceof LocalPlayer localPlayer)
+                if(localPlayer instanceof IBrewManagerHolder holder) {
+                    MultiEffectInstance current = holder.ravencoffee$getBrewEffectManager().getCurrentEffect();
+
+                    if (current != null) {
+                        //ResourceLocation icon = current.getIconLocation();
+                        ResourceLocation icon = MULTI_EFFECT_BACKGROUND_SPRITE;
+                        int duration = current.getRemainingDuration();
+                        Constants.LOG.info("Current duration ticks from gui class: " + duration);
+                        // Example: draw it like vanilla potions
+                        guiGraphics.blit(RenderType::guiTextured, icon, 10, 10, 0, 0, 18, 18, 18, 18);
+
+                        // optionally draw remaining duration
+                        guiGraphics.drawString(mc.font, String.valueOf((int) Math.ceil(duration / 20.0)), 10, 28, 0xFFFFFF, true);
+                    }
                 }
+        });
+        return instance.add(layeredDraw, renderInner);
+    }
+
+    @Override
+    public void ravencoffee$renderMultiEffectIndicator(GuiGraphics graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+        if (player == null) return;
+
+        if(player instanceof IBrewManagerHolder holder) {
+            MultiEffectInstance current = holder.ravencoffee$getBrewEffectManager().getCurrentEffect();
+
+            if (current != null) {
+                ResourceLocation icon = current.getIconLocation();
+                int duration = current.getRemainingDuration();
+                // Example: draw it like vanilla potions
+                graphics.blit(RenderType::guiTextured, icon, 10, 10, 0, 0, 18, 18, 18, 18);
+
+                // optionally draw remaining duration
+                graphics.drawString(mc.font, String.valueOf(duration / 20), 10, 28, 0xFFFFFF, true);
+            }
         }
     }
 }
