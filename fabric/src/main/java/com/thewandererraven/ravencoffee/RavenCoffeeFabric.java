@@ -19,10 +19,6 @@ public class RavenCoffeeFabric implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         RavenCoffeeCommon.init();
-        // TODO: If fabric implements datamaps for this, move this to its corresponding class
-        for(DataGenItem dataGenItem : DataGenDefinitions.ITEMS)
-            if(dataGenItem.compostableValue > 0.0f)
-                ComposterBlock.COMPOSTABLES.put(dataGenItem.mainItem, dataGenItem.compostableValue);
         PayloadTypeRegistry.playS2C().register(SyncBrewPayload.TYPE, SyncBrewPayload.STREAM_CODEC);
     }
 }
