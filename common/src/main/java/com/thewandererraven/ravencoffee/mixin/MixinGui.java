@@ -48,14 +48,22 @@ public class MixinGui implements IMultiEffectIndicator {
 
                     if (current != null) {
                         //ResourceLocation icon = current.getIconLocation();
-                        ResourceLocation icon = MULTI_EFFECT_BACKGROUND_SPRITE;
+                        ResourceLocation backgroundSprite = MULTI_EFFECT_BACKGROUND_SPRITE;
+                        //ResourceLocation icon = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/item/coffee_mug/basic_brew.png");
+                        ResourceLocation icon = current.getIconLocation();
                         int duration = current.getRemainingDuration();
                         Constants.LOG.info("Current duration ticks from gui class: " + duration);
-                        // Example: draw it like vanilla potions
-                        guiGraphics.blit(RenderType::guiTextured, icon, 10, 10, 0, 0, 18, 18, 18, 18);
 
-                        // optionally draw remaining duration
-                        guiGraphics.drawString(mc.font, String.valueOf((int) Math.ceil(duration / 20.0)), 10, 28, 0xFFFFFF, true);
+                        int WIDGET_POS_X = 10;
+                        int WIDGET_POS_Y = 10;
+                        int WIDGET_WIDTH = 32;
+                        int WIDGET_HEIGHT = 32;
+                        guiGraphics.blit(RenderType::guiTextured, backgroundSprite, WIDGET_POS_X, WIDGET_POS_Y, 0, 0, WIDGET_WIDTH, WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_HEIGHT);
+                        guiGraphics.blit(RenderType::guiTextured, icon, WIDGET_POS_X + 4, WIDGET_POS_Y + 4, 0, 0, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8);
+
+                        int remainingSeconds = (int) Math.ceil(duration / 20.0);
+                        String timeLeft = String.format("%02d:%02d", (int) Math.floor((remainingSeconds / 60.0)), (int) (remainingSeconds % 60.0));
+                        guiGraphics.drawString(mc.font, timeLeft, WIDGET_POS_X + 3, WIDGET_POS_Y + 32, 0xFFFFFF, true);
                     }
                 }
         });

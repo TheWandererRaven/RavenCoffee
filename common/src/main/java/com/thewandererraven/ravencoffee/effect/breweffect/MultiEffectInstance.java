@@ -63,7 +63,7 @@ public class MultiEffectInstance {
     }
 
     public ResourceLocation getIconLocation() {
-        return this.multiEffect.value().getId();
+        return this.multiEffect.value().getIconLocation();
     }
 
     public void reset(LivingEntity player) {
