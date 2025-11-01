@@ -52,7 +52,6 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
                 int remainingDuration = currentEffect.getRemainingDuration();
                 if(remainingDuration % 20 == 0) {
                     Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewPayload(currentEffect.getEffect().value().getId(), remainingDuration));
-                    Constants.LOG.info("Remaining duration in ticks: " + remainingDuration);
                 }
                 if (currentEffect.tick(player)) {
                     MultiEffectInstance finishedEffect = currentEffect;
