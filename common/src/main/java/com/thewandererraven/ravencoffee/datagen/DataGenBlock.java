@@ -1,7 +1,6 @@
 package com.thewandererraven.ravencoffee.datagen;
 
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
 

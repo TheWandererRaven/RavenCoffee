@@ -20,11 +20,13 @@ public class MultiEffect {
     //public static final Codec<Holder<MultiEffect>> CODEC;
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<MultiEffect>> STREAM_CODEC;
     private final ResourceLocation id;
+    private final ResourceLocation iconLocation;
     public int totalDuration;
     private List<TriggerableEffect> subEffects;
 
-    public MultiEffect(ResourceLocation id, List<TriggerableEffect> effects) {
+    public MultiEffect(ResourceLocation id, ResourceLocation iconLocation, List<TriggerableEffect> effects) {
         this.id = id;
+        this.iconLocation = iconLocation;
         this.subEffects = effects;
         this.subEffects.forEach(effect -> this.totalDuration += effect.effectDuration);
     }
@@ -51,21 +53,22 @@ public class MultiEffect {
         return Holder.direct(this);
     }
 
+    public ResourceLocation getIconLocation() {
+        return this.iconLocation;
+    }
+
     public static MultiEffect of(String id, TriggerableEffect effect) {
-        return MultiEffect.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, id), effect);
-    }
-
-    public static MultiEffect of(String id, List<TriggerableEffect> effects) {
-        return MultiEffect.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, id), effects);
-    }
-
-    public static MultiEffect of(ResourceLocation id, TriggerableEffect effect) {
         return MultiEffect.of(id, List.of(effect));
     }
 
-    public static MultiEffect of(ResourceLocation id, List<TriggerableEffect> effects) {
-        return new MultiEffect(id, new ArrayList<>(effects));
+    public static MultiEffect of(String id, List<TriggerableEffect> effects) {
+        return MultiEffect.of(id, id, effects);
     }
+
+    public static MultiEffect of(String id, String iconLocation, List<TriggerableEffect> effects) {
+        return new MultiEffect(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, id), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/item/coffee_mug/" + iconLocation + ".png"), new ArrayList<>(effects));
+    }
+
     static {
         //CODEC = BuiltInRegistries.MOB_EFFECT.holderByNameCodec();
         STREAM_CODEC = ByteBufCodecs.holderRegistry(RavenCoffeeRegistryKeys.BREW_EFFECTS);

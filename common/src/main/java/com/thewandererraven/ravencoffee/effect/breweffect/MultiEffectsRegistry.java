@@ -41,7 +41,7 @@ public class MultiEffectsRegistry {
             _speed_id,
             () -> MultiEffect.of(
                     _speed_id,
-                    new TriggerableEffect(0, 5,
+                    new TriggerableEffect(0, 34,
                             Attributes.MOVEMENT_SPEED,
                             new TriggerableEffect.AttributeTemplate(
                                     ResourceLocation.withDefaultNamespace("effect.slowness"),
@@ -50,7 +50,7 @@ public class MultiEffectsRegistry {
                             ).create(1)
                     )
             ).addTriggerableEffect(
-                    new TriggerableEffect(5, 5,
+                    new TriggerableEffect(34, 38,
                             Attributes.MOVEMENT_SPEED,
                             new TriggerableEffect.AttributeTemplate(
                                     ResourceLocation.withDefaultNamespace("effect.slowness"),

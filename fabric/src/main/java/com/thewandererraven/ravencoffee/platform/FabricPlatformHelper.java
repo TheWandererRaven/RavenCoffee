@@ -4,7 +4,9 @@ import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsMana
 import com.thewandererraven.ravencoffee.mixin.MixinServerPlayerEntity;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.platform.services.IPlatformHelper;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 public class FabricPlatformHelper implements IPlatformHelper {
@@ -22,5 +24,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public boolean isDevelopmentEnvironment() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
+
+    @Override
+    public void sendCustomPacket(ServerPlayer player, CustomPacketPayload packet) {
+        ServerPlayNetworking.send(player, packet);
     }
 }

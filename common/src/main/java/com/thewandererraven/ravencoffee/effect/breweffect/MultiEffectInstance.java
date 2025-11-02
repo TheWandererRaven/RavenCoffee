@@ -63,7 +63,7 @@ public class MultiEffectInstance {
     }
 
     public ResourceLocation getIconLocation() {
-        return this.multiEffect.value().getId();
+        return this.multiEffect.value().getIconLocation();
     }
 
     public void reset(LivingEntity player) {
@@ -82,5 +82,13 @@ public class MultiEffectInstance {
                 this.stateOfSubEffects.set(i, TriggerableEffect.Lifecycle.PENDING);
             }
         }
+    }
+
+    public void setCurrentTicks(int newTicks) {
+        this.ticks = newTicks;
+    }
+
+    public void setCurrentTicksWithRemainingDuration(int remainingDuration) {
+        this.ticks = this.multiEffect.value().totalDuration - remainingDuration - 1;
     }
 }
