@@ -1,11 +1,7 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
-import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
 import com.thewandererraven.ravencoffee.platform.Services;
-import com.thewandererraven.ravencoffee.util.IMultiEffectIndicator;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -35,18 +31,10 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
             this.currentEffect = null;
         if(this.currentEffect != null)
             instance.setCurrentTicksWithRemainingDuration(remainingTicks);
-//        Minecraft.getInstance().screen
-//        ((IMultiEffectIndicator )Minecraft.getInstance().gui).
     }
 
     @Override
     public void tick() {
-//        Iterator<BrewEffectInstance> it = active.iterator();
-//        while(it.hasNext()) {
-//            BrewEffectInstance inst = it.next();
-//            if(inst.tick(player))
-//                it.remove();
-//        }
         if(currentEffect != null) {
             if (player instanceof ServerPlayer serverPlayer) {
                 int remainingDuration = currentEffect.getRemainingDuration();

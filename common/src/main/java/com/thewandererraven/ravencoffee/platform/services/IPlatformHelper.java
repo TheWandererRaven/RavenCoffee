@@ -1,7 +1,11 @@
 package com.thewandererraven.ravencoffee.platform.services;
 
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+
+import java.util.function.BooleanSupplier;
 
 public interface IPlatformHelper {
 
