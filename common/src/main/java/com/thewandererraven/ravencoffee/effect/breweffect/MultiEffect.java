@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultiEffect {
-    //public static final Codec<Holder<MultiEffect>> CODEC;
-    public static final StreamCodec<RegistryFriendlyByteBuf, Holder<MultiEffect>> STREAM_CODEC;
     private final ResourceLocation id;
     private final ResourceLocation iconLocation;
     public int totalDuration;
@@ -31,14 +29,18 @@ public class MultiEffect {
         this.subEffects.forEach(effect -> this.totalDuration += effect.effectDuration);
     }
 
-    public MultiEffect addTriggerableEffect(TriggerableEffect effect) {
-        this.subEffects.add(effect);
+    public MultiEffect addAttributeModifierEffect(TriggerableEffect effect) {
+        this.addEffect(effect);
         this.totalDuration += effect.effectDuration;
         return this;
     }
 
     public TriggerableEffect getEffect(int index) {
         return this.subEffects.get(index);
+    }
+
+    public boolean addEffect(TriggerableEffect effect) {
+        return this.subEffects.add(effect);
     }
 
     public int getCount() {
@@ -49,7 +51,7 @@ public class MultiEffect {
         return this.id;
     }
 
-    public Holder<MultiEffect> asHolder() {
+    public Holder<?> asHolder() {
         return Holder.direct(this);
     }
 
@@ -67,10 +69,5 @@ public class MultiEffect {
 
     public static MultiEffect of(String id, String iconLocation, List<TriggerableEffect> effects) {
         return new MultiEffect(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, id), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/item/coffee_mug/" + iconLocation + ".png"), new ArrayList<>(effects));
-    }
-
-    static {
-        //CODEC = BuiltInRegistries.MOB_EFFECT.holderByNameCodec();
-        STREAM_CODEC = ByteBufCodecs.holderRegistry(RavenCoffeeRegistryKeys.BREW_EFFECTS);
     }
 }

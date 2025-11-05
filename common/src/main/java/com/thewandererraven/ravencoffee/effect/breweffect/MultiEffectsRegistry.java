@@ -5,29 +5,31 @@ import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import com.thewandererraven.ravencoffee.registry.RegistryProvider;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeRegistryKeys;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class MultiEffectsRegistry {
-    public static final RegistryProvider<MultiEffect> BREW_EFFECTS = RegistryProvider.create(RavenCoffeeRegistryKeys.BREW_EFFECTS, Constants.MOD_ID, MultiEffect.class);
+    public static final RegistryProvider<CoffeeBrewEffect> BREW_EFFECTS = RegistryProvider.create(RavenCoffeeRegistryKeys.BREW_EFFECTS, Constants.MOD_ID, CoffeeBrewEffect.class);
 
     public static final String _basic_id = "basic";
-    public static final RegistryObject<MultiEffect> BASIC = BREW_EFFECTS.register(
+    public static final RegistryObject<CoffeeBrewEffect> BASIC = BREW_EFFECTS.register(
             _basic_id,
-            () -> MultiEffect.of(
+            () -> CoffeeBrewEffect.of(
                     _basic_id,
-                    new TriggerableEffect(0, 5,
+                    10,
+                    AttributeModifierEffect.of(0, 5,
                             Attributes.MINING_EFFICIENCY,
-                            new TriggerableEffect.AttributeTemplate(
+                            new AttributeModifierEffect.AttributeTemplate(
                                     ResourceLocation.withDefaultNamespace("effect.haste"),
                                     (double)2.0F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
                     )
-            ).addTriggerableEffect(
-                    new TriggerableEffect(5, 5,
+            ).addAttributeModifierEffect(
+                    AttributeModifierEffect.of(5, 5,
                             Attributes.MOVEMENT_SPEED,
-                            new TriggerableEffect.AttributeTemplate(
+                            new AttributeModifierEffect.AttributeTemplate(
                                     ResourceLocation.withDefaultNamespace("effect.slowness"),
                                     (double)-0.2F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
@@ -37,26 +39,39 @@ public class MultiEffectsRegistry {
     );
 
     public static final String _speed_id = "speed";
-    public static final RegistryObject<MultiEffect> SPEED = BREW_EFFECTS.register(
+    public static final RegistryObject<CoffeeBrewEffect> SPEED = BREW_EFFECTS.register(
             _speed_id,
-            () -> MultiEffect.of(
+            () -> CoffeeBrewEffect.of(
                     _speed_id,
-                    new TriggerableEffect(0, 34,
+                    10,
+                    AttributeModifierEffect.of(0, 34,
                             Attributes.MOVEMENT_SPEED,
-                            new TriggerableEffect.AttributeTemplate(
+                            new AttributeModifierEffect.AttributeTemplate(
                                     ResourceLocation.withDefaultNamespace("effect.slowness"),
                                     (double)0.5F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
                     )
-            ).addTriggerableEffect(
-                    new TriggerableEffect(34, 38,
+            ).addAttributeModifierEffect(
+                    AttributeModifierEffect.of(34, 38,
                             Attributes.MOVEMENT_SPEED,
-                            new TriggerableEffect.AttributeTemplate(
+                            new AttributeModifierEffect.AttributeTemplate(
                                     ResourceLocation.withDefaultNamespace("effect.slowness"),
                                     (double)-0.4F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
+                    )
+            )
+    );
+
+    public static final String _heal_id = "heal";
+    public static final RegistryObject<CoffeeBrewEffect> HEAL = BREW_EFFECTS.register(
+            _heal_id,
+            () -> CoffeeBrewEffect.of(
+                    _heal_id,
+                    0,
+                    new SingleEffect(0, 1,
+                            entity -> entity.heal(5.0f)
                     )
             )
     );

@@ -1,32 +1,23 @@
 package com.thewandererraven.ravencoffee;
 
 
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffect;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectInstance;
+import com.thewandererraven.ravencoffee.effect.breweffect.CoffeeBrewEffectInstance;
 import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
-import com.thewandererraven.ravencoffee.platform.NeoForgeRegistryProvider;
-import com.thewandererraven.ravencoffee.platform.Services;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
-import com.thewandererraven.ravencoffee.util.RavenCoffeeRegistryKeys;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handlers.ServerPayloadHandler;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.neoforged.neoforge.registries.NewRegistryEvent;
-import net.neoforged.neoforge.registries.RegisterEvent;
 
 @Mod(Constants.MOD_ID)
 public class RavenCoffeeNeoForge {
@@ -67,7 +58,7 @@ public class RavenCoffeeNeoForge {
                                                 .findFirst().orElse(null);
                                         if (holderEffect == null) return;
 
-                                        MultiEffectInstance instance = new MultiEffectInstance(holderEffect.asHolder());
+                                        CoffeeBrewEffectInstance instance = new CoffeeBrewEffectInstance(holderEffect.asHolder());
                                         holder.ravencoffee$getBrewEffectManager()
                                                 .setClientEffect(instance, payload.duration());
                                     }

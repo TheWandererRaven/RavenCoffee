@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
 public class DefaultBrewEffectsManager implements IBrewEffectsManager {
-    private MultiEffectInstance currentEffect = null;
+    private CoffeeBrewEffectInstance currentEffect = null;
     private LivingEntity player;
 
     public DefaultBrewEffectsManager(LivingEntity owner) {
@@ -14,7 +14,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     }
 
     @Override
-    public void add(MultiEffectInstance instance) {
+    public void add(CoffeeBrewEffectInstance instance) {
         if(currentEffect == null)
             this.currentEffect = instance;
         if(currentEffect.multiEffect == instance.multiEffect)
@@ -24,7 +24,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         }
     }
 
-    public void setClientEffect(MultiEffectInstance instance, int remainingTicks) {
+    public void setClientEffect(CoffeeBrewEffectInstance instance, int remainingTicks) {
         if(remainingTicks > 0)
             this.currentEffect = instance;
         else
@@ -42,7 +42,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
                     Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewPayload(currentEffect.getEffect().value().getId(), remainingDuration));
                 }
                 if (currentEffect.tick(player)) {
-                    MultiEffectInstance finishedEffect = currentEffect;
+                    CoffeeBrewEffectInstance finishedEffect = currentEffect;
                     currentEffect = null;
                     Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewPayload(finishedEffect.getEffect().value().getId(), remainingDuration));
                 }
@@ -51,7 +51,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     }
 
     @Override
-    public MultiEffectInstance getCurrentEffect() {
+    public CoffeeBrewEffectInstance getCurrentEffect() {
 //        return Collections.unmodifiableList(currentEffect);
         return currentEffect;
     }

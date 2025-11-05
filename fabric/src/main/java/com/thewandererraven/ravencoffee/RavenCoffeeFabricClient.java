@@ -1,9 +1,8 @@
 package com.thewandererraven.ravencoffee;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectInstance;
+import com.thewandererraven.ravencoffee.effect.breweffect.CoffeeBrewEffectInstance;
 import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
@@ -11,11 +10,8 @@ import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.ComposterBlock;
 
@@ -40,7 +36,7 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
                                 .findFirst().orElse(null);
                         if (holderEffect == null) return;
 
-                        MultiEffectInstance instance = new MultiEffectInstance(holderEffect.asHolder());
+                        CoffeeBrewEffectInstance instance = new CoffeeBrewEffectInstance(holderEffect.asHolder());
                         holder.ravencoffee$getBrewEffectManager()
                                 .setClientEffect(instance, payload.duration());
                         }

@@ -1,27 +1,23 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
-import net.minecraft.client.gui.Gui;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MultiEffectInstance {
+public class CoffeeBrewEffectInstance {
     private int ticks;
-    public final Holder<MultiEffect> multiEffect;
+    public final Holder<CoffeeBrewEffect> multiEffect;
     private int finishedEffects = 0;
-    private final List<TriggerableEffect.Lifecycle> stateOfSubEffects = new ArrayList<>();
+    private final List<AttributeModifierEffect.Lifecycle> stateOfSubEffects = new ArrayList<>();
 
-    public MultiEffectInstance(Holder<MultiEffect> effect) {
+    public CoffeeBrewEffectInstance(Holder<CoffeeBrewEffect> effect) {
         this.multiEffect = effect;
         this.ticks = 0;
-        this.stateOfSubEffects.addAll(Collections.nCopies(multiEffect.value().getCount(), TriggerableEffect.Lifecycle.PENDING));
+        this.stateOfSubEffects.addAll(Collections.nCopies(multiEffect.value().getCount(), AttributeModifierEffect.Lifecycle.PENDING));
     }
 
     public boolean tick(LivingEntity player) {
@@ -30,19 +26,22 @@ public class MultiEffectInstance {
             TriggerableEffect effect = this.multiEffect.value().getEffect(i);
             TriggerableEffect.Lifecycle currentState = this.stateOfSubEffects.get(i);
             if(ticks >= effect.triggerTicks && currentState.equals(TriggerableEffect.Lifecycle.PENDING)) {
-                effect.applyEffectStart(player);
-                this.stateOfSubEffects.set(i, TriggerableEffect.Lifecycle.TRIGGERED);
+                TriggerableEffect.Lifecycle nextState = effect.applyEffectStart(player);
+                if(nextState.equals(TriggerableEffect.Lifecycle.FINISHED))
+                    finishedEffects++;
+                this.stateOfSubEffects.set(i, nextState);
             }
             if(ticks >= effect.getEffectLastTick() && currentState.equals(TriggerableEffect.Lifecycle.TRIGGERED)) {
-                effect.applyEffectEnd(player);
-                finishedEffects++;
-                this.stateOfSubEffects.set(i, TriggerableEffect.Lifecycle.FINISHED);
+                TriggerableEffect.Lifecycle nextState = effect.applyEffectEnd(player);
+                if(nextState.equals(TriggerableEffect.Lifecycle.FINISHED))
+                    finishedEffects++;
+                this.stateOfSubEffects.set(i, nextState);
             }
         }
         return finishedEffects >= this.multiEffect.value().getCount();
     }
 
-    public Holder<MultiEffect> getEffect() {
+    public Holder<CoffeeBrewEffect> getEffect() {
         return this.multiEffect;
     }
 
@@ -69,7 +68,7 @@ public class MultiEffectInstance {
     public void reset(LivingEntity player) {
         this.ticks = 0;
         this.resetAllEffects(player);
-        this.stateOfSubEffects.replaceAll(state -> TriggerableEffect.Lifecycle.PENDING);
+        this.stateOfSubEffects.replaceAll(state -> AttributeModifierEffect.Lifecycle.PENDING);
         this.finishedEffects = 0;
     }
 
