@@ -34,7 +34,30 @@ public class BrewItemsRegistry {
                             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _basic_brew_mug_id)
                     )).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
                     .usingConvertsTo(COFFEE_MUG.get()),
+                    MultiEffectsRegistry.BASIC
+            ));
+
+    public static final String _melon_brew_mug_id = "melon_brew_mug";
+    public static final RegistryObject<Item> MELON_BREW_MUG =
+            ITEMS.register(_melon_brew_mug_id, () -> new BrewItem(new Item.Properties()
+                    .setId(ResourceKey.create(
+                            Registries.ITEM,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _melon_brew_mug_id)
+                    )).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
+                    .usingConvertsTo(COFFEE_MUG.get()),
                     MultiEffectsRegistry.SPEED
+            ));
+
+
+    public static final String _honey_brew_mug_id = "honey_brew_mug";
+    public static final RegistryObject<Item> HONEY_BREW_MUG =
+            ITEMS.register(_honey_brew_mug_id, () -> new BrewItem(new Item.Properties()
+                    .setId(ResourceKey.create(
+                            Registries.ITEM,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _honey_brew_mug_id)
+                    )).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
+                    .usingConvertsTo(COFFEE_MUG.get()),
+                    MultiEffectsRegistry.HEAL
             ));
 
     public static void init() {

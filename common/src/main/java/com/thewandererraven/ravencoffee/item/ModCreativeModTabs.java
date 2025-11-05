@@ -54,6 +54,8 @@ public class ModCreativeModTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(BrewItemsRegistry.COFFEE_MUG.get());
                         output.accept(BrewItemsRegistry.BASIC_BREW_MUG.get());
+                        output.accept(BrewItemsRegistry.MELON_BREW_MUG.get());
+                        output.accept(BrewItemsRegistry.HONEY_BREW_MUG.get());
                     })
                     .build()
             );
