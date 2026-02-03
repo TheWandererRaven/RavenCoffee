@@ -25,9 +25,13 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
 
     @Override
     public boolean add(CoffeeBrewEffectInstance instance) {
-        //if(!currentEffects.stream().anyMatch( eff -> eff.multiEffect.value().equals(instance.multiEffect.value()))) {
         if(!this.isOverloaded) {
-            this.currentEffects.add(instance);
+            CoffeeBrewEffectInstance foundEffect = currentEffects.stream().filter( eff -> eff.multiEffect.value().equals(instance.multiEffect.value())).findFirst().orElse(null);
+            if(foundEffect == null) {
+                this.currentEffects.add(instance);
+            } else {
+                foundEffect.reset(this.ownerEntity);
+            }
             this.addCaffeine(instance.getCaffeineContent());
             if(this.currentCaffeine >= this.maxCaffeine) {
                 // TODO: Here goes te drawback of
