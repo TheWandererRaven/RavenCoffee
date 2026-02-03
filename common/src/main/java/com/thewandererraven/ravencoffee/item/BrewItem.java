@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee.item;
 
 import com.thewandererraven.ravencoffee.effect.breweffect.CoffeeBrewEffect;
 import com.thewandererraven.ravencoffee.effect.breweffect.CoffeeBrewEffectInstance;
+import com.thewandererraven.ravencoffee.effect.breweffect.IBrewEffectsManager;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -48,6 +49,10 @@ public class BrewItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        return ItemUtils.startUsingInstantly(level, player, hand);
+        if(player instanceof IBrewManagerHolder holder) {
+            if(!holder.ravencoffee$getBrewEffectManager().getOverloadStatus())
+                return ItemUtils.startUsingInstantly(level, player, hand);
+        }
+        return InteractionResult.FAIL;
     }
 }

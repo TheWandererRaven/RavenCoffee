@@ -4,6 +4,7 @@ package com.thewandererraven.ravencoffee;
 import com.thewandererraven.ravencoffee.effect.breweffect.CoffeeBrewEffectInstance;
 import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
@@ -17,6 +18,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.handling.MainThreadPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @Mod(Constants.MOD_ID)
@@ -66,6 +68,23 @@ public class RavenCoffeeNeoForge {
                             },
                             // SERVER
                             (payload, context) -> {}
+                    )
+            );
+            registrar.commonToClient(
+                    SyncBrewManagerPayload.TYPE,
+                    SyncBrewManagerPayload.STREAM_CODEC,
+                    new MainThreadPayloadHandler<>(
+                            (payload, context) -> {
+                                Minecraft client = Minecraft.getInstance();
+                                client.execute(() -> {
+                                    Player player = client.player;
+                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
+                                    if(payload.currentCaffeine() >= 0) {
+                                        holder.ravencoffee$getBrewEffectManager().setCurrentCaffeine(payload.currentCaffeine());
+                                    }
+                                    holder.ravencoffee$getBrewEffectManager().setOverloaded(payload.isOverloaded());
+                                });
+                            }
                     )
             );
         }

@@ -45,6 +45,14 @@ public class CoffeeBrewEffectInstance {
         return this.multiEffect;
     }
 
+    public ResourceLocation getEffectId() {
+        return this.multiEffect.value().getId();
+    }
+
+    public int getCaffeineContent() {
+        return this.multiEffect.value().caffeineContent;
+    }
+
     public boolean isAmbient() {
         return false;
     }

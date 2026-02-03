@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee;
 
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -20,5 +21,6 @@ public class RavenCoffeeFabric implements ModInitializer {
         Constants.LOG.info("Hello Fabric world!");
         RavenCoffeeCommon.init();
         PayloadTypeRegistry.playS2C().register(SyncBrewPayload.TYPE, SyncBrewPayload.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(SyncBrewManagerPayload.TYPE, SyncBrewManagerPayload.STREAM_CODEC);
     }
 }

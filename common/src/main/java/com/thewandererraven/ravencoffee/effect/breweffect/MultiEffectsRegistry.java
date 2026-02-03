@@ -17,11 +17,11 @@ public class MultiEffectsRegistry {
             _basic_id,
             () -> CoffeeBrewEffect.of(
                     _basic_id,
-                    10,
+                    10 * 20,
                     AttributeModifierEffect.of(0, 5,
                             Attributes.MINING_EFFICIENCY,
                             new AttributeModifierEffect.AttributeTemplate(
-                                    ResourceLocation.withDefaultNamespace("effect.haste"),
+                                    ResourceLocation.withDefaultNamespace("effect.basic_brew_haste"),
                                     (double)2.0F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
@@ -30,7 +30,7 @@ public class MultiEffectsRegistry {
                     AttributeModifierEffect.of(5, 5,
                             Attributes.MOVEMENT_SPEED,
                             new AttributeModifierEffect.AttributeTemplate(
-                                    ResourceLocation.withDefaultNamespace("effect.slowness"),
+                                    ResourceLocation.withDefaultNamespace("effect.basic_brew_slowness"),
                                     (double)-0.2F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
@@ -43,20 +43,20 @@ public class MultiEffectsRegistry {
             _speed_id,
             () -> CoffeeBrewEffect.of(
                     _speed_id,
-                    10,
-                    AttributeModifierEffect.of(0, 34,
+                    23 * 20,
+                    AttributeModifierEffect.of(0, 15,
                             Attributes.MOVEMENT_SPEED,
                             new AttributeModifierEffect.AttributeTemplate(
-                                    ResourceLocation.withDefaultNamespace("effect.slowness"),
+                                    ResourceLocation.withDefaultNamespace("effect.speed_brew_speed"),
                                     (double)0.5F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
                     )
             ).addAttributeModifierEffect(
-                    AttributeModifierEffect.of(34, 38,
+                    AttributeModifierEffect.of(15, 8,
                             Attributes.MOVEMENT_SPEED,
                             new AttributeModifierEffect.AttributeTemplate(
-                                    ResourceLocation.withDefaultNamespace("effect.slowness"),
+                                    ResourceLocation.withDefaultNamespace("effect.speed_brew_slowness"),
                                     (double)-0.4F,
                                     AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                             ).create(1)
@@ -69,7 +69,7 @@ public class MultiEffectsRegistry {
             _heal_id,
             () -> CoffeeBrewEffect.of(
                     _heal_id,
-                    0,
+                    10 * 20,
                     new SingleEffect(0, 1,
                             entity -> entity.heal(5.0f)
                     )

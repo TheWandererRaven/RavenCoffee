@@ -50,7 +50,8 @@ public class AttributeModifierEffect extends TriggerableEffect {
         if(entity instanceof Player player) {
             AttributeInstance instance = player.getAttributes().getInstance(attribute);
             if (instance != null)
-                instance.addTransientModifier(modifier);
+                if(!instance.hasModifier(modifier.id()))
+                    instance.addTransientModifier(modifier);
         }
     }
 
