@@ -1,18 +1,22 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
 import com.thewandererraven.ravencoffee.Constants;
+import com.thewandererraven.ravencoffee.item.data.CoffeeBrewData;
+import com.thewandererraven.ravencoffee.item.data.CoffeeBrewEffectData;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
 import com.thewandererraven.ravencoffee.platform.Services;
+import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class DefaultBrewEffectsManager implements IBrewEffectsManager {
-    private List<CoffeeBrewEffectInstance> currentEffects = null;
+    private List<BrewEffectCore> currentEffects = null;
     private final LivingEntity ownerEntity;
     private final int maxCaffeine = 30 * 20;
     private int currentCaffeine = 0;
@@ -24,15 +28,22 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     }
 
     @Override
-    public boolean add(CoffeeBrewEffectInstance instance) {
+    public boolean add(CoffeeBrewData brewData) {
         if(!this.isOverloaded) {
-            CoffeeBrewEffectInstance foundEffect = currentEffects.stream().filter( eff -> eff.multiEffect.value().equals(instance.multiEffect.value())).findFirst().orElse(null);
-            if(foundEffect == null) {
-                this.currentEffects.add(instance);
-            } else {
-                foundEffect.reset(this.ownerEntity);
+            for(CoffeeBrewEffectData effect: brewData.effects()) {
+                Consumer<BrewEffectContext> primaryEffect = BrewEffectsUtils.findEffectInRegistry(effect.id());
+                BrewEffectCore effCore = null;
+
+                if(effect.type().equals("attribute_modifier")) {
+                    effCore = new AttributeModifierEffect(effect.id(), effect.duration(), effect.mainValue(), effect.secondaryValue(),
+                            BrewEffectsUtils.findAttributeByItsId(this.ownerEntity.level(), effect.attributeId())
+                            );
+                } else if(effect.type().equals("instant")) {
+                    effCore = new InstantEffect(effect.mainValue(), effect.secondaryValue(), primaryEffect);
+                }
             }
-            this.addCaffeine(instance.getCaffeineContent());
+
+            this.addCaffeine(brewData.caffeine());
             if(this.currentCaffeine >= this.maxCaffeine) {
                 // TODO: Here goes te drawback of
                 Constants.LOG.info("CAFFEINE OVERLOAD!");

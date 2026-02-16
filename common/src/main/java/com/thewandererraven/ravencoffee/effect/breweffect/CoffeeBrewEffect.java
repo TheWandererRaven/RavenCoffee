@@ -20,6 +20,10 @@ public class CoffeeBrewEffect extends MultiEffect {
         this.caffeineContent = caffeineContent;
     }
 
+    public static CoffeeBrewEffect asEmpty() {
+        return new CoffeeBrewEffect(null, null, 0, new ArrayList<>());
+    }
+
     public static CoffeeBrewEffect of(String id, TriggerableEffect effect) {
         return CoffeeBrewEffect.of(id, 10, List.of(effect));
     }

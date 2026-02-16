@@ -1,9 +1,11 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
+import com.thewandererraven.ravencoffee.item.data.CoffeeBrewData;
+
 import java.util.List;
 
 public interface IBrewEffectsManager {
-    boolean add(CoffeeBrewEffectInstance instance);
+    boolean add(CoffeeBrewData brewData);
     void tick();
     List<CoffeeBrewEffectInstance> getCurrentEffects();
     int getCurrentCaffeine();
