@@ -291,6 +291,7 @@ public class DataGenDefinitions {
     }
 
     static {
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.DEBUG_MUG.get()));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_CHERRIES.get())
                 .setCompostableValue(0.65f)
         );
