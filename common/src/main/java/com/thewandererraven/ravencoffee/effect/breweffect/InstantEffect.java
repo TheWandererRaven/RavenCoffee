@@ -1,12 +1,12 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
-import com.thewandererraven.ravencoffee.Constants;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;
 
-public class InstantEffect extends BrewEffectCore {
+public class InstantEffect extends BrewEffect {
 
-    public InstantEffect(double mainValue, double secondaryValue, Consumer<BrewEffectContext> primaryEffect) {
-        super(0, mainValue, secondaryValue, primaryEffect, brewEffectContext -> {});
+    public InstantEffect(ResourceLocation effectId, double mainValue, double secondaryValue, Consumer<BrewEffectContext> primaryEffect) {
+        super(effectId, 1, mainValue, secondaryValue, primaryEffect, brewEffectContext -> {});
     }
 }

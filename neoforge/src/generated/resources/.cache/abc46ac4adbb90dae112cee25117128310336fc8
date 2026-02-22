@@ -1,4 +1,4 @@
-// 1.21.5	2026-02-03T04:23:54.9271463	Model Definitions - ravencoffee
+// 1.21.5	2026-02-21T23:49:00.811120896	Model Definitions - ravencoffee
 9717cb151ae11ba718b7b14e527b0ff5b23ae028 assets/ravencoffee/blockstates/brownie_block.json
 a60e93c3d9bee7a5740a63144aa620411e24c5e2 assets/ravencoffee/blockstates/coffee_grinder.json
 b8c9c0981641e814d46e75463dcecb3886a5b45b assets/ravencoffee/items/bagel.json
@@ -18,14 +18,13 @@ ff419d459ffbd099f379fb2446dae42e48c1851f assets/ravencoffee/items/coffee_grinder
 e76eefa86ff1ca5a987534f0f7b04f1b8ca1d516 assets/ravencoffee/items/coffee_machine.json
 798842ef56c877b6b3b9ad32764347a012ff00e7 assets/ravencoffee/items/coffee_mug.json
 7b2d3960a46c1c6b4900d293b6e8c9c35a942776 assets/ravencoffee/items/croissant.json
+3fdf062081df14d0376937ef6ba6513cdc696ea0 assets/ravencoffee/items/debug_mug.json
 e10709680de272c3121951f65b9d25f2bdda1efb assets/ravencoffee/items/ground_coffee.json
 1dea357899174483e412f801d6008a443dd1f12a assets/ravencoffee/items/ground_magma_coffee.json
 ff7ec14d350c59ab502b7186fd23d580b95d2dc6 assets/ravencoffee/items/ham_bagel.json
 b58733ad0f20fa937d1d6b77e9c3cdf5415e5434 assets/ravencoffee/items/ham_croissant.json
 2520c9e0b5b260e663ec39214a24576264c2c770 assets/ravencoffee/items/ham_sandwich.json
-743935b9356103cc76e8351a1d89c875854a4fcc assets/ravencoffee/items/honey_brew_mug.json
 67bb5eae4988d14a84815b167a7308958e30fe7b assets/ravencoffee/items/magma_coffee_beans.json
-13f88bc24a03f97582528c0a87e82b9a986746e9 assets/ravencoffee/items/melon_brew_mug.json
 fc4ee4f7a70bc7222f58ad7909dfc52cc3b65ac3 assets/ravencoffee/items/melon_pan.json
 ace91faaf3e20ac06b8715cd951f2be74300fdfa assets/ravencoffee/items/muffin.json
 c5611d4e720574e4adb694dd87fa33036baecf27 assets/ravencoffee/items/popchorus.json
@@ -46,14 +45,13 @@ be9871a9ad61383346379e99184e6bffb373a08a assets/ravencoffee/models/item/coffee_c
 ad4e2f0b5c41302da4a1c841feac9a7ee0b4aaef assets/ravencoffee/models/item/coffee_eclair.json
 f039782dbca84153b3f864f4cf3c575243f0aafa assets/ravencoffee/models/item/coffee_mug.json
 c387aec92cbfe9512d93ed479887fd0549ed8ba6 assets/ravencoffee/models/item/croissant.json
+e72954182f231ee9b14a0eabc06c0386e10e033d assets/ravencoffee/models/item/debug_mug.json
 57ae6b34f10339ee03ce598839379b839c05ff3e assets/ravencoffee/models/item/ground_coffee.json
 a60f4c57765432dc2c8f95ae2135a867df6dc1c8 assets/ravencoffee/models/item/ground_magma_coffee.json
 30b6769cfe31f0d6fa5a817299dd8d7ffae6abff assets/ravencoffee/models/item/ham_bagel.json
 3c595c331849a30f5ed9b2d69b452ee47f9b33a1 assets/ravencoffee/models/item/ham_croissant.json
 9879b5f86f0991a191d1b103e36e846fd757f8e2 assets/ravencoffee/models/item/ham_sandwich.json
-2932c3fee987f2d54dbc7323ecdff3a598f0dcc5 assets/ravencoffee/models/item/honey_brew_mug.json
 7ff3822acf9cfc56892dd9ae40c696195dfb2e0c assets/ravencoffee/models/item/magma_coffee_beans.json
-287ef17dc9c9ba47351915330da1928049e4802a assets/ravencoffee/models/item/melon_brew_mug.json
 180139c682688641a5ea6fc7163d38772c247606 assets/ravencoffee/models/item/melon_pan.json
 30ccb5a7a0e09260b71d0a6a182167d1ac1c1a52 assets/ravencoffee/models/item/muffin.json
 c0d137d8b543f311cf315ba7d64369fd62edea0b assets/ravencoffee/models/item/popchorus.json

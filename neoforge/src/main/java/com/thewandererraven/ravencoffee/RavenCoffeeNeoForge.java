@@ -1,11 +1,10 @@
 package com.thewandererraven.ravencoffee;
 
 
-import com.thewandererraven.ravencoffee.effect.breweffect.CoffeeBrewEffectInstance;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerPayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.Minecraft;
@@ -44,36 +43,12 @@ public class RavenCoffeeNeoForge {
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {
             final PayloadRegistrar registrar = event.registrar("1");
+
             registrar.playBidirectional(
-                    SyncBrewPayload.TYPE,
-                    SyncBrewPayload.STREAM_CODEC,
+                    SyncBrewManagerCaffeinePayload.TYPE,
+                    SyncBrewManagerCaffeinePayload.STREAM_CODEC,
                     new DirectionalPayloadHandler<>(
                             // CLIENT
-                            (payload, context) -> {
-                                Minecraft client = Minecraft.getInstance();
-                                client.execute(() -> {
-                                    Player player = client.player;
-                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                                    if(payload.brewId() != null) {
-                                        var holderEffect = MultiEffectsRegistry.BREW_EFFECTS.getEntries().stream()
-                                                .filter(entry -> entry.get().getId().equals(payload.brewId()))
-                                                .findFirst().orElse(null);
-                                        if (holderEffect == null) return;
-
-                                        CoffeeBrewEffectInstance instance = new CoffeeBrewEffectInstance(holderEffect.asHolder());
-                                        holder.ravencoffee$getBrewEffectManager()
-                                                .setClientEffect(instance, payload.duration());
-                                    }
-                                });
-                            },
-                            // SERVER
-                            (payload, context) -> {}
-                    )
-            );
-            registrar.commonToClient(
-                    SyncBrewManagerPayload.TYPE,
-                    SyncBrewManagerPayload.STREAM_CODEC,
-                    new MainThreadPayloadHandler<>(
                             (payload, context) -> {
                                 Minecraft client = Minecraft.getInstance();
                                 client.execute(() -> {
@@ -84,7 +59,44 @@ public class RavenCoffeeNeoForge {
                                     }
                                     holder.ravencoffee$getBrewEffectManager().setOverloaded(payload.isOverloaded());
                                 });
-                            }
+                            },
+                            // SERVER
+                            (payload, context) -> {}
+                    )
+            );
+            registrar.playBidirectional(
+                    SyncBrewManagerDurationPayload.TYPE,
+                    SyncBrewManagerDurationPayload.STREAM_CODEC,
+                    new DirectionalPayloadHandler<>(
+                            // CLIENT
+                            (payload, context) -> {
+                                Minecraft client = Minecraft.getInstance();
+                                client.execute(() -> {
+                                    Player player = client.player;
+                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
+                                    holder.ravencoffee$getBrewEffectManager().setCurrentEffectRemainingTicks(payload.currentEffectRemainingTicks());
+                                    holder.ravencoffee$getBrewEffectManager().setTotalRemainingTicks(payload.totalEffectRemainingTicks());
+                                });
+                            },
+                            // SERVER
+                            (payload, context) -> {}
+                    )
+            );
+            registrar.playBidirectional(
+                    SyncBrewManagerIconsPayload.TYPE,
+                    SyncBrewManagerIconsPayload.STREAM_CODEC,
+                    new DirectionalPayloadHandler<>(
+                            // CLIENT
+                            (payload, context) -> {
+                                Minecraft client = Minecraft.getInstance();
+                                client.execute(() -> {
+                                    Player player = client.player;
+                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
+                                    holder.ravencoffee$getBrewEffectManager().setEffectIcons(payload.effectsIcons());
+                                });
+                            },
+                            // SERVER
+                            (payload, context) -> {}
                     )
             );
         }

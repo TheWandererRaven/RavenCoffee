@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "ravencoffee:item/honey_brew_mug"
+    "model": "ravencoffee:item/debug_mug"
   }
 }

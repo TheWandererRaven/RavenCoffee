@@ -1,8 +1,10 @@
 package com.thewandererraven.ravencoffee.item;
 
+import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.item.data.CoffeeBrewData;
-import com.thewandererraven.ravencoffee.item.data.CoffeeBrewEffectData;
+import com.thewandererraven.ravencoffee.item.data.BrewEffectData;
 import com.thewandererraven.ravencoffee.item.data.DataComponentTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -19,24 +21,40 @@ public class DebugMug extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack newStack = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
-        newStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
+        ItemStack stack1 = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
+        ItemStack stack2 = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
+        stack1.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
                 23,
-                1.0,
+                1,
                 List.of(
-                        new CoffeeBrewEffectData(
-                                "speed",
-                                "attribute_modifier",
-                                25
+                        new BrewEffectData(
+                                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
+                                5 * 20,
+                                1,
+                                0
                         ),
-                        new CoffeeBrewEffectData(
-                                "slowness",
-                                "attribute_modifier",
-                                -30// TODO: CHANGE TO JUST THE VALUE
+                        new BrewEffectData(
+                                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
+                                10 * 20,
+                                -0.2,
+                                0
                         )
                 )
         ));
-        player.drop(newStack, true);
+        stack2.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
+                23,
+                1,
+                List.of(
+                        new BrewEffectData(
+                                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
+                                0,
+                                5,
+                                0
+                        )
+                )
+        ));
+        player.drop(stack1, true);
+        player.drop(stack2, true);
         return super.use(level, player, hand);
     }
 }

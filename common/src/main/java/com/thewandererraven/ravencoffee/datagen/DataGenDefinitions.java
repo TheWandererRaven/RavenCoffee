@@ -320,8 +320,8 @@ public class DataGenDefinitions {
 
         ITEMS.add(new DataGenItem(BrewItemsRegistry.COFFEE_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/empty"));
         ITEMS.add(new DataGenItem(BrewItemsRegistry.BASIC_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/basic_brew"));
-        ITEMS.add(new DataGenItem(BrewItemsRegistry.MELON_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/brew_melon"));
-        ITEMS.add(new DataGenItem(BrewItemsRegistry.HONEY_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/brew_honey"));
+//        ITEMS.add(new DataGenItem(BrewItemsRegistry.MELON_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/brew_melon"));
+//        ITEMS.add(new DataGenItem(BrewItemsRegistry.HONEY_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/brew_honey"));
 
         BLOCKS.add(new DataGenBlock(BlocksRegistry.BROWNIE_BLOCK.get())
                         .setOnlyDropsSelf()

@@ -1,31 +1,27 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
 
-import com.thewandererraven.ravencoffee.Constants;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
-import org.apache.logging.log4j.util.BiConsumer;
 
-import java.util.function.Consumer;
+public class AttributeModifierEffect extends BrewEffect {
 
-public class AttributeModifierEffect extends BrewEffectCore {
-
-    public AttributeModifierEffect(ResourceLocation effectId, int effectDuration, double mainValue, double secondaryValue, Holder<Attribute> attributeHolder) {
+    public AttributeModifierEffect(ResourceLocation effectId, ResourceLocation attributeId, int effectTicksDuration, double mainValue, double secondaryValue, Holder<Attribute> attributeHolder) {
         // GET ATTRIBUTE HOLDER FROM THE LOOKUP METHOD
-        super(effectDuration, mainValue, secondaryValue,
+        super(effectId, effectTicksDuration, mainValue, secondaryValue,
                 brewEffectContext -> AttributeModifierEffect.addAttributeModifierToPlayer(brewEffectContext.entity(), attributeHolder,
                         new AttributeModifierEffect.AttributeTemplate(
-                                effectId,
-                                mainValue,
+                                attributeId,
+                                brewEffectContext.effectMainValue(),
                                 AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                         ).create(1)),
                 brewEffectContext -> AttributeModifierEffect.removeAttributeModifierToPlayer(brewEffectContext.entity(), attributeHolder,
                         new AttributeModifierEffect.AttributeTemplate(
-                                effectId,
-                                mainValue * -1,
+                                attributeId,
+                                brewEffectContext.effectSecondaryValue() * -1,
                                 AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                         ).create(1)
                 )
@@ -49,4 +45,9 @@ public class AttributeModifierEffect extends BrewEffectCore {
         }
     }
 
+    public record AttributeTemplate(ResourceLocation id, double amount, AttributeModifier.Operation operation) {
+        public AttributeModifier create(int level) {
+            return new AttributeModifier(this.id, this.amount * (double)(level + 1), this.operation);
+        }
+    }
 }

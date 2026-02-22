@@ -1,0 +1,21 @@
+package com.thewandererraven.ravencoffee.item.data;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.resources.ResourceLocation;
+
+public record BrewEffectData(
+        ResourceLocation id,
+        int duration,
+        double mainValue,
+        double secondaryValue
+) {
+    public static final Codec<BrewEffectData> CODEC = RecordCodecBuilder.create(instance ->
+            instance.group(
+                    ResourceLocation.CODEC.fieldOf("id").forGetter(BrewEffectData::id),
+                    Codec.INT.fieldOf("duration").forGetter(BrewEffectData::duration),
+                    Codec.DOUBLE.fieldOf("main_value").forGetter(BrewEffectData::mainValue),
+                    Codec.DOUBLE.fieldOf("secondary_value").forGetter(BrewEffectData::secondaryValue)
+            ).apply(instance, BrewEffectData::new)
+    );
+}
