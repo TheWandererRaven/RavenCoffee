@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee.item.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thewandererraven.ravencoffee.Constants;
 import net.minecraft.resources.ResourceLocation;
 
 public record BrewEffectData(
@@ -18,4 +19,8 @@ public record BrewEffectData(
                     Codec.DOUBLE.fieldOf("secondary_value").forGetter(BrewEffectData::secondaryValue)
             ).apply(instance, BrewEffectData::new)
     );
+
+    public ResourceLocation generateIconLocation() {
+        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/effect/icons/" + id.getPath() + ".png");
+    }
 }

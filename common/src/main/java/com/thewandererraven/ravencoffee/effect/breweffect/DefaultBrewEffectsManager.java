@@ -45,7 +45,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
                     if(this.effectsStack.isEmpty())
                         this.currentEffectRemainingTicks = newEffect.effectTicksDuration;
                     this.effectsStack.add(newEffect);
-                    this.effectsIcons.add(effectData.id());
+                    this.effectsIcons.add(effectData.generateIconLocation());
                     if(this.effectsStack.size() >= this.maxEffectsStackSize)
                         break;
                 }
