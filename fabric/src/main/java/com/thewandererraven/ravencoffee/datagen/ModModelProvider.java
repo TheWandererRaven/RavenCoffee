@@ -20,7 +20,6 @@ public class ModModelProvider extends FabricModelProvider {
 //    private static final PropertyDispatch<VariantMutator> ROTATION_HORIZONTAL_FACING;
 
     public ModModelProvider(FabricDataOutput output) {
-        FabricSpriteProvider
         super(output);
     }
 
