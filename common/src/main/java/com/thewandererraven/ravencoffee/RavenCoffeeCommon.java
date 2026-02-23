@@ -5,7 +5,7 @@ import com.thewandererraven.ravencoffee.effect.breweffect.BrewEffectCoresRegistr
 import com.thewandererraven.ravencoffee.item.BrewItemsRegistry;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.item.ModCreativeModTabs;
-import com.thewandererraven.ravencoffee.item.data.DataComponentTypes;
+import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.platform.Services;
 import com.thewandererraven.ravencoffee.recipe.RecipesRegistry;

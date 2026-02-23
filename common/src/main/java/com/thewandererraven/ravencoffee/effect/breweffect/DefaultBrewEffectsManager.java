@@ -1,8 +1,8 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
 import com.thewandererraven.ravencoffee.Constants;
-import com.thewandererraven.ravencoffee.item.data.CoffeeBrewData;
-import com.thewandererraven.ravencoffee.item.data.BrewEffectData;
+import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
+import com.thewandererraven.ravencoffee.datacomponents.BrewEffectData;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     private List<BrewEffect> effectsStack = null;

@@ -1,9 +1,9 @@
 package com.thewandererraven.ravencoffee.item;
 
 import com.thewandererraven.ravencoffee.Constants;
-import com.thewandererraven.ravencoffee.item.data.CoffeeBrewData;
-import com.thewandererraven.ravencoffee.item.data.BrewEffectData;
-import com.thewandererraven.ravencoffee.item.data.DataComponentTypes;
+import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
+import com.thewandererraven.ravencoffee.datacomponents.BrewEffectData;
+import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

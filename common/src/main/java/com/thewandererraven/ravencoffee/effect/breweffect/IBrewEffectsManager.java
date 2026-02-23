@@ -1,6 +1,6 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
-import com.thewandererraven.ravencoffee.item.data.CoffeeBrewData;
+import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;

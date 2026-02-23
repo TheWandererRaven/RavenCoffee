@@ -1,4 +1,4 @@
-package com.thewandererraven.ravencoffee.item.data;
+package com.thewandererraven.ravencoffee.datacomponents;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
