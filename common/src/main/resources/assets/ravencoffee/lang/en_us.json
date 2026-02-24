@@ -137,5 +137,7 @@
   "item.ravencoffee.coffee_tree_trunk_block": "Coffee Tree Trunk",
 
   "entity.minecraft.villager.ravencoffee.barista": "Barista",
-  "entity.minecraft.villager.barista": "Barista"
+  "entity.minecraft.villager.barista": "Barista",
+
+  "block.ravencoffee.bed.caffeinated": "The caffeine is keeping you awake"
 }
