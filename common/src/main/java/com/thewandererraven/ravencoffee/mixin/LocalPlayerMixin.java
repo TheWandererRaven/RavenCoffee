@@ -5,5 +5,4 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
-
 }
