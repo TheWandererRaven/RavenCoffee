@@ -19,8 +19,4 @@ public record BrewEffectData(
                     Codec.DOUBLE.fieldOf("secondary_value").forGetter(BrewEffectData::secondaryValue)
             ).apply(instance, BrewEffectData::new)
     );
-
-    public ResourceLocation generateIconLocation() {
-        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/effect/icons/" + id.getPath() + ".png");
-    }
 }

@@ -8,6 +8,9 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayloa
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.Services;
 import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +38,13 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         this.effectsIcons = new ArrayList<>();
     }
 
+    public void generateEffectIconLocations() {
+        this.effectsIcons.clear();
+        for(BrewEffect effect: this.effectsStack) {
+            this.effectsIcons.add(effect.generateIconLocation());
+        }
+    }
+
     @Override
     public boolean add(CoffeeBrewData brewData) {
         if(!this.isOverloaded) {
@@ -44,11 +54,11 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
                     if(this.effectsStack.isEmpty())
                         this.currentEffectRemainingTicks = newEffect.effectTicksDuration;
                     this.effectsStack.add(newEffect);
-                    this.effectsIcons.add(effectData.generateIconLocation());
                     if(this.effectsStack.size() >= this.maxEffectsStackSize)
                         break;
                 }
 
+            this.generateEffectIconLocations();
             this.addCaffeine(brewData.caffeine());
             this.calculateTotalRemainingTicks();
 
@@ -57,31 +67,38 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
                 Constants.LOG.info("CAFFEINE OVERLOAD!");
                 this.isOverloaded = true;
             }
-            if (ownerEntity instanceof ServerPlayer serverPlayer) {
-                Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerIconsPayload(this.effectsIcons));
-                Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerDurationPayload(this.currentEffectRemainingTicks, this.totalTicksDuration));
-                Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
-            }
+            this.sendAllInfoToClient();
             return true;
         }
         return false;
     }
 
-    public BrewEffect createBrewEffect(BrewEffectData data)
-    {
+    public void sendAllInfoToClient() {
+        if (this.ownerEntity instanceof ServerPlayer serverPlayer) {
+            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerIconsPayload(this.effectsIcons));
+            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerDurationPayload(this.currentEffectRemainingTicks, this.totalTicksDuration));
+            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
+        }
+    }
+
+    public BrewEffect createBrewEffect(BrewEffectData data) {
+        return createBrewEffect(data.id(), data.duration(), data.mainValue(), data.secondaryValue());
+    }
+
+    public BrewEffect createBrewEffect(ResourceLocation effectCoreId, int ticksDuration, double mainValue, double secondaryValue) {
         BrewEffect newEffect = null;
-        BrewEffectCore effectCore = BrewEffectsUtils.findEffectInRegistry(data.id());
+        BrewEffectCore effectCore = BrewEffectsUtils.findEffectInRegistry(effectCoreId);
         if(effectCore == null) {
-            Constants.LOG.error("Unable to find brew effect for: {}", data.id().toString());
+            Constants.LOG.error("Unable to find brew effect for: {}", effectCoreId.toString());
             return BrewEffect.EMPTY;
         }
 
         if(effectCore.type.equals("attribute_modifier")) {
-            newEffect = new AttributeModifierEffect(data.id(), effectCore.attributeId, data.duration(), data.mainValue(), data.secondaryValue(),
+            newEffect = new AttributeModifierEffect(effectCoreId, effectCore.attributeId, ticksDuration, mainValue, secondaryValue,
                     BrewEffectsUtils.findAttributeByItsId(this.ownerEntity.level(), effectCore.attributeId)
             );
         } else if(effectCore.type.equals("instant")) {
-            newEffect = new InstantEffect(data.id(), data.mainValue(), data.secondaryValue(), effectCore.primaryEffect);
+            newEffect = new InstantEffect(effectCoreId, mainValue, secondaryValue, effectCore.primaryEffect);
         }
 
         return newEffect;
@@ -125,6 +142,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     public void setCurrentEffectRemainingTicks(int currEffRemainingTicks) {
         this.currentEffectRemainingTicks = currEffRemainingTicks;
     }
+
     public int getCurrentEffectRemainingSeconds() {
         return (int) Math.ceil(this.currentEffectRemainingTicks / 20.0);
     }
@@ -148,12 +166,11 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     public void tickCaffeine(ServerPlayer player) {
         if(this.currentCaffeine > 0) {
             this.currentCaffeine -= 1;
+            Services.PLATFORM.sendCustomPacket(player, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
         } else if(this.isOverloaded) {
             this.isOverloaded = false;
+            Services.PLATFORM.sendCustomPacket(player, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
         }
-        if(this.currentCaffeine <= 0 && !this.isOverloaded)
-            return;
-        Services.PLATFORM.sendCustomPacket(player, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
     }
 
     @Override
@@ -182,8 +199,10 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
                 if(this.currentEffectRemainingTicks <= 0) {
                     this.effectsStack.removeFirst();
                     this.effectsIcons.removeFirst();
-                    if(!this.effectsStack.isEmpty())
+                    if(!this.effectsStack.isEmpty()) {
                         this.currentEffectRemainingTicks = this.effectsStack.getFirst().effectTicksDuration;
+                        this.calculateTotalRemainingTicks();
+                    }
                     Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerIconsPayload(this.effectsIcons));
                 }
                 Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerDurationPayload(this.currentEffectRemainingTicks, this.totalTicksDuration));
@@ -235,5 +254,51 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     @Override
     public List<ResourceLocation> getEffectIcons() {
         return this.effectsIcons;
+    }
+
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
+
+        ListTag list = new ListTag();
+        for (BrewEffect effect : this.effectsStack) {
+            CompoundTag effectTag = new CompoundTag();
+            effectTag.putString("Id", effect.effectId.toString());
+            effectTag.putInt("TicksDuration", effect.effectTicksDuration);
+            effectTag.putDouble("MainValue", effect.mainValue);
+            effectTag.putDouble("SecondaryValue", effect.secondaryValue);
+            list.add(effectTag);
+        }
+
+        tag.put("EffectsStack", list);
+        tag.putInt("CurrentEffectRemainingTicks", this.currentEffectRemainingTicks);
+        tag.putInt("CurrentCaffeine", this.currentCaffeine);
+        tag.putBoolean("IsOverloaded", this.isOverloaded);
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(CompoundTag tag) {
+        effectsStack.clear();
+
+        ListTag list = tag.getListOrEmpty("EffectsStack");
+
+        for (Tag _effectTag : list) {
+            CompoundTag effectTag = (CompoundTag) _effectTag;
+
+            effectsStack.add(createBrewEffect(
+                    ResourceLocation.parse(effectTag.getString("Id").orElse(Constants.MOD_ID + ":effect.empty")),
+                    effectTag.getInt("TicksDuration").orElse(0),
+                    effectTag.getDouble("MainValue").orElse(0.0),
+                    effectTag.getDouble("SecondaryValue").orElse(0.0)
+            ));
+        }
+        this.currentEffectRemainingTicks = tag.getInt("CurrentEffectRemainingTicks").orElse(0);
+        if(this.currentEffectRemainingTicks > 0)
+            this.effectsStack.getFirst().applyPrimaryEffect(this.ownerEntity);
+        this.currentCaffeine = tag.getInt("CurrentCaffeine").orElse(0);
+        this.isOverloaded = tag.getBoolean("IsOverloaded").orElse(false);
+        this.generateEffectIconLocations();
+        this.calculateTotalRemainingTicks();
     }
 }

@@ -1,10 +1,15 @@
 package com.thewandererraven.ravencoffee;
 
+import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
+import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 
 public class RavenCoffeeFabric implements ModInitializer {
     
@@ -21,5 +26,12 @@ public class RavenCoffeeFabric implements ModInitializer {
         PayloadTypeRegistry.playS2C().register(SyncBrewManagerIconsPayload.TYPE, SyncBrewManagerIconsPayload.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(SyncBrewManagerDurationPayload.TYPE, SyncBrewManagerDurationPayload.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(SyncBrewManagerCaffeinePayload.TYPE, SyncBrewManagerCaffeinePayload.STREAM_CODEC);
+
+        ServerPlayConnectionEvents.JOIN.register((listener, sender, server) -> {
+            ServerPlayer player = listener.player;
+            DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
+            //CompoundTag tag = manager.serializeNBT();
+            manager.sendAllInfoToClient();
+        });
     }
 }

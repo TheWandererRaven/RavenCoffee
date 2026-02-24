@@ -24,7 +24,7 @@ public class DebugMug extends Item {
         ItemStack stack1 = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
         ItemStack stack2 = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
         stack1.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
-                23,
+                23 * 20,
                 1,
                 List.of(
                         new BrewEffectData(
@@ -42,7 +42,7 @@ public class DebugMug extends Item {
                 )
         ));
         stack2.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
-                23,
+                23 * 20,
                 1,
                 List.of(
                         new BrewEffectData(

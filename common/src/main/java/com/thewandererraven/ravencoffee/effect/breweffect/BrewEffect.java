@@ -43,6 +43,10 @@ public class BrewEffect {
         return false;
     }
 
+    public ResourceLocation generateIconLocation() {
+        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/effect/icons/" + this.effectId.getPath() + ".png");
+    }
+
     public static final BrewEffect EMPTY = new BrewEffect(
             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.empty"),
             0,
