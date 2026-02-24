@@ -1,6 +1,7 @@
 package com.thewandererraven.ravencoffee;
 
 
+import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
@@ -8,6 +9,7 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -15,6 +17,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.MainThreadPayloadHandler;
@@ -40,6 +43,7 @@ public class RavenCoffeeNeoForge {
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(MenusRegistry.COFFEE_GRINDER.get(), CoffeeGrinderScreen::new);
         }
+
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {
             final PayloadRegistrar registrar = event.registrar("1");
@@ -99,6 +103,17 @@ public class RavenCoffeeNeoForge {
                             (payload, context) -> {}
                     )
             );
+        }
+    }
+
+    @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+    public static class ClientNeoForgeEvents {
+        @SubscribeEvent
+        public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+            if(event.getEntity() instanceof ServerPlayer player) {
+                DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
+                manager.sendAllInfoToClient();
+            }
         }
     }
 }

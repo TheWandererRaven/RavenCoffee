@@ -30,7 +30,6 @@ public class RavenCoffeeFabric implements ModInitializer {
         ServerPlayConnectionEvents.JOIN.register((listener, sender, server) -> {
             ServerPlayer player = listener.player;
             DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
-            //CompoundTag tag = manager.serializeNBT();
             manager.sendAllInfoToClient();
         });
     }

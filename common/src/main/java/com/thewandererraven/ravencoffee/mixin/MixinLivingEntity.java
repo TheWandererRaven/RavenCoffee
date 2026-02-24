@@ -1,11 +1,8 @@
 package com.thewandererraven.ravencoffee.mixin;
 
-import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerEntity;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

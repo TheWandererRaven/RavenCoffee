@@ -60,10 +60,5 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
                     });
                 }
         );
-//        HudRenderCallback.EVENT.register((guiGraphics, listener) -> {
-//            Minecraft minecraft = Minecraft.getInstance();
-//            if(minecraft.player == null) return;
-//            g
-//        });
     }
 }
