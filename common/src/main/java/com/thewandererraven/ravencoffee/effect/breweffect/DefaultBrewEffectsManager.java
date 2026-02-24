@@ -73,12 +73,9 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         return false;
     }
 
-    public void sendAllInfoToClient() {
-        if (this.ownerEntity instanceof ServerPlayer serverPlayer) {
-            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerIconsPayload(this.effectsIcons));
-            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerDurationPayload(this.currentEffectRemainingTicks, this.totalTicksDuration));
-            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
-        }
+    @Override
+    public boolean isEmpty() {
+        return this.effectsStack.isEmpty();
     }
 
     public BrewEffect createBrewEffect(BrewEffectData data) {
@@ -257,6 +254,61 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     }
 
     @Override
+    public void clearEffects() {
+        // Remove att modifier
+        if(!this.effectsStack.isEmpty())
+            if(this.effectsStack.getFirst() instanceof AttributeModifierEffect attModEffect)
+                attModEffect.applyAdditionalEffect(this.ownerEntity);
+
+        this.effectsStack.clear();
+        this.currentEffectRemainingTicks = 0;
+        this.totalTicksDuration = 0;
+        this.effectsIcons.clear();
+        this.sendAllInfoToClient();
+    }
+
+    @Override
+    public void clearCaffeine() {
+        this.currentCaffeine = 0;
+        this.isOverloaded = false;
+    }
+
+    @Override
+    public void clearAll() {
+        this.clearEffects();
+        this.clearCaffeine();
+    }
+
+    @Override
+    public void sendEffectIconsToClient() {
+        if (this.ownerEntity instanceof ServerPlayer serverPlayer) {
+            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerIconsPayload(this.effectsIcons));
+        }
+    }
+
+    @Override
+    public void sendDurationsToClient() {
+        if (this.ownerEntity instanceof ServerPlayer serverPlayer) {
+            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerDurationPayload(this.currentEffectRemainingTicks, this.totalTicksDuration));
+        }
+    }
+
+    @Override
+    public void sendCaffeineToClient() {
+        if (this.ownerEntity instanceof ServerPlayer serverPlayer) {
+            Services.PLATFORM.sendCustomPacket(serverPlayer, new SyncBrewManagerCaffeinePayload(this.currentCaffeine, this.isOverloaded));
+        }
+    }
+
+    @Override
+    public void sendAllInfoToClient() {
+        this.sendEffectIconsToClient();
+        this.sendDurationsToClient();
+        this.sendCaffeineToClient();
+    }
+
+
+    @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
 
@@ -279,10 +331,9 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
-        effectsStack.clear();
+        this.effectsStack.clear();
 
         ListTag list = tag.getListOrEmpty("EffectsStack");
-
         for (Tag _effectTag : list) {
             CompoundTag effectTag = (CompoundTag) _effectTag;
 
