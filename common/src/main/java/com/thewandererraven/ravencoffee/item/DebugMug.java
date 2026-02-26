@@ -21,9 +21,10 @@ public class DebugMug extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack1 = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
-        ItemStack stack2 = new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get());
+        ItemStack stack1 = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get());
+        ItemStack stack2 = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get());
         stack1.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
+                BrewItem.BrewVariant.COOKIES_AND_CREAM,
                 23 * 20,
                 1,
                 List.of(
@@ -42,6 +43,7 @@ public class DebugMug extends Item {
                 )
         ));
         stack2.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
+                BrewItem.BrewVariant.MELON_GOLDEN,
                 23 * 20,
                 1,
                 List.of(

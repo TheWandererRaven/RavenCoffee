@@ -2,7 +2,6 @@ package com.thewandererraven.ravencoffee;
 
 import com.thewandererraven.ravencoffee.block.BlocksRegistry;
 import com.thewandererraven.ravencoffee.effect.breweffect.BrewEffectCoresRegistry;
-import com.thewandererraven.ravencoffee.item.BrewItemsRegistry;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.item.ModCreativeModTabs;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
@@ -41,7 +40,6 @@ public class RavenCoffeeCommon {
         BlocksRegistry.init();
         //MultiEffectsRegistry.init();
         GeneralItemsRegistry.init();
-        BrewItemsRegistry.init();
         ModCreativeModTabs.init();
         RecipesRegistry.init();
     }

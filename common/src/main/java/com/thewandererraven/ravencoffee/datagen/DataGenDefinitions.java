@@ -1,7 +1,6 @@
 package com.thewandererraven.ravencoffee.datagen;
 
 import com.thewandererraven.ravencoffee.block.BlocksRegistry;
-import com.thewandererraven.ravencoffee.item.BrewItemsRegistry;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeTags;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -318,10 +317,8 @@ public class DataGenDefinitions {
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.BEEF_BAGEL.get()));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.CHICKEN_BAGEL.get()));
 
-        ITEMS.add(new DataGenItem(BrewItemsRegistry.COFFEE_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/empty"));
-        ITEMS.add(new DataGenItem(BrewItemsRegistry.BASIC_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/basic_brew"));
-//        ITEMS.add(new DataGenItem(BrewItemsRegistry.MELON_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/brew_melon"));
-//        ITEMS.add(new DataGenItem(BrewItemsRegistry.HONEY_BREW_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/brew_honey"));
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/empty"));
+        //TODO: Add data gen for the Coffee Brew and its select model
 
         BLOCKS.add(new DataGenBlock(BlocksRegistry.BROWNIE_BLOCK.get())
                         .setOnlyDropsSelf()

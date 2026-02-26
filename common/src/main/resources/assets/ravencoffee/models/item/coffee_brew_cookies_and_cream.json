@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ravencoffee:item/coffee_mug/cookies_and_cream",
+    "particle": "ravencoffee:item/coffee_mug/cookies_and_cream"
+  }
+}

@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee;
 
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
+import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
@@ -12,6 +13,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.ComposterBlock;
 
@@ -59,6 +62,10 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
                         holder.ravencoffee$getBrewEffectManager().setEffectIcons(payload.effectsIcons());
                     });
                 }
+        );
+        SelectItemModelProperties.ID_MAPPER.put(
+                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brew_variant"),
+                BrewVariantProperty.TYPE
         );
     }
 }
