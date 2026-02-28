@@ -2,7 +2,6 @@ package com.thewandererraven.ravencoffee.datacomponents;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.thewandererraven.ravencoffee.Constants;
 import net.minecraft.resources.ResourceLocation;
 
 public record BrewEffectData(

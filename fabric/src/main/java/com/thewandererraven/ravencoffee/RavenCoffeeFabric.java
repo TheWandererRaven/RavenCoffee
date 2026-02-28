@@ -8,7 +8,6 @@ import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 
 public class RavenCoffeeFabric implements ModInitializer {

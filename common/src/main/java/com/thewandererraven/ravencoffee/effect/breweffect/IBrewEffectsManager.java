@@ -1,13 +1,8 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
-import com.thewandererraven.ravencoffee.platform.Services;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 
 import java.util.List;
 

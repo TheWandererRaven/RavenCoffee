@@ -1,6 +1,5 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
-import com.thewandererraven.ravencoffee.Constants;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Consumer;

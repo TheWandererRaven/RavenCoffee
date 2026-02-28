@@ -1,6 +1,5 @@
 package com.thewandererraven.ravencoffee.platform;
 
-import com.thewandererraven.ravencoffee.menu.CoffeeGrinderMenu;
 import com.thewandererraven.ravencoffee.platform.services.IRegistryUtil;
 import com.thewandererraven.ravencoffee.platform.services.IMenuFactory;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
