@@ -1,42 +1,46 @@
 package com.thewandererraven.ravencoffee.item;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffect;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectInstance;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
+import com.mojang.serialization.Codec;
+import com.thewandererraven.ravencoffee.Constants;
+import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
+import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
-import net.minecraft.core.Holder;
+import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 
-import java.util.function.Supplier;
-
 public class BrewItem extends Item {
-    private Supplier<MultiEffect> effectHolder;
 
-    public BrewItem(Properties properties, Supplier<MultiEffect> holder) {
+    public BrewItem(Properties properties) {
         super(properties);
-        this.effectHolder = holder;
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if(livingEntity instanceof Player player) {
+            // If the player instance is from the server side, and the item has the brew data, add to the manager
             if(!level.isClientSide) {
-                ((IBrewManagerHolder) livingEntity).ravencoffee$getBrewEffectManager().add(
-                        new MultiEffectInstance(effectHolder.get().asHolder())
-                );
+                CoffeeBrewData data = stack.get(DataComponentTypes.COFFEE_BREW.get());
+                if(data != null) {
+                    ((IBrewManagerHolder) livingEntity).ravencoffee$getBrewEffectManager().add(data);
+                }
             }
+            // If player is in creative, don't shrink the stack
             if(!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
 
         }
-        return stack.isEmpty() ? new ItemStack(BrewItemsRegistry.COFFEE_MUG.get()) : stack;
+        // Return the coffee mug
+        // TODO: Check if this is already handled by the parent class, in the registry I'm passing the coffee mug as return item already
+        return stack.isEmpty() ? new ItemStack(GeneralItemsRegistry.COFFEE_MUG.get()) : stack;
     }
 
     @Override
@@ -51,6 +55,41 @@ public class BrewItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        return ItemUtils.startUsingInstantly(level, player, hand);
+        if(level.isClientSide)
+            return InteractionResult.PASS;
+        if(player instanceof IBrewManagerHolder holder) {
+            if(!holder.ravencoffee$getBrewEffectManager().getOverloadStatus())
+                return ItemUtils.startUsingInstantly(level, player, hand);
+        }
+        return InteractionResult.FAIL;
+    }
+
+    @Override
+    public Component getName(ItemStack stack) {
+        // Get name for the coffee variant
+        return Component.translatable(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, BrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant().name).toLanguageKey());
+    }
+
+    public enum BrewVariant implements StringRepresentable {
+        BASIC("basic"),
+        COOKIES_AND_CREAM("cookies_and_cream"),
+        MELON_GOLDEN("melon_golden"),
+        APPLE("apple"),
+        BROKEN("broken");
+
+        public final String name;
+
+        BrewVariant(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return this.name;
+        }
+
+        public static final Codec<BrewVariant> CODEC =
+                StringRepresentable.fromEnum(BrewVariant::values);
+
     }
 }

@@ -2,7 +2,6 @@ package com.thewandererraven.ravencoffee.recipe;
 
 import com.thewandererraven.ravencoffee.menu.CoffeeGrinderIngredientsContainer;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;

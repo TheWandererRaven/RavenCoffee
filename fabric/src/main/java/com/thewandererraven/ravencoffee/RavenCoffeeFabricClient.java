@@ -1,21 +1,20 @@
 package com.thewandererraven.ravencoffee;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectInstance;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
+import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
-import com.thewandererraven.ravencoffee.networking.SyncBrewPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.ComposterBlock;
 
@@ -28,29 +27,45 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
             if(dataGenItem.compostableValue > 0.0f)
                 ComposterBlock.COMPOSTABLES.put(dataGenItem.mainItem, dataGenItem.compostableValue);
         ClientPlayNetworking.registerGlobalReceiver(
-                SyncBrewPayload.TYPE,
+                SyncBrewManagerCaffeinePayload.TYPE,
                 (payload, context) -> {
                     Minecraft client = Minecraft.getInstance();
                     client.execute(() -> {
                         Player player = client.player;
                         IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                        if(payload.brewId() != null) {
-                        var holderEffect = MultiEffectsRegistry.BREW_EFFECTS.getEntries().stream()
-                                .filter(entry -> entry.get().getId().equals(payload.brewId()))
-                                .findFirst().orElse(null);
-                        if (holderEffect == null) return;
-
-                        MultiEffectInstance instance = new MultiEffectInstance(holderEffect.asHolder());
-                        holder.ravencoffee$getBrewEffectManager()
-                                .setClientEffect(instance, payload.duration());
+                        if(payload.currentCaffeine() >= 0) {
+                            holder.ravencoffee$getBrewEffectManager().setCurrentCaffeine(payload.currentCaffeine());
                         }
+                        holder.ravencoffee$getBrewEffectManager().setOverloaded(payload.isOverloaded());
                     });
                 }
         );
-//        HudRenderCallback.EVENT.register((guiGraphics, listener) -> {
-//            Minecraft minecraft = Minecraft.getInstance();
-//            if(minecraft.player == null) return;
-//            g
-//        });
+        ClientPlayNetworking.registerGlobalReceiver(
+                SyncBrewManagerDurationPayload.TYPE,
+                (payload, context) -> {
+                    Minecraft client = Minecraft.getInstance();
+                    client.execute(() -> {
+                        Player player = client.player;
+                        IBrewManagerHolder holder = (IBrewManagerHolder) player;
+                        holder.ravencoffee$getBrewEffectManager().setCurrentEffectRemainingTicks(payload.currentEffectRemainingTicks());
+                        holder.ravencoffee$getBrewEffectManager().setTotalRemainingTicks(payload.totalEffectRemainingTicks());
+                    });
+                }
+        );
+        ClientPlayNetworking.registerGlobalReceiver(
+                SyncBrewManagerIconsPayload.TYPE,
+                (payload, context) -> {
+                    Minecraft client = Minecraft.getInstance();
+                    client.execute(() -> {
+                        Player player = client.player;
+                        IBrewManagerHolder holder = (IBrewManagerHolder) player;
+                        holder.ravencoffee$getBrewEffectManager().setEffectIcons(payload.effectsIcons());
+                    });
+                }
+        );
+        SelectItemModelProperties.ID_MAPPER.put(
+                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brew_variant"),
+                BrewVariantProperty.TYPE
+        );
     }
 }

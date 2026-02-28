@@ -11,16 +11,33 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.ItemLore;
-import net.minecraft.world.item.component.TooltipDisplay;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class GeneralItemsRegistry {
     public static final RegistryProvider<Item> ITEMS = RegistryProvider.get(Registries.ITEM, Constants.MOD_ID);
+
+    public static final String _coffee_mug_id = "coffee_mug";
+    public static final RegistryObject<Item> COFFEE_MUG =
+            ITEMS.register(_coffee_mug_id, () -> new Item(new Item.Properties()
+                    .setId(ResourceKey.create(
+                            Registries.ITEM,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_mug_id)
+                    ))
+            ));
+
+    public static final String _coffee_brew_id = "coffee_brew";
+    public static final RegistryObject<Item> COFFEE_BREW =
+            ITEMS.register(_coffee_brew_id, () -> new BrewItem(new Item.Properties()
+                    .setId(ResourceKey.create(
+                            Registries.ITEM,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_brew_id)
+                    )).component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
+                    .usingConvertsTo(COFFEE_MUG.get())
+            ));
 
     // ############################################### BASIC COFFEE STUFF ##############################################
     public static final String _coffee_cherries_id = "coffee_cherries";
@@ -364,6 +381,15 @@ public class GeneralItemsRegistry {
                                     Registries.ITEM,
                                     ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_grinder_item_id)
                             ))
+            ));
+
+    public static final String _debug_mug_id = "debug_mug";
+    public static final RegistryObject<Item> DEBUG_MUG =
+            ITEMS.register(_debug_mug_id, () -> new DebugMug(new Item.Properties()
+                    .setId(ResourceKey.create(
+                            Registries.ITEM,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _debug_mug_id)
+                    ))
             ));
 
     public static List<Component> generateComponentTranslatableByItemId(String itemId) {

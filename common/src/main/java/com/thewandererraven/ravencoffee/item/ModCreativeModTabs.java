@@ -1,12 +1,18 @@
 package com.thewandererraven.ravencoffee.item;
 
 import com.thewandererraven.ravencoffee.Constants;
+import com.thewandererraven.ravencoffee.datacomponents.BrewEffectData;
+import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import com.thewandererraven.ravencoffee.registry.RegistryProvider;
+import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class ModCreativeModTabs {
     public static final RegistryProvider<CreativeModeTab> CREATIVE_MODE_TABS = RegistryProvider.get(Registries.CREATIVE_MODE_TAB, Constants.MOD_ID);
@@ -17,6 +23,7 @@ public class ModCreativeModTabs {
                     .icon(() -> new ItemStack(GeneralItemsRegistry.ROASTED_COFFEE_BEANS.get()))
                     .title(Component.translatable("itemgroup." + Constants.MOD_ID + "." + general_items_tab_id))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(GeneralItemsRegistry.DEBUG_MUG.get());
                         output.accept(GeneralItemsRegistry.COFFEE_CHERRIES.get());
                         output.accept(GeneralItemsRegistry.ROASTED_COFFEE_BEANS.get());
                         output.accept(GeneralItemsRegistry.MAGMA_COFFEE_BEANS.get());
@@ -49,13 +56,44 @@ public class ModCreativeModTabs {
     public static final String mug_brews_items_tab_id = "mug_brews_items_tab";
     public static final RegistryObject<CreativeModeTab> MUG_BREWS_ITEMS_TAB =
             CREATIVE_MODE_TABS.register(mug_brews_items_tab_id, () -> CreativeModeTab.builder(null, -1)
-                    .icon(() -> new ItemStack(BrewItemsRegistry.BASIC_BREW_MUG.get()))
+                    .icon(BrewEffectsUtils::createEmptyBrewItemStack)
                     .title(Component.translatable("itemgroup." + Constants.MOD_ID + "." + mug_brews_items_tab_id))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(BrewItemsRegistry.COFFEE_MUG.get());
-                        output.accept(BrewItemsRegistry.BASIC_BREW_MUG.get());
-                    })
-                    .build()
+                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                                new CoffeeBrewData(
+                                        BrewItem.BrewVariant.COOKIES_AND_CREAM,
+                                        23 * 20,
+                                        List.of(
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
+                                                        5 * 20,
+                                                        1,
+                                                        0
+                                                ),
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
+                                                        10 * 20,
+                                                        -0.2,
+                                                        0
+                                                )
+                                        )
+                                )
+                        ));
+                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                                new CoffeeBrewData(
+                                        BrewItem.BrewVariant.MELON_GOLDEN,
+                                        23 * 20,
+                                        List.of(
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
+                                                        0,
+                                                        5,
+                                                        0
+                                                )
+                                        )
+                                )
+                        ));
+                    }).build()
             );
 
     public static void init() {

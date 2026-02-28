@@ -137,5 +137,7 @@
   "item.ravencoffee.coffee_tree_trunk_block": "커피나무 줄기",
 
   "entity.minecraft.villager.ravencoffee.barista": "바리스타",
-  "entity.minecraft.villager.barista": "바리스타"
+  "entity.minecraft.villager.barista": "바리스타",
+
+  "block.ravencoffee.bed.caffeinated": "The caffeine is keeping you awake"
 }

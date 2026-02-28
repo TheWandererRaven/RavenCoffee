@@ -1,16 +1,15 @@
 package com.thewandererraven.ravencoffee;
 
 import com.thewandererraven.ravencoffee.block.BlocksRegistry;
-import com.thewandererraven.ravencoffee.effect.breweffect.MultiEffectsRegistry;
-import com.thewandererraven.ravencoffee.item.BrewItemsRegistry;
+import com.thewandererraven.ravencoffee.effect.breweffect.BrewEffectCoresRegistry;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.item.ModCreativeModTabs;
+import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.platform.Services;
 import com.thewandererraven.ravencoffee.recipe.RecipesRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.ComposterBlock;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -35,11 +34,11 @@ public class RavenCoffeeCommon {
 
             Constants.LOG.info("Hello to ravencoffee");
         }
+        DataComponentTypes.init();
+        BrewEffectCoresRegistry.init();
         MenusRegistry.init();
         BlocksRegistry.init();
-        MultiEffectsRegistry.init();
         GeneralItemsRegistry.init();
-        BrewItemsRegistry.init();
         ModCreativeModTabs.init();
         RecipesRegistry.init();
     }

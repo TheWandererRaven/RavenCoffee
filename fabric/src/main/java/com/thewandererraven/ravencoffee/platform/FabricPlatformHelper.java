@@ -1,8 +1,5 @@
 package com.thewandererraven.ravencoffee.platform;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
-import com.thewandererraven.ravencoffee.mixin.MixinServerPlayerEntity;
-import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.platform.services.IPlatformHelper;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
