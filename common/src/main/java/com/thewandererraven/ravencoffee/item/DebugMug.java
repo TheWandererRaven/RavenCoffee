@@ -26,7 +26,6 @@ public class DebugMug extends Item {
         stack1.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
                 BrewItem.BrewVariant.COOKIES_AND_CREAM,
                 23 * 20,
-                1,
                 List.of(
                         new BrewEffectData(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
@@ -45,7 +44,6 @@ public class DebugMug extends Item {
         stack2.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
                 BrewItem.BrewVariant.MELON_GOLDEN,
                 23 * 20,
-                1,
                 List.of(
                         new BrewEffectData(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),

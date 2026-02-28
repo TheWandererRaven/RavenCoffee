@@ -63,7 +63,6 @@ public class ModCreativeModTabs {
                                 new CoffeeBrewData(
                                         BrewItem.BrewVariant.COOKIES_AND_CREAM,
                                         23 * 20,
-                                        1,
                                         List.of(
                                                 new BrewEffectData(
                                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
@@ -84,7 +83,6 @@ public class ModCreativeModTabs {
                                 new CoffeeBrewData(
                                         BrewItem.BrewVariant.MELON_GOLDEN,
                                         23 * 20,
-                                        1,
                                         List.of(
                                                 new BrewEffectData(
                                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
