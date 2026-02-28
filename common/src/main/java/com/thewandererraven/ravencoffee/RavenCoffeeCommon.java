@@ -38,7 +38,6 @@ public class RavenCoffeeCommon {
         BrewEffectCoresRegistry.init();
         MenusRegistry.init();
         BlocksRegistry.init();
-        //MultiEffectsRegistry.init();
         GeneralItemsRegistry.init();
         ModCreativeModTabs.init();
         RecipesRegistry.init();

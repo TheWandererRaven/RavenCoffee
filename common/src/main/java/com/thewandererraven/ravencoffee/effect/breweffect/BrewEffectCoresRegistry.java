@@ -6,7 +6,7 @@ import com.thewandererraven.ravencoffee.registry.RegistryProvider;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeRegistryKeys;
 
 public class BrewEffectCoresRegistry {
-    public static final RegistryProvider<BrewEffectCore> BREW_EFFECT_CORES = RegistryProvider.create(RavenCoffeeRegistryKeys.BREW_EFFECTS_CORE, Constants.MOD_ID, BrewEffectCore.class);
+    public static final RegistryProvider<BrewEffectCore> BREW_EFFECT_CORES = RegistryProvider.create(RavenCoffeeRegistryKeys.BREW_EFFECT_CORES, Constants.MOD_ID, BrewEffectCore.class);
 
     public static final String _heal_id = "effect.heal";
     public static final RegistryObject<BrewEffectCore> HEAL = BREW_EFFECT_CORES.register(
