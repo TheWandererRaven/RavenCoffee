@@ -54,6 +54,19 @@ public class BlocksRegistry {
                     //.noOcclusion() //nonOpaque()????
             ));
 
+    public static final String _coffee_brewing_station_id = "coffee_brewing_station";
+    public static final RegistryObject<Block> COFFEE_BREWING_STATION =
+            BLOCKS.register(_coffee_brewing_station_id, () -> new CoffeeBrewingStation(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(
+                            Registries.BLOCK,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_brewing_station_id)
+                    ))
+                    .forceSolidOn()
+                    .pushReaction(PushReaction.NORMAL)
+                    .sound(SoundType.WOOD)
+                    .destroyTime(1.0F)
+            ));
+
     public static void init() {
 
     }

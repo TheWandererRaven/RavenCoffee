@@ -37,6 +37,7 @@ public class ModCreativeModTabs {
                         output.accept(GeneralItemsRegistry.BROWNIE_BLOCK_ITEM.get());
                         output.accept(GeneralItemsRegistry.COFFEE_GRINDER_ITEM.get());
                         output.accept(GeneralItemsRegistry.COFFEE_MACHINE_ITEM.get());
+                        output.accept(GeneralItemsRegistry.COFFEE_BREWING_STATION.get());
                         output.accept(GeneralItemsRegistry.TIRAMISU_SLICE.get());
                         output.accept(GeneralItemsRegistry.HAM_SANDWICH.get());
                         output.accept(GeneralItemsRegistry.BEEF_SANDWICH.get());

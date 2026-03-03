@@ -1,5 +1,6 @@
 package com.thewandererraven.ravencoffee;
 
+import com.thewandererraven.ravencoffee.block.CoffeeBrewingStation;
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
@@ -8,6 +9,7 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayloa
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
+import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -22,6 +24,7 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         MenuScreens.register(MenusRegistry.COFFEE_GRINDER.get(), CoffeeGrinderScreen::new);
+        MenuScreens.register(MenusRegistry.COFFEE_BREWING_STATION.get(), CoffeeBrewingStationScreen::new);
         // TODO: If fabric implements datamaps for this, move this to its corresponding class
         for(DataGenItem dataGenItem : DataGenDefinitions.ITEMS)
             if(dataGenItem.compostableValue > 0.0f)
