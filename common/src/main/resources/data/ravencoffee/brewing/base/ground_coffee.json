@@ -1,0 +1,7 @@
+{
+  "item": "ravencoffee:ground_coffee",
+  "caffeine_base": 15,
+  "caffeine_multiplier": 1.0,
+  "duration_multiplier": 1.0,
+  "effect_values_multiplier": 1.0
+}

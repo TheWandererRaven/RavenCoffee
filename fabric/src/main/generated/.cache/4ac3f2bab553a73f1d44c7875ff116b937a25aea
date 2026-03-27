@@ -1,2 +1,3 @@
 // 1.21.5	-999999999-01-01T00:00:00	RavenCoffee/Tags for minecraft:item
-099598f905fa8b39bd3be3ee2ce8622108763705 data/ravencoffee/tags/item/roasted_common_beans.json
+b558432fbeb5744354de03acc1d50caa14dd0b50 data/ravencoffee/tags/item/coffee_brew_base.json
+28b87eae7d256e31e1a7579003c67014d9c0fdb3 data/ravencoffee/tags/item/coffee_brew_container.json

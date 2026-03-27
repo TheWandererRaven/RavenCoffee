@@ -14,7 +14,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+
+import java.util.function.Consumer;
 
 public class BrewItem extends Item {
 
@@ -67,29 +71,13 @@ public class BrewItem extends Item {
     @Override
     public Component getName(ItemStack stack) {
         // Get name for the coffee variant
-        return Component.translatable(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, BrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant().name).toLanguageKey());
+        return Component.translatable(BrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant().toLanguageKey());
     }
 
-    public enum BrewVariant implements StringRepresentable {
-        BASIC("basic"),
-        COOKIES_AND_CREAM("cookies_and_cream"),
-        MELON_GOLDEN("melon_golden"),
-        APPLE("apple"),
-        BROKEN("broken");
-
-        public final String name;
-
-        BrewVariant(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getSerializedName() {
-            return this.name;
-        }
-
-        public static final Codec<BrewVariant> CODEC =
-                StringRepresentable.fromEnum(BrewVariant::values);
-
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> componentConsumer, TooltipFlag flag) {
+        super.appendHoverText(stack, tooltipContext, tooltipDisplay, componentConsumer, flag);
+        CoffeeBrewData brewData = stack.get(DataComponentTypes.COFFEE_BREW.get());
+        stack.addToTooltip(DataComponentTypes.COFFEE_BREW.get(), tooltipContext, tooltipDisplay, componentConsumer, flag);
     }
 }

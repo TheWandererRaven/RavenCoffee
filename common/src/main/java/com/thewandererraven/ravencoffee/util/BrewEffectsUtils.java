@@ -43,13 +43,13 @@ public class BrewEffectsUtils {
         return retStack;
     }
 
-    public static ItemStack createBrewItemStack(Item item, BrewItem.BrewVariant brewVariant, int caffeine, List<BrewEffectData> effects) {
+    public static ItemStack createBrewItemStack(Item item, ResourceLocation brewVariant, int caffeine, List<BrewEffectData> effects) {
         ItemStack retStack = new ItemStack(item);
         retStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(brewVariant, caffeine, effects));
         return retStack;
     }
 
-    public static ItemStack createBrewItemStack(Item item, BrewItem.BrewVariant brewVariant, int caffeine) {
+    public static ItemStack createBrewItemStack(Item item, ResourceLocation brewVariant, int caffeine) {
         return createBrewItemStack(item, brewVariant,caffeine, new ArrayList<>());
     }
 
@@ -57,11 +57,11 @@ public class BrewEffectsUtils {
         return createBrewItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), data);
     }
 
-    public static ItemStack createBrewItemStack(BrewItem.BrewVariant brewVariant, int caffeine, List<BrewEffectData> effects) {
+    public static ItemStack createBrewItemStack(ResourceLocation brewVariant, int caffeine, List<BrewEffectData> effects) {
         return createBrewItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), brewVariant, caffeine, effects);
     }
 
-    public static ItemStack createBrewItemStack(BrewItem.BrewVariant brewVariant, int caffeine) {
+    public static ItemStack createBrewItemStack(ResourceLocation brewVariant, int caffeine) {
         return createBrewItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), brewVariant, caffeine);
     }
 

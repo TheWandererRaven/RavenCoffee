@@ -11,7 +11,8 @@ public class DataComponentTypes {
     public static final RegistryObject<DataComponentType<CoffeeBrewData>> COFFEE_BREW = DATA_COMPONENT_TYPES.register(
             "coffee_brew",
             () -> DataComponentType.<CoffeeBrewData>builder()
-            .persistent(CoffeeBrewData.CODEC)
+                    .persistent(CoffeeBrewData.CODEC)
+                    .networkSynchronized(CoffeeBrewData.STREAM_CODEC)
             .build()
             );
 

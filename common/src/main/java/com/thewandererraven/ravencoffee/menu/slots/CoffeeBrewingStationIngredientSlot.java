@@ -1,5 +1,6 @@
 package com.thewandererraven.ravencoffee.menu.slots;
 
+import com.thewandererraven.ravencoffee.util.RavenCoffeeTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -7,12 +8,15 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 public class CoffeeBrewingStationIngredientSlot extends Slot {
-    public AbstractContainerMenu menu;
     private boolean isHidden = false;
 
     public CoffeeBrewingStationIngredientSlot(AbstractContainerMenu menu, Container container, int slot, int x, int y) {
         super(container, slot, x, y);
-        this.menu = menu;
+    }
+
+    @Override
+    public boolean mayPlace(ItemStack stack) {
+        return stack.is(RavenCoffeeTags.Items.COFFEE_BREW_INGREDIENT);
     }
 
     @Override
@@ -26,11 +30,5 @@ public class CoffeeBrewingStationIngredientSlot extends Slot {
 
     public void show() {
         isHidden = false;
-    }
-
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        this.menu.slotsChanged(this.container);
     }
 }

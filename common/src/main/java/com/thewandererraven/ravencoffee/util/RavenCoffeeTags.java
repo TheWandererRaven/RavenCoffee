@@ -8,7 +8,9 @@ import net.minecraft.world.item.Item;
 
 public class RavenCoffeeTags {
     public static class Items {
-        public static final TagKey<Item> ROASTED_COMMON_BEANS = createTag("roasted_common_beans");
+        public static final TagKey<Item> COFFEE_BREW_BASE = createTag("coffee_brew_base");
+        public static final TagKey<Item> COFFEE_BREW_CONTAINER = createTag("coffee_brew_container");
+        public static final TagKey<Item> COFFEE_BREW_INGREDIENT = createTag("coffee_brew_ingredient");
 
         private static TagKey<Item> createTag(String name) {
             return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, name));

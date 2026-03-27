@@ -62,7 +62,14 @@ public class ModCreativeModTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(BrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
-                                        BrewItem.BrewVariant.COOKIES_AND_CREAM,
+                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "basic"),
+                                        10 * 20,
+                                        BrewEffectData.getListOfBasicEffects().stream().map(BrewEffectData.Builder::build).toList()
+                                )
+                        ));
+                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                                new CoffeeBrewData(
+                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "apple"),
                                         23 * 20,
                                         List.of(
                                                 new BrewEffectData(
@@ -73,7 +80,7 @@ public class ModCreativeModTabs {
                                                 ),
                                                 new BrewEffectData(
                                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
-                                                        10 * 20,
+                                                        5 * 20,
                                                         -0.2,
                                                         0
                                                 )
@@ -82,13 +89,65 @@ public class ModCreativeModTabs {
                         ));
                         output.accept(BrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
-                                        BrewItem.BrewVariant.MELON_GOLDEN,
-                                        23 * 20,
+                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "melon"),
+                                        15 * 20,
                                         List.of(
                                                 new BrewEffectData(
                                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
                                                         0,
                                                         5,
+                                                        0
+                                                )
+                                        )
+                                )
+                        ));
+                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                                new CoffeeBrewData(
+                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "honey"),
+                                        30 * 20,
+                                        List.of(
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.absorption"),
+                                                        10 * 20,
+                                                        8.0,
+                                                        0
+                                                ),
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.hurt"),
+                                                        0,
+                                                        8.0,
+                                                        0
+                                                )
+                                        )
+                                )
+                        ));
+                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                                new CoffeeBrewData(
+                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "cookies_and_cream"),
+                                        30 * 20,
+                                        List.of(
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.attack_speed"),
+                                                        20 * 20,
+                                                        3.0,
+                                                        0
+                                                ),
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
+                                                        5 * 20,
+                                                        -0.2,
+                                                        0
+                                                ),
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.strong_legs"),
+                                                        15 * 20,
+                                                        -1.0,
+                                                        0
+                                                ),
+                                                new BrewEffectData(
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.weak_legs"),
+                                                        20 * 20,
+                                                        1.5,
                                                         0
                                                 )
                                         )

@@ -7,24 +7,38 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.function.Consumer;
+
 public class AttributeModifierEffect extends BrewEffect {
 
-    public AttributeModifierEffect(ResourceLocation effectId, ResourceLocation attributeId, int effectTicksDuration, double mainValue, double secondaryValue, Holder<Attribute> attributeHolder) {
-        // GET ATTRIBUTE HOLDER FROM THE LOOKUP METHOD
+    public AttributeModifierEffect(ResourceLocation effectId, ResourceLocation attributeId, AttributeModifier.Operation attributeOperation, int effectTicksDuration, double mainValue, double secondaryValue, Holder<Attribute> attributeHolder) {
+        this(effectId, attributeId, attributeOperation, effectTicksDuration, mainValue, secondaryValue, attributeHolder, context -> {}, context -> {});
+    }
+
+    public AttributeModifierEffect(ResourceLocation effectId, ResourceLocation attributeId, AttributeModifier.Operation attributeOperation, int effectTicksDuration, double mainValue, double secondaryValue, Holder<Attribute> attributeHolder, Consumer<BrewEffectContext> primaryEffect) {
+        this(effectId, attributeId, attributeOperation, effectTicksDuration, mainValue, secondaryValue, attributeHolder, primaryEffect, context -> {});
+    }
+
+    public AttributeModifierEffect(ResourceLocation effectId, ResourceLocation attributeId, AttributeModifier.Operation attributeOperation, int effectTicksDuration, double mainValue, double secondaryValue, Holder<Attribute> attributeHolder, Consumer<BrewEffectContext> primaryEffect, Consumer<BrewEffectContext> additionalEffect) {
         super(effectId, effectTicksDuration, mainValue, secondaryValue,
-                brewEffectContext -> AttributeModifierEffect.addAttributeModifierToPlayer(brewEffectContext.entity(), attributeHolder,
-                        new AttributeModifierEffect.AttributeTemplate(
-                                attributeId,
-                                brewEffectContext.effectMainValue(),
-                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                        ).create(1)),
-                brewEffectContext -> AttributeModifierEffect.removeAttributeModifierToPlayer(brewEffectContext.entity(), attributeHolder,
-                        new AttributeModifierEffect.AttributeTemplate(
-                                attributeId,
-                                brewEffectContext.effectSecondaryValue() * -1,
-                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                        ).create(1)
-                )
+                brewEffectContext -> {
+            AttributeModifierEffect.addAttributeModifierToPlayer(brewEffectContext.entity(), attributeHolder,
+                    new AttributeModifierEffect.AttributeTemplate(
+                            attributeId,
+                            brewEffectContext.effectMainValue(),
+                            attributeOperation
+                    ).create(1));
+            primaryEffect.accept(brewEffectContext);
+            },
+                brewEffectContext -> {
+            AttributeModifierEffect.removeAttributeModifierToPlayer(brewEffectContext.entity(), attributeHolder,
+                    new AttributeModifierEffect.AttributeTemplate(
+                            attributeId,
+                            brewEffectContext.effectSecondaryValue() * -1,
+                            attributeOperation
+                    ).create(1));
+            additionalEffect.accept(brewEffectContext);
+                }
         );
     }
 

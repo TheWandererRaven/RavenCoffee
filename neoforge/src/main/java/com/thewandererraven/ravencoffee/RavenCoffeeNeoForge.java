@@ -19,8 +19,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
@@ -38,6 +40,11 @@ public class RavenCoffeeNeoForge {
         // Use NeoForge to bootstrap the Common mod.
         Constants.LOG.info("Hello NeoForge world!");
         RavenCoffeeCommon.init();
+        eventBus.addListener(this::addReloadListeners);
+    }
+
+    private void addReloadListeners(AddClientReloadListenersEvent event) {
+        event.addListener(new BrewingIngr());
     }
 
     @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -47,6 +54,11 @@ public class RavenCoffeeNeoForge {
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(MenusRegistry.COFFEE_GRINDER.get(), CoffeeGrinderScreen::new);
             event.register(MenusRegistry.COFFEE_BREWING_STATION.get(), CoffeeBrewingStationScreen::new);
+        }
+
+        @SubscribeEvent
+        public static void registerReloadListeners(AddServerReloadListenersEvent event) {
+            event.
         }
 
         @SubscribeEvent

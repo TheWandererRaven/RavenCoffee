@@ -6,7 +6,13 @@ public record BrewEffectContext(LivingEntity entity, double effectMainValue, dou
     public int effectMainValueAsInt() {
         return (int) Math.round(effectMainValue);
     }
+    public float effectMainValueAsFloat() {
+        return (float) Math.round(effectMainValue);
+    }
     public int effectSecondaryValueAsInt() {
         return (int) Math.round(effectSecondaryValue);
+    }
+    public float effectSecondaryValueAsFloat() {
+        return (float) Math.round(effectSecondaryValue);
     }
 }

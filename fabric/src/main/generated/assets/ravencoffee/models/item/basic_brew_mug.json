@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "ravencoffee:item/coffee_mug/basic_brew"
-  }
-}

@@ -28,6 +28,12 @@ public class CoffeeBrewingStationScreen extends AbstractContainerScreen<CoffeeBr
     }
 
     @Override
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float tick) {
+        super.render(graphics, mouseX, mouseY, tick);
+        this.renderTooltip(graphics, mouseX, mouseY);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
         Minecraft.getInstance().getTextureManager().release(TEXTURE);
         int x = (width - imageWidth) / 2;
@@ -36,7 +42,7 @@ public class CoffeeBrewingStationScreen extends AbstractContainerScreen<CoffeeBr
         guiGraphics.blit(RenderType::guiTextured, TEXTURE, x, y, 0.0F, 0.0F, this.imageWidth, this.imageHeight, 256, 256);
         // ========== INGREDIENT SLOTS
         int ingredientsCount = this.getMenu().getCurrentIngredientsCount();
-        for(int j = 1; j < ingredientsCount + 1 && j < CoffeeBrewingStationMenu.INGREDIENTS_SLOTS_COUNT; j++) {
+        for(int j = 1; j < ingredientsCount + 1 && j < CoffeeBrewingStationMenu.INGREDIENT_SLOTS_COUNT; j++) {
             guiGraphics.blit(RenderType::guiTextured, TEXTURE,
                     (x + CoffeeBrewingStationMenu.INGREDIENT_SLOT_POS_X + ((CoffeeBrewingStationMenu.INGREDIENT_SLOT_X_SPACING + CoffeeBrewingStationMenu.INGREDIENT_SLOT_WIDTH) * j)) - 1,
                     (y + CoffeeBrewingStationMenu.INGREDIENT_SLOT_POS_Y) - 1,
@@ -46,7 +52,7 @@ public class CoffeeBrewingStationScreen extends AbstractContainerScreen<CoffeeBr
             );
         }
         // ========== INGREDIENT SLOTS + button
-        if(ingredientsCount < CoffeeBrewingStationMenu.INGREDIENTS_SLOTS_COUNT - 1)
+        if(ingredientsCount < CoffeeBrewingStationMenu.INGREDIENT_SLOTS_COUNT - 1)
             guiGraphics.blit(RenderType::guiTextured, TEXTURE,
                     x + CoffeeBrewingStationMenu.INGREDIENT_SLOT_POS_X + ((CoffeeBrewingStationMenu.INGREDIENT_SLOT_X_SPACING + CoffeeBrewingStationMenu.INGREDIENT_SLOT_WIDTH) * (ingredientsCount + 1)),
                     y + CoffeeBrewingStationMenu.INGREDIENT_SLOT_POS_Y,
