@@ -322,6 +322,9 @@ public class DataGenDefinitions {
                 .withTag(RavenCoffeeTags.Items.COFFEE_BREW_CONTAINER)
         );
         //TODO: Add data gen for the Coffee Brew and its select model
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_BREW.get())
+                .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.IGNORE)
+        );
 
         BLOCKS.add(new DataGenBlock(BlocksRegistry.BROWNIE_BLOCK.get())
                         .setOnlyDropsSelf()
@@ -352,6 +355,13 @@ public class DataGenDefinitions {
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_MACHINE_ITEM.get())
                 .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.BLOCK)
                 .setBlockItemPlainModelFromBlock("_inactive_nocups_nooutput_input")
+        );
+        BLOCKS.add(new DataGenBlock(BlocksRegistry.COFFEE_BREWING_STATION.get())
+                .setOnlyDropsSelf()
+                .setBlockModelGenerationType(DataGenBlock.BlockModelGenTypes.IGNORE)
+        );
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_BREWING_STATION.get())
+                .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.IGNORE)
         );
     }
 }

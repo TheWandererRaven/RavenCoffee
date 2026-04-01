@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 public class ModModelProvider extends ModelProvider {
 
     List<String> ignoredBlocks = new ArrayList<String>();
+    List<String> ignoredItems = new ArrayList<String>();
 
     public ModModelProvider(PackOutput output) {
         super(output, Constants.MOD_ID);
@@ -30,8 +31,10 @@ public class ModModelProvider extends ModelProvider {
         for(DataGenItem dataGenItem : DataGenDefinitions.ITEMS) {
             if(dataGenItem.modelGenType == DataGenItem.ItemModelGenTypes.FLAT_ITEM)
                 generateFlatItem(itemModels, dataGenItem);
-            if(dataGenItem.modelGenType == DataGenItem.ItemModelGenTypes.BLOCK)
+            else if(dataGenItem.modelGenType == DataGenItem.ItemModelGenTypes.BLOCK)
                 itemModels.itemModelOutput.accept(dataGenItem.mainItem, ItemModelUtils.plainModel(dataGenItem.blockResourceLocation));
+            else
+                ignoredItems.add(dataGenItem.mainItem.getDescriptionId());
         }
         for(DataGenBlock dataGenBlock : DataGenDefinitions.BLOCKS) {
             if(dataGenBlock.modelGenType == DataGenBlock.BlockModelGenTypes.TRIVIAL_BLOCK)
@@ -66,6 +69,8 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected Stream<? extends Holder<Item>> getKnownItems() {
-        return GeneralItemsRegistry.ITEMS.getEntries().stream().map(RegistryObject::asHolder);
+        return GeneralItemsRegistry.ITEMS.getEntries().stream().filter(
+                (registryObject -> !ignoredItems.contains(registryObject.get().getDescriptionId()))
+        ).map(RegistryObject::asHolder);
     }
 }
