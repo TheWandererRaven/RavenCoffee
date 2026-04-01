@@ -1,4 +1,5 @@
-// 1.21.5	2025-07-07T17:30:58.5456378	Loot Tables
+// 1.21.5	2026-03-31T18:03:23.17890947	Loot Tables
 930351820c570787062eaed155d68a3b7cac290a data/ravencoffee/loot_table/blocks/brownie_block.json
+b801479367d7f425152d22644a9fafc65dfe6665 data/ravencoffee/loot_table/blocks/coffee_brewing_station.json
 b8172c22b0f3c1cab80a2e4b834bd9481cd03780 data/ravencoffee/loot_table/blocks/coffee_grinder.json
 388fc756547299b1cfdf6bd584e328ae314cabcd data/ravencoffee/loot_table/blocks/coffee_machine.json

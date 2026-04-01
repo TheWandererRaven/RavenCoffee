@@ -48,7 +48,7 @@
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "ravencoffee:item/coffee_brew_basic"
+      "model": "ravencoffee:item/coffee_brew"
     }
   }
 }
