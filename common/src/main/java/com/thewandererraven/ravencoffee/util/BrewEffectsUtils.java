@@ -5,7 +5,6 @@ import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.effect.breweffect.BrewEffectCore;
 import com.thewandererraven.ravencoffee.effect.breweffect.BrewEffectCoresRegistry;
-import com.thewandererraven.ravencoffee.item.BrewItem;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import net.minecraft.core.Holder;
@@ -66,7 +65,7 @@ public class BrewEffectsUtils {
     }
 
     public static ItemStack createEmptyBrewItemStack() {
-        return createBrewItemStack(CoffeeBrewData.EMPTY);
+        return createBrewItemStack(CoffeeBrewData.DEFAULT);
     }
 
     public static CoffeeBrewData getItemBrewDataComponent(ItemStack stack) {

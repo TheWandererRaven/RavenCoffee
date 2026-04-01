@@ -129,7 +129,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
     }
 
     ResourceLocation findBrewVariant(List<Item> items) {
-        return BrewVariantRegistry.get(items).orElse(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "basic"));
+        return BrewVariantRegistry.get(items).orElse(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default"));
     }
 
     public void updateResultSlot() {

@@ -28,7 +28,7 @@ public class BrewVariantProperty implements SelectItemModelProperty<ResourceLoca
     public ResourceLocation get(ItemStack stack, ClientLevel level, LivingEntity entity, int seed, ItemDisplayContext displayContext) {
         // When null, uses the fallback model
         ResourceLocation variant = BrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant();
-        return variant != null ? variant : ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "basic");
+        return variant != null ? variant : ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default");
     }
 
     @Override
