@@ -1,0 +1,7 @@
+{
+  "item": "ravencoffee:ground_magma_coffee",
+  "caffeine_base": 20,
+  "caffeine_multiplier": 1.0,
+  "duration_multiplier": 2.0,
+  "effect_values_multiplier": 1.5
+}

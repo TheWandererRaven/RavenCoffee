@@ -372,6 +372,17 @@ public class GeneralItemsRegistry {
                             ))
             ));
 
+    public static final String _coffee_brewing_station_id = "coffee_brewing_station";
+    public static final RegistryObject<Item> COFFEE_BREWING_STATION =
+            ITEMS.register(_coffee_brewing_station_id, () -> new BlockItem(
+                    BlocksRegistry.COFFEE_BREWING_STATION.get(),
+                    new Item.Properties()
+                            .setId(ResourceKey.create(
+                                    Registries.ITEM,
+                                    ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_brewing_station_id)
+                            ))
+            ));
+
     public static final String _coffee_grinder_item_id = "coffee_grinder";
     public static final RegistryObject<Item> COFFEE_GRINDER_ITEM =
             ITEMS.register(_coffee_grinder_item_id, () -> new BlockItem(

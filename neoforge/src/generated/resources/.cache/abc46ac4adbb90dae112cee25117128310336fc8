@@ -1,8 +1,7 @@
-// 1.21.5	2026-02-21T23:49:00.811120896	Model Definitions - ravencoffee
+// 1.21.5	2026-03-31T18:03:23.176462981	Model Definitions - ravencoffee
 9717cb151ae11ba718b7b14e527b0ff5b23ae028 assets/ravencoffee/blockstates/brownie_block.json
 a60e93c3d9bee7a5740a63144aa620411e24c5e2 assets/ravencoffee/blockstates/coffee_grinder.json
 b8c9c0981641e814d46e75463dcecb3886a5b45b assets/ravencoffee/items/bagel.json
-d32a5c02bc06fd1239277eef43bce03fef2aeb0d assets/ravencoffee/items/basic_brew_mug.json
 420febe417b081d48160f9da9cba0e9a1852f6bb assets/ravencoffee/items/beef_bagel.json
 1f001a3b0170af000fadc0d6678b2c0731471e71 assets/ravencoffee/items/beef_croissant.json
 3079a6b1ce4b6bec0d75134204867b2dd841699e assets/ravencoffee/items/beef_sandwich.json
@@ -32,7 +31,6 @@ c5611d4e720574e4adb694dd87fa33036baecf27 assets/ravencoffee/items/popchorus.json
 0427dbae86c17777c6a147138ba3f8a68c64a121 assets/ravencoffee/items/tiramisu_slice.json
 5118df6eba7d9a1eac81403f837d36c22a135a2b assets/ravencoffee/models/block/brownie_block.json
 6a45c6a5863529e51f0a74ace7b4822f9ca43bb0 assets/ravencoffee/models/item/bagel.json
-36a65e4e58cc33fcd54fce957109989b1472fee5 assets/ravencoffee/models/item/basic_brew_mug.json
 b5dacccbd2e7c8214f40d998e9a45ed910eb051d assets/ravencoffee/models/item/beef_bagel.json
 3b90e65e90566247f486cebd06fbd21cf9b95303 assets/ravencoffee/models/item/beef_croissant.json
 d8a91890dd617eff7f55c4df3e81d8b9295b5a36 assets/ravencoffee/models/item/beef_sandwich.json

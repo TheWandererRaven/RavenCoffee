@@ -1,0 +1,18 @@
+{
+  "item": "minecraft:apple",
+  "caffeine_increment": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.speed",
+      "duration": 100,
+      "main_value": 1.0,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravencoffee:effect.slowness",
+      "duration": 100,
+      "main_value": -0.2,
+      "secondary_value": 0.0
+    }
+  ]
+}

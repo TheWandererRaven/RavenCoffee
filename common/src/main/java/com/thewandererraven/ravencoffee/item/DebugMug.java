@@ -24,7 +24,7 @@ public class DebugMug extends Item {
         ItemStack stack1 = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get());
         ItemStack stack2 = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get());
         stack1.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
-                BrewItem.BrewVariant.COOKIES_AND_CREAM,
+                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "cookies_and_cream"),
                 23 * 20,
                 List.of(
                         new BrewEffectData(
@@ -42,7 +42,7 @@ public class DebugMug extends Item {
                 )
         ));
         stack2.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
-                BrewItem.BrewVariant.MELON_GOLDEN,
+                ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "melon_golden"),
                 23 * 20,
                 List.of(
                         new BrewEffectData(

@@ -1,0 +1,18 @@
+{
+  "item": "minecraft:cookie",
+  "caffeine_increment": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.attack_speed",
+      "duration": 400,
+      "main_value": 3.0,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravencoffee:effect.slowness",
+      "duration": 100,
+      "main_value": -0.2,
+      "secondary_value": 0.0
+    }
+  ]
+}

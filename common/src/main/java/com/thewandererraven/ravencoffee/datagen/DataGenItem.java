@@ -84,6 +84,7 @@ public class DataGenItem {
     }
 
     public enum ItemModelGenTypes {
+        IGNORE,
         CUSTOM,
         FLAT_ITEM,
         BLOCK

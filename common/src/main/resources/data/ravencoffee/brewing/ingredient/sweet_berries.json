@@ -1,0 +1,10 @@
+{
+  "item": "minecraft:sweet_berries",
+  "caffeine_increment": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.heal",
+      "main_value": 5.0
+    }
+  ]
+}

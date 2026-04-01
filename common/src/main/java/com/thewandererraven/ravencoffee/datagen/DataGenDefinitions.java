@@ -295,10 +295,10 @@ public class DataGenDefinitions {
                 .setCompostableValue(0.65f)
         );
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_BEANS.get()));
-        ITEMS.add(new DataGenItem(GeneralItemsRegistry.ROASTED_COFFEE_BEANS.get()).withTag(RavenCoffeeTags.Items.ROASTED_COMMON_BEANS));
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.ROASTED_COFFEE_BEANS.get()));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.MAGMA_COFFEE_BEANS.get()));
-        ITEMS.add(new DataGenItem(GeneralItemsRegistry.GROUND_COFFEE.get()));
-        ITEMS.add(new DataGenItem(GeneralItemsRegistry.GROUND_MAGMA_COFFEE.get()));
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.GROUND_COFFEE.get()).withTag(RavenCoffeeTags.Items.COFFEE_BREW_BASE));
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.GROUND_MAGMA_COFFEE.get()).withTag(RavenCoffeeTags.Items.COFFEE_BREW_BASE));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.POPCHORUS.get()));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.MUFFIN.get()));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.MELON_PAN.get()));
@@ -317,8 +317,14 @@ public class DataGenDefinitions {
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.BEEF_BAGEL.get()));
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.CHICKEN_BAGEL.get()));
 
-        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_MUG.get()).setAlternateTextureResourceLocation("item/coffee_mug/empty"));
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_MUG.get())
+                .setAlternateTextureResourceLocation("item/coffee_mug/empty")
+                .withTag(RavenCoffeeTags.Items.COFFEE_BREW_CONTAINER)
+        );
         //TODO: Add data gen for the Coffee Brew and its select model
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_BREW.get())
+                .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.IGNORE)
+        );
 
         BLOCKS.add(new DataGenBlock(BlocksRegistry.BROWNIE_BLOCK.get())
                         .setOnlyDropsSelf()
@@ -349,6 +355,13 @@ public class DataGenDefinitions {
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_MACHINE_ITEM.get())
                 .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.BLOCK)
                 .setBlockItemPlainModelFromBlock("_inactive_nocups_nooutput_input")
+        );
+        BLOCKS.add(new DataGenBlock(BlocksRegistry.COFFEE_BREWING_STATION.get())
+                .setOnlyDropsSelf()
+                .setBlockModelGenerationType(DataGenBlock.BlockModelGenTypes.IGNORE)
+        );
+        ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_BREWING_STATION.get())
+                .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.IGNORE)
         );
     }
 }

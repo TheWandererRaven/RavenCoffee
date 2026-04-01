@@ -4,28 +4,42 @@
     "property": "ravencoffee:brew_variant",
     "cases": [
       {
-        "when": "cookies_and_cream",
+        "when": "ravencoffee:cookies_and_cream",
         "model": {
           "type": "minecraft:model",
           "model": "ravencoffee:item/coffee_brew_cookies_and_cream"
         }
       },
       {
-        "when": "melon_golden",
+        "when": "ravencoffee:melon_golden",
         "model": {
           "type": "minecraft:model",
           "model": "ravencoffee:item/coffee_brew_melon_golden"
         }
       },
       {
-        "when": "apple",
+        "when": "ravencoffee:apple",
         "model": {
           "type": "minecraft:model",
           "model": "ravencoffee:item/coffee_brew_apple"
         }
       },
       {
-        "when": "broken",
+        "when": "ravencoffee:honey",
+        "model": {
+          "type": "minecraft:model",
+          "model": "ravencoffee:item/coffee_brew_honey"
+        }
+      },
+      {
+        "when": "ravencoffee:melon",
+        "model": {
+          "type": "minecraft:model",
+          "model": "ravencoffee:item/coffee_brew_melon"
+        }
+      },
+      {
+        "when": "ravencoffee:broken",
         "model": {
           "type": "minecraft:model",
           "model": "ravencoffee:item/coffee_brew_broken"
@@ -34,7 +48,7 @@
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "ravencoffee:item/coffee_brew_basic"
+      "model": "ravencoffee:item/coffee_brew"
     }
   }
 }

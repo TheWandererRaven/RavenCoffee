@@ -14,6 +14,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
@@ -91,8 +92,10 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         }
 
         if(effectCore.type.equals("attribute_modifier")) {
-            newEffect = new AttributeModifierEffect(effectCoreId, effectCore.attributeId, ticksDuration, mainValue, secondaryValue,
-                    BrewEffectsUtils.findAttributeByItsId(this.ownerEntity.level(), effectCore.attributeId)
+            newEffect = new AttributeModifierEffect(effectCoreId, effectCore.attributeId, effectCore.attributeOperation, ticksDuration, mainValue, secondaryValue,
+                    BrewEffectsUtils.findAttributeByItsId(this.ownerEntity.level(), effectCore.attributeId),
+                    effectCore.primaryEffect,
+                    effectCore.additionalEffect
             );
         } else if(effectCore.type.equals("instant")) {
             newEffect = new InstantEffect(effectCoreId, mainValue, secondaryValue, effectCore.primaryEffect);

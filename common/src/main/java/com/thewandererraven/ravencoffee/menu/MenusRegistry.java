@@ -6,6 +6,7 @@ import com.thewandererraven.ravencoffee.platform.services.IMenuFactory;
 import com.thewandererraven.ravencoffee.platform.services.IScreenFactory;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import com.thewandererraven.ravencoffee.registry.RegistryProvider;
+import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -22,6 +23,12 @@ public class MenusRegistry {
             "coffee_grinder",
             () -> CoffeeGrinderMenu::new,
             () -> CoffeeGrinderScreen::new
+    );
+
+    public static final RegistryObject<MenuType<CoffeeBrewingStationMenu>> COFFEE_BREWING_STATION = register(
+            "coffee_brewing_station",
+            () -> CoffeeBrewingStationMenu::new,
+            () -> CoffeeBrewingStationScreen::new
     );
 
     private static <T extends AbstractContainerMenu, U extends Screen & MenuAccess<T>> RegistryObject<MenuType<T>> register(String id, Supplier<IMenuFactory<T>> menuTypeFactory, Supplier<IScreenFactory<T, U>> screenFactory) {
