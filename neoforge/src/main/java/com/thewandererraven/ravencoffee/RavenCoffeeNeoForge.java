@@ -8,6 +8,9 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayloa
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
+import com.thewandererraven.ravencoffee.recipe.brewing.BrewBaseReloadListener;
+import com.thewandererraven.ravencoffee.recipe.brewing.BrewIngredientReloadListener;
+import com.thewandererraven.ravencoffee.recipe.brewing.BrewVariantReloadListener;
 import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.Minecraft;
@@ -40,11 +43,6 @@ public class RavenCoffeeNeoForge {
         // Use NeoForge to bootstrap the Common mod.
         Constants.LOG.info("Hello NeoForge world!");
         RavenCoffeeCommon.init();
-        eventBus.addListener(this::addReloadListeners);
-    }
-
-    private void addReloadListeners(AddClientReloadListenersEvent event) {
-        event.addListener(new BrewingIngr());
     }
 
     @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -54,11 +52,6 @@ public class RavenCoffeeNeoForge {
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(MenusRegistry.COFFEE_GRINDER.get(), CoffeeGrinderScreen::new);
             event.register(MenusRegistry.COFFEE_BREWING_STATION.get(), CoffeeBrewingStationScreen::new);
-        }
-
-        @SubscribeEvent
-        public static void registerReloadListeners(AddServerReloadListenersEvent event) {
-            event.
         }
 
         @SubscribeEvent
@@ -141,6 +134,13 @@ public class RavenCoffeeNeoForge {
                 DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
                 manager.sendAllInfoToClient();
             }
+        }
+
+        @SubscribeEvent
+        public static void registerReloadListeners(AddServerReloadListenersEvent event) {
+            event.addListener(BrewIngredientReloadListener.getReloadListenerId(), new BrewIngredientReloadListener());
+            event.addListener(BrewBaseReloadListener.getReloadListenerId(), new BrewBaseReloadListener());
+            event.addListener(BrewVariantReloadListener.getReloadListenerId(), new BrewVariantReloadListener());
         }
     }
 }

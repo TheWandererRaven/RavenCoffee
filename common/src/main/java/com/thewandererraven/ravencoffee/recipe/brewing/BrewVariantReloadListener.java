@@ -1,5 +1,6 @@
 package com.thewandererraven.ravencoffee.recipe.brewing;
 
+import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.BrewIngredientData;
 import com.thewandererraven.ravencoffee.datacomponents.BrewVariantData;
 import net.minecraft.resources.FileToIdConverter;
@@ -16,6 +17,11 @@ import java.util.Map;
 public class BrewVariantReloadListener extends SimpleJsonResourceReloadListener<BrewVariantData> {
     private Map<ResourceLocation, BrewVariantData> byId = Map.of();
     private List<BrewVariantData> all = List.of();
+    private static final ResourceLocation reloadListenerId = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brewing/variant");
+
+    public static ResourceLocation getReloadListenerId() {
+        return reloadListenerId;
+    }
 
     public BrewVariantReloadListener() {
         super(BrewVariantData.CODEC, FileToIdConverter.json("brewing/variant"));
