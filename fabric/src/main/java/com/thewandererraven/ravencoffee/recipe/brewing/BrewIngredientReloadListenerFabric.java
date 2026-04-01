@@ -7,6 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 public class BrewIngredientReloadListenerFabric extends BrewIngredientReloadListener implements IdentifiableResourceReloadListener {
     @Override
     public ResourceLocation getFabricId() {
-        return ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brewing/ingredient");
+        return getReloadListenerId();
     }
 }
