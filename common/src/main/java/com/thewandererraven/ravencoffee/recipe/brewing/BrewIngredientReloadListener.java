@@ -1,7 +1,7 @@
 package com.thewandererraven.ravencoffee.recipe.brewing;
 
+import com.thewandererraven.ravenbrewslib.brew.data.BrewIngredient;
 import com.thewandererraven.ravencoffee.Constants;
-import com.thewandererraven.ravencoffee.datacomponents.BrewIngredientData;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BrewIngredientReloadListener extends SimpleJsonResourceReloadListener<BrewIngredientData> {
-    private Map<ResourceLocation, BrewIngredientData> byId = Map.of();
-    private List<BrewIngredientData> all = List.of();
+public class BrewIngredientReloadListener extends SimpleJsonResourceReloadListener<BrewIngredient> {
+    private Map<ResourceLocation, BrewIngredient> byId = Map.of();
+    private List<BrewIngredient> all = List.of();
     private static final ResourceLocation reloadListenerId = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brewing/ingredient");
 
     public static ResourceLocation getReloadListenerId() {
@@ -23,12 +23,12 @@ public class BrewIngredientReloadListener extends SimpleJsonResourceReloadListen
     }
 
     public BrewIngredientReloadListener() {
-        super(BrewIngredientData.CODEC, FileToIdConverter.json("brewing/ingredient"));
+        super(BrewIngredient.CODEC, FileToIdConverter.json("brewing/ingredient"));
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, BrewIngredientData> entry, ResourceManager resourceManager, ProfilerFiller profiler) {
-        Map<Item, BrewIngredientData> map = new HashMap<>();
+    protected void apply(Map<ResourceLocation, BrewIngredient> entry, ResourceManager resourceManager, ProfilerFiller profiler) {
+        Map<Item, BrewIngredient> map = new HashMap<>();
 
         entry.forEach((id, data) -> {
             map.put(data.item(), data);
@@ -37,7 +37,7 @@ public class BrewIngredientReloadListener extends SimpleJsonResourceReloadListen
         BrewIngredientRegistry.set(map);
     }
 
-    public List<BrewIngredientData> getAll() {
+    public List<BrewIngredient> getAll() {
         return all;
     }
 }

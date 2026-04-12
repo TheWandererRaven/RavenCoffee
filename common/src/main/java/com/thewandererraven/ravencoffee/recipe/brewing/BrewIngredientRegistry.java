@@ -1,25 +1,25 @@
 package com.thewandererraven.ravencoffee.recipe.brewing;
 
-import com.thewandererraven.ravencoffee.datacomponents.BrewIngredientData;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewIngredient;
 import net.minecraft.world.item.Item;
 
 import java.util.Map;
 
 public class BrewIngredientRegistry {
 
-    private static Map<Item, BrewIngredientData> INGREDIENTS = Map.of();
+    private static Map<Item, BrewIngredient> INGREDIENTS = Map.of();
 
     private BrewIngredientRegistry() {}
 
-    public static void set(Map<Item, BrewIngredientData> map) {
+    public static void set(Map<Item, BrewIngredient> map) {
         INGREDIENTS = Map.copyOf(map);
     }
 
-    public static BrewIngredientData get(Item item) {
+    public static BrewIngredient get(Item item) {
         return INGREDIENTS.get(item);
     }
 
-    public static Map<Item, BrewIngredientData> getAll() {
+    public static Map<Item, BrewIngredient> getAll() {
         return INGREDIENTS;
     }
 }

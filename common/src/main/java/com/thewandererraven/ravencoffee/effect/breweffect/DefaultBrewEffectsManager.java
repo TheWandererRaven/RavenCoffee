@@ -1,8 +1,8 @@
 package com.thewandererraven.ravencoffee.effect.breweffect;
 
+import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
-import com.thewandererraven.ravencoffee.datacomponents.BrewEffectData;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
@@ -14,7 +14,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
     public boolean add(CoffeeBrewData brewData) {
         if(!this.isOverloaded) {
             if(this.effectsStack.size() < this.maxEffectsStackSize)
-                for(BrewEffectData effectData: brewData.effects()) {
+                for(BrewEffectDefinition effectData: brewData.effects()) {
                     BrewEffect newEffect = createBrewEffect(effectData);
                     if(this.effectsStack.isEmpty())
                         this.currentEffectRemainingTicks = newEffect.effectTicksDuration;
@@ -79,7 +78,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         return this.effectsStack.isEmpty();
     }
 
-    public BrewEffect createBrewEffect(BrewEffectData data) {
+    public BrewEffect createBrewEffect(BrewEffectDefinition data) {
         return createBrewEffect(data.id(), data.duration(), data.mainValue(), data.secondaryValue());
     }
 
@@ -108,7 +107,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         this.effectsStack = list;
     }
 
-    public boolean setClientEffect(BrewEffectData effectData, int index) {
+    public boolean setClientEffect(BrewEffectDefinition effectData, int index) {
         if(index < this.effectsStack.size()) {
             this.effectsStack.set(index, createBrewEffect(effectData));
             return true;
@@ -116,7 +115,7 @@ public class DefaultBrewEffectsManager implements IBrewEffectsManager {
         return false;
     }
 
-    public boolean setClientEffect(BrewEffectData effectData) {
+    public boolean setClientEffect(BrewEffectDefinition effectData) {
         for(int i = 0; i < this.effectsStack.size(); i++)
         {
             if(this.effectsStack.get(i).effectId.equals(effectData.id()))

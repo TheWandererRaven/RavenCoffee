@@ -1,8 +1,7 @@
 package com.thewandererraven.ravencoffee.recipe.brewing;
 
+import com.thewandererraven.ravenbrewslib.brew.data.BrewVariant;
 import com.thewandererraven.ravencoffee.Constants;
-import com.thewandererraven.ravencoffee.datacomponents.BrewIngredientData;
-import com.thewandererraven.ravencoffee.datacomponents.BrewVariantData;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -14,9 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BrewVariantReloadListener extends SimpleJsonResourceReloadListener<BrewVariantData> {
-    private Map<ResourceLocation, BrewVariantData> byId = Map.of();
-    private List<BrewVariantData> all = List.of();
+public class BrewVariantReloadListener extends SimpleJsonResourceReloadListener<BrewVariant> {
+    private Map<ResourceLocation, BrewVariant> byId = Map.of();
+    private List<BrewVariant> all = List.of();
     private static final ResourceLocation reloadListenerId = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brewing/variant");
 
     public static ResourceLocation getReloadListenerId() {
@@ -24,11 +23,11 @@ public class BrewVariantReloadListener extends SimpleJsonResourceReloadListener<
     }
 
     public BrewVariantReloadListener() {
-        super(BrewVariantData.CODEC, FileToIdConverter.json("brewing/variant"));
+        super(BrewVariant.CODEC, FileToIdConverter.json("brewing/variant"));
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, BrewVariantData> entry, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, BrewVariant> entry, ResourceManager resourceManager, ProfilerFiller profiler) {
         Map<List<Item>, ResourceLocation> map = new HashMap<>();
 
         entry.forEach((items, data) -> {
@@ -38,7 +37,7 @@ public class BrewVariantReloadListener extends SimpleJsonResourceReloadListener<
         BrewVariantRegistry.set(map);
     }
 
-    public List<BrewVariantData> getAll() {
+    public List<BrewVariant> getAll() {
         return all;
     }
 }

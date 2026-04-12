@@ -1,6 +1,6 @@
 package com.thewandererraven.ravencoffee.util;
 
-import com.thewandererraven.ravencoffee.datacomponents.BrewEffectData;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.effect.breweffect.BrewEffectCore;
@@ -42,7 +42,7 @@ public class BrewEffectsUtils {
         return retStack;
     }
 
-    public static ItemStack createBrewItemStack(Item item, ResourceLocation brewVariant, int caffeine, List<BrewEffectData> effects) {
+    public static ItemStack createBrewItemStack(Item item, ResourceLocation brewVariant, int caffeine, List<BrewEffectDefinition> effects) {
         ItemStack retStack = new ItemStack(item);
         retStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(brewVariant, caffeine, effects));
         return retStack;
@@ -56,7 +56,7 @@ public class BrewEffectsUtils {
         return createBrewItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), data);
     }
 
-    public static ItemStack createBrewItemStack(ResourceLocation brewVariant, int caffeine, List<BrewEffectData> effects) {
+    public static ItemStack createBrewItemStack(ResourceLocation brewVariant, int caffeine, List<BrewEffectDefinition> effects) {
         return createBrewItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), brewVariant, caffeine, effects);
     }
 

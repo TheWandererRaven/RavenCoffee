@@ -1,5 +1,8 @@
 package com.thewandererraven.ravencoffee.menu;
 
+import com.thewandererraven.ravenbrewslib.brew.data.BrewBase;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewIngredient;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.*;
 import com.thewandererraven.ravencoffee.item.BrewItem;
@@ -120,11 +123,11 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
         }
     }
 
-    BrewIngredientData findIngredientData(Item item) {
+    BrewIngredient findIngredientData(Item item) {
         return BrewIngredientRegistry.get(item);
     }
 
-    BrewBaseData findBaseData(Item item) {
+    BrewBase findBaseData(Item item) {
         return BrewBaseRegistry.get(item);
     }
 
@@ -137,7 +140,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
         if(!this.isMugsSlotEmpty() && !this.baseIngredientContainer.isEmpty()) {
             int ingredientsTotalCaffeine = 0;
             int minStackSize = 64;
-            List<BrewEffectData.Builder> brewEffects = new ArrayList<>();
+            List<BrewEffectDefinition.Builder> brewEffects = new ArrayList<>();
             ResourceLocation brewVariant = findBrewVariant(getIngredientItems());
 
             ItemStack mugStack = this.mugsContainer.getItem(0);
@@ -152,19 +155,19 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                 if (ingStack.isEmpty())
                     continue;
 
-                BrewIngredientData data = this.findIngredientData(ingStack.getItem());
+                BrewIngredient data = this.findIngredientData(ingStack.getItem());
                 if (data == null)
                     continue;
                 if (data.item().equals(Items.AIR))
                     continue;
 
-                ingredientsTotalCaffeine += data.caffeineIncrement();
+                ingredientsTotalCaffeine += data.caffeineDelta();
                 if(ingStack.getCount() < minStackSize)
                     minStackSize = ingStack.getCount();
 
-                for (BrewEffectData effData : data.effects()) {
+                for (BrewEffectDefinition effData : data.effects()) {
                     boolean isDuplicateEffect = false;
-                    for (BrewEffectData.Builder eff : brewEffects) {
+                    for (BrewEffectDefinition.Builder eff : brewEffects) {
                         if (effData.id().equals(eff.id)) {
                             if (effData.duration() > 0)
                                 eff.addDuration(effData.duration() / 2);
@@ -177,7 +180,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                         }
                     }
                     if (!isDuplicateEffect) {
-                        brewEffects.add(new BrewEffectData.Builder(
+                        brewEffects.add(new BrewEffectDefinition.Builder(
                                 effData.id(),
                                 effData.duration(),
                                 effData.mainValue(),
@@ -189,10 +192,10 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
             }
 
             if(this.ingredientsContainer.isEmpty()) {
-                brewEffects.addAll(BrewEffectData.getListOfBasicEffects());
+                brewEffects.addAll(BrewEffectDefinition.getListOfDefaultEffects());
             }
 
-            BrewBaseData baseData = findBaseData(baseStack.getItem());
+            BrewBase baseData = findBaseData(baseStack.getItem());
             if (baseData != null)
                 if (!baseData.item().equals(Items.AIR)) {
                     resultStack = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), minStackSize);
