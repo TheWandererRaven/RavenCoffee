@@ -48,4 +48,3 @@ rootProject.name = 'RavenCoffee'
 include('common')
 include('fabric')
 include('neoforge')
-include('forge')
