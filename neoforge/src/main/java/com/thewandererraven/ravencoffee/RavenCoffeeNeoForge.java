@@ -8,9 +8,6 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayloa
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewBaseReloadListener;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewIngredientReloadListener;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewVariantReloadListener;
 import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.Minecraft;
@@ -22,7 +19,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
@@ -134,13 +130,6 @@ public class RavenCoffeeNeoForge {
                 DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
                 manager.sendAllInfoToClient();
             }
-        }
-
-        @SubscribeEvent
-        public static void registerReloadListeners(AddServerReloadListenersEvent event) {
-            event.addListener(BrewIngredientReloadListener.getReloadListenerId(), new BrewIngredientReloadListener());
-            event.addListener(BrewBaseReloadListener.getReloadListenerId(), new BrewBaseReloadListener());
-            event.addListener(BrewVariantReloadListener.getReloadListenerId(), new BrewVariantReloadListener());
         }
     }
 }

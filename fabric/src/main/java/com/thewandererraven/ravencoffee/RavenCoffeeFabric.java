@@ -5,15 +5,10 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayloa
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewBaseReloadListenerFabric;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewIngredientReloadListenerFabric;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewVariantReloadListenerFabric;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.PackType;
 
 public class RavenCoffeeFabric implements ModInitializer {
     
@@ -36,8 +31,5 @@ public class RavenCoffeeFabric implements ModInitializer {
             DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
             manager.sendAllInfoToClient();
         });
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new BrewIngredientReloadListenerFabric());
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new BrewBaseReloadListenerFabric());
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new BrewVariantReloadListenerFabric());
     }
 }

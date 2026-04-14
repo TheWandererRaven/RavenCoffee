@@ -3,15 +3,14 @@ package com.thewandererraven.ravencoffee.menu;
 import com.thewandererraven.ravenbrewslib.brew.data.BrewBase;
 import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravenbrewslib.brew.data.BrewIngredient;
+import com.thewandererraven.ravenbrewslib.brewing.base.BrewBaseRegistry;
+import com.thewandererraven.ravenbrewslib.brewing.ingredient.BrewIngredientRegistry;
+import com.thewandererraven.ravenbrewslib.brewing.variant.BrewVariantRegistry;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.*;
-import com.thewandererraven.ravencoffee.item.BrewItem;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.menu.slots.CoffeeBrewingStationIngredientSlot;
 import com.thewandererraven.ravencoffee.menu.slots.CoffeeBrewingStationResultSlot;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewBaseRegistry;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewIngredientRegistry;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewVariantRegistry;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +19,6 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +26,6 @@ import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
     private static final int BASE_INGREDIENTS_SLOTS_COUNT = 1;
