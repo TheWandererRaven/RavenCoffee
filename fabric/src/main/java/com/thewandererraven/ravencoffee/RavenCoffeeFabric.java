@@ -1,9 +1,9 @@
 package com.thewandererraven.ravencoffee;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
+import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
+import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayDurationsPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -22,13 +22,13 @@ public class RavenCoffeeFabric implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         RavenCoffeeCommon.init();
-        PayloadTypeRegistry.playS2C().register(SyncBrewManagerIconsPayload.TYPE, SyncBrewManagerIconsPayload.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(SyncBrewManagerDurationPayload.TYPE, SyncBrewManagerDurationPayload.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(SyncBrewManagerCaffeinePayload.TYPE, SyncBrewManagerCaffeinePayload.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayIconsPayload.TYPE, SyncBrewGuiDisplayIconsPayload.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayDurationsPayload.TYPE, SyncBrewGuiDisplayDurationsPayload.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayCaffeinePayload.TYPE, SyncBrewGuiDisplayCaffeinePayload.STREAM_CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((listener, sender, server) -> {
             ServerPlayer player = listener.player;
-            DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
+            DefaultCoffeeBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
             manager.sendAllInfoToClient();
         });
     }

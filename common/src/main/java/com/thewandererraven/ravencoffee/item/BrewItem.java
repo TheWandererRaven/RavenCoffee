@@ -1,20 +1,15 @@
 package com.thewandererraven.ravencoffee.item;
 
-import com.mojang.serialization.Codec;
-import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
-import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
+import com.thewandererraven.ravencoffee.util.CoffeeBrewEffectsUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
@@ -71,7 +66,7 @@ public class BrewItem extends Item {
     @Override
     public Component getName(ItemStack stack) {
         // Get name for the coffee variant
-        return Component.translatable(BrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant().toLanguageKey());
+        return Component.translatable(CoffeeBrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant().toLanguageKey());
     }
 
     @Override

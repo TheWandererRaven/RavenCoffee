@@ -1,7 +1,7 @@
 package com.thewandererraven.ravencoffee.platform.services;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
+import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
 
 public interface IBrewManagerHolder {
-    DefaultBrewEffectsManager ravencoffee$getBrewEffectManager();
+    DefaultCoffeeBrewEffectsManager ravencoffee$getBrewEffectManager();
 }

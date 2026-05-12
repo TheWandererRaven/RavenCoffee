@@ -1,6 +1,6 @@
 package com.thewandererraven.ravencoffee.mixin;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
+import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public class MixinLivingEntity implements IBrewManagerHolder {
-    private final DefaultBrewEffectsManager brewEffectsManager = new DefaultBrewEffectsManager((LivingEntity)(Object)this);
+    private final DefaultCoffeeBrewEffectsManager brewEffectsManager = new DefaultCoffeeBrewEffectsManager((LivingEntity)(Object)this);
 
     @Override
-    public DefaultBrewEffectsManager ravencoffee$getBrewEffectManager() {
+    public DefaultCoffeeBrewEffectsManager ravencoffee$getBrewEffectManager() {
         return brewEffectsManager;
     }
 

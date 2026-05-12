@@ -5,7 +5,7 @@ import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import com.thewandererraven.ravencoffee.registry.RegistryProvider;
-import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
+import com.thewandererraven.ravencoffee.util.CoffeeBrewEffectsUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -57,17 +57,17 @@ public class ModCreativeModTabs {
     public static final String mug_brews_items_tab_id = "mug_brews_items_tab";
     public static final RegistryObject<CreativeModeTab> MUG_BREWS_ITEMS_TAB =
             CREATIVE_MODE_TABS.register(mug_brews_items_tab_id, () -> CreativeModeTab.builder(null, -1)
-                    .icon(BrewEffectsUtils::createEmptyBrewItemStack)
+                    .icon(CoffeeBrewEffectsUtils::createEmptyBrewItemStack)
                     .title(Component.translatable("itemgroup." + Constants.MOD_ID + "." + mug_brews_items_tab_id))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                        output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "basic"),
                                         10 * 20,
                                         BrewEffectDefinition.getListOfDefaultEffects().stream().map(BrewEffectDefinition.Builder::build).toList()
                                 )
                         ));
-                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                        output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "apple"),
                                         23 * 20,
@@ -87,7 +87,7 @@ public class ModCreativeModTabs {
                                         )
                                 )
                         ));
-                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                        output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "melon"),
                                         15 * 20,
@@ -101,7 +101,7 @@ public class ModCreativeModTabs {
                                         )
                                 )
                         ));
-                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                        output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "honey"),
                                         30 * 20,
@@ -121,7 +121,7 @@ public class ModCreativeModTabs {
                                         )
                                 )
                         ));
-                        output.accept(BrewEffectsUtils.createBrewItemStack(
+                        output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "cookies_and_cream"),
                                         30 * 20,

@@ -6,19 +6,20 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-public record SyncBrewManagerCaffeinePayload(int currentCaffeine, boolean isOverloaded) implements CustomPacketPayload {
-    public static final Type<SyncBrewManagerCaffeinePayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "sync_brew_manager_caffeine"));
+public record SyncBrewGuiDisplayCaffeinePayload(int caffeinePercentage, boolean isOverloaded) implements CustomPacketPayload {
+    public static final Type<SyncBrewGuiDisplayCaffeinePayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "sync_brew_gui_display_caffeine_duration"));
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 
-    public static final StreamCodec<FriendlyByteBuf, SyncBrewManagerCaffeinePayload> STREAM_CODEC =
+    public static final StreamCodec<FriendlyByteBuf, SyncBrewGuiDisplayCaffeinePayload> STREAM_CODEC =
             StreamCodec.of(
                     (buf, payload) -> {
-                        buf.writeInt(payload.currentCaffeine());
+                        buf.writeInt(payload.caffeinePercentage());
                         buf.writeBoolean(payload.isOverloaded());
                     },
-                    buf -> new SyncBrewManagerCaffeinePayload(buf.readInt(), buf.readBoolean())
+                    buf -> new SyncBrewGuiDisplayCaffeinePayload(buf.readInt(), buf.readBoolean())
             );
+
 }
