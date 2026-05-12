@@ -200,7 +200,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         }
         currentEffect.remainingTicks--;
         this.sendDurationsToClient();
-        Constants.LOG.info("CURR EFF REMAINING TICKS: {}", this.getCurrentEffectRemainingTicks());
+        //Constants.LOG.info("CURR EFF REMAINING TICKS: {}", this.getCurrentEffectRemainingTicks());
     }
 
     @Override

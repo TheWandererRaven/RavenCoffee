@@ -1,15 +1,15 @@
 {
   "item": "minecraft:honey_bottle",
-  "caffeine_increment": 5,
+  "caffeine_delta": 5,
   "effects": [
     {
-      "id": "ravencoffee:effect.absorption",
+      "id": "ravenbrewslib:effect.absorption",
       "duration": 200,
       "main_value": 5.0,
       "secondary_value": 0.0
     },
     {
-      "id": "ravencoffee:effect.hurt",
+      "id": "ravenbrewslib:effect.hurt",
       "main_value": 5.0,
       "secondary_value": 0.0
     }
