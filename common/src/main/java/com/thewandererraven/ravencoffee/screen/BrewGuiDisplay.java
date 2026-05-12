@@ -37,6 +37,7 @@ public class BrewGuiDisplay {
     {
         this.brewTotalDurationSeconds = seconds;
     }
+
     public void setCaffeinePercentage(int percentage)
     {
         this.caffeinePercentage = percentage;

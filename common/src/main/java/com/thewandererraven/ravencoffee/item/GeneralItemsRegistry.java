@@ -31,7 +31,7 @@ public class GeneralItemsRegistry {
 
     public static final String _coffee_brew_id = "coffee_brew";
     public static final RegistryObject<Item> COFFEE_BREW =
-            ITEMS.register(_coffee_brew_id, () -> new BrewItem(new Item.Properties()
+            ITEMS.register(_coffee_brew_id, () -> new CoffeeBrewItem(new Item.Properties()
                     .setId(ResourceKey.create(
                             Registries.ITEM,
                             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_brew_id)

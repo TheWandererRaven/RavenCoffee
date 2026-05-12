@@ -15,9 +15,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Consumer;
 
-public class BrewItem extends Item {
+public class CoffeeBrewItem extends Item {
 
-    public BrewItem(Properties properties) {
+    public CoffeeBrewItem(Properties properties) {
         super(properties);
     }
 
