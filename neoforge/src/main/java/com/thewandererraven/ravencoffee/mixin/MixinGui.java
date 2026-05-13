@@ -34,6 +34,6 @@ public class MixinGui implements IBrewGuiDisplayHolder {
 
     @Override
     public BrewGuiDisplay ravencoffee$getBrewGuiDisplayHolder() {
-        return null;
+        return brewGuiDisplay;
     }
 }

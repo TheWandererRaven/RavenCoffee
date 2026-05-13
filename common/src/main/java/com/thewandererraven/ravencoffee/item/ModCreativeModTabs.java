@@ -62,7 +62,7 @@ public class ModCreativeModTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(
                                 new CoffeeBrewData(
-                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "basic"),
+                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default"),
                                         10 * 20,
                                         BrewEffectDefinition.getListOfDefaultEffects().stream().map(BrewEffectDefinition.Builder::build).toList()
                                 )
