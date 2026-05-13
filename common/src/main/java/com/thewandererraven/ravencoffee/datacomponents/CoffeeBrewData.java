@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee.datacomponents;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravencoffee.Constants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
@@ -20,7 +21,7 @@ import java.util.function.Consumer;
 public record CoffeeBrewData(
         ResourceLocation brewVariant,
         int caffeine,
-        List<BrewEffectData> effects
+        List<BrewEffectDefinition> effects
 ) implements TooltipProvider {
 
     @Override
@@ -32,7 +33,7 @@ public record CoffeeBrewData(
             instance.group(
                     ResourceLocation.CODEC.optionalFieldOf("brew_variant", ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default")).forGetter(CoffeeBrewData::brewVariant),
                     Codec.INT.fieldOf("caffeine").forGetter(CoffeeBrewData::caffeine),
-                    BrewEffectData.CODEC.listOf().fieldOf("effects").forGetter(CoffeeBrewData::effects)
+                    BrewEffectDefinition.CODEC.listOf().fieldOf("effects").forGetter(CoffeeBrewData::effects)
             ).apply(instance, CoffeeBrewData::new)
     );
 
@@ -43,7 +44,7 @@ public record CoffeeBrewData(
 
     @Override
     public void addToTooltip(Item.TooltipContext tooltipContext, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag, DataComponentGetter dataComponentGetter) {
-        for(BrewEffectData effectData : effects) {
+        for(BrewEffectDefinition effectData : effects) {
 //            MutableComponent mutablecomponent = getPotionDescription(holder, i);
             String duration = effectData.duration() > 0 ? String.valueOf(effectData.duration()) : "instant";
             tooltipAdder.accept(Component.translatable(effectData.id().toLanguageKey()).append(" -> ").append(duration).withStyle(ChatFormatting.GRAY));

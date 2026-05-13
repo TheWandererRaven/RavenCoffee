@@ -1,14 +1,17 @@
 package com.thewandererraven.ravencoffee.menu;
 
+import com.thewandererraven.ravenbrewslib.brew.data.BrewBase;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
+import com.thewandererraven.ravenbrewslib.brew.data.BrewIngredient;
+import com.thewandererraven.ravenbrewslib.brewing.base.BrewBaseRegistry;
+import com.thewandererraven.ravenbrewslib.brewing.ingredient.BrewIngredientRegistry;
+import com.thewandererraven.ravenbrewslib.brewing.variant.BrewVariantRegistry;
+import com.thewandererraven.ravenbrewslib.utils.BrewEffectsUtils;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.*;
-import com.thewandererraven.ravencoffee.item.BrewItem;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.menu.slots.CoffeeBrewingStationIngredientSlot;
 import com.thewandererraven.ravencoffee.menu.slots.CoffeeBrewingStationResultSlot;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewBaseRegistry;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewIngredientRegistry;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewVariantRegistry;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,7 +20,6 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -95,10 +97,10 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
     }
 
     public void reorganizeSlots() {
-        for(int i = this.INGREDIENTS_SLOTS_START_INDEX; i < (this.INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); i++) {
+        for(int i = INGREDIENTS_SLOTS_START_INDEX; i < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); i++) {
             Slot currentSlot = this.slots.get(i);
             if(currentSlot.getItem().isEmpty()) {
-                for(int j = i + 1; j < (this.INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); j++) {
+                for(int j = i + 1; j < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); j++) {
                     Slot subSlot = this.slots.get(j);
                     if(!subSlot.getItem().isEmpty()) {
                         currentSlot.set(subSlot.remove(subSlot.getItem().getCount()));
@@ -110,7 +112,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
     }
 
     public void updateSlotsVisibility() {
-        for(int i = this.INGREDIENTS_SLOTS_START_INDEX; i < (this.INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT - 1); i++) {
+        for(int i = INGREDIENTS_SLOTS_START_INDEX; i < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT - 1); i++) {
             CoffeeBrewingStationIngredientSlot currentSlot = ((CoffeeBrewingStationIngredientSlot) this.slots.get(i));
             CoffeeBrewingStationIngredientSlot nextSlot = ((CoffeeBrewingStationIngredientSlot) this.slots.get(i + 1));
             if (!currentSlot.getItem().isEmpty())
@@ -120,51 +122,58 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
         }
     }
 
-    BrewIngredientData findIngredientData(Item item) {
-        return BrewIngredientRegistry.get(item);
-    }
+    private int calculateMaxBrewableCount()
+    {
+        int minStackSize = 64;
+        ItemStack mugStack = this.mugsContainer.getItem(0);
+        if(mugStack.getCount() < minStackSize)
+            minStackSize = mugStack.getCount();
 
-    BrewBaseData findBaseData(Item item) {
-        return BrewBaseRegistry.get(item);
-    }
+        ItemStack baseStack = this.baseIngredientContainer.getItem(0);
+        if(baseStack.getCount() < minStackSize)
+            minStackSize = baseStack.getCount();
 
-    ResourceLocation findBrewVariant(List<Item> items) {
-        return BrewVariantRegistry.get(items).orElse(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default"));
+        for (ItemStack ingStack : this.ingredientsContainer) {
+            if (ingStack.isEmpty())
+                continue;
+
+            if(ingStack.getCount() < minStackSize)
+                minStackSize = ingStack.getCount();
+        }
+        return minStackSize;
     }
 
     public void updateResultSlot() {
         ItemStack resultStack = ItemStack.EMPTY;
         if(!this.isMugsSlotEmpty() && !this.baseIngredientContainer.isEmpty()) {
             int ingredientsTotalCaffeine = 0;
-            int minStackSize = 64;
-            List<BrewEffectData.Builder> brewEffects = new ArrayList<>();
-            ResourceLocation brewVariant = findBrewVariant(getIngredientItems());
+            List<BrewEffectDefinition.Builder> brewEffects = new ArrayList<>();
 
-            ItemStack mugStack = this.mugsContainer.getItem(0);
-            if(mugStack.getCount() < minStackSize)
-                minStackSize = mugStack.getCount();
-
+            // TODO: May be neeeded later
+            //ItemStack mugStack = this.mugsContainer.getItem(0);
             ItemStack baseStack = this.baseIngredientContainer.getItem(0);
-            if(baseStack.getCount() < minStackSize)
-                minStackSize = baseStack.getCount();
 
-            for (ItemStack ingStack : this.ingredientsContainer) {
-                if (ingStack.isEmpty())
+            for(ItemStack ingStack : this.ingredientsContainer) {
+                if(ingStack.isEmpty())
                     continue;
+                
+                // IF ingredients contain an invalid item, offer no output
+                if(!ingStack.is(RavenCoffeeTags.Items.COFFEE_BREW_INGREDIENT)) {
+                    this.resultContainer.setItem(0, ItemStack.EMPTY);
+                    return;
+                }
 
-                BrewIngredientData data = this.findIngredientData(ingStack.getItem());
-                if (data == null)
+                Optional<BrewIngredient> foundData = BrewEffectsUtils.findIngredientData(ingStack.getItem());
+                if(!foundData.isPresent())
                     continue;
-                if (data.item().equals(Items.AIR))
-                    continue;
+//                if (data.item().equals(Items.AIR))
+//                    continue;
 
-                ingredientsTotalCaffeine += data.caffeineIncrement();
-                if(ingStack.getCount() < minStackSize)
-                    minStackSize = ingStack.getCount();
+                ingredientsTotalCaffeine += foundData.get().caffeineDelta();
 
-                for (BrewEffectData effData : data.effects()) {
+                for(BrewEffectDefinition effData : foundData.get().effects()) {
                     boolean isDuplicateEffect = false;
-                    for (BrewEffectData.Builder eff : brewEffects) {
+                    for (BrewEffectDefinition.Builder eff : brewEffects) {
                         if (effData.id().equals(eff.id)) {
                             if (effData.duration() > 0)
                                 eff.addDuration(effData.duration() / 2);
@@ -177,7 +186,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                         }
                     }
                     if (!isDuplicateEffect) {
-                        brewEffects.add(new BrewEffectData.Builder(
+                        brewEffects.add(new BrewEffectDefinition.Builder(
                                 effData.id(),
                                 effData.duration(),
                                 effData.mainValue(),
@@ -189,26 +198,35 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
             }
 
             if(this.ingredientsContainer.isEmpty()) {
-                brewEffects.addAll(BrewEffectData.getListOfBasicEffects());
+                brewEffects.addAll(BrewEffectDefinition.getListOfDefaultEffects());
             }
 
-            BrewBaseData baseData = findBaseData(baseStack.getItem());
-            if (baseData != null)
-                if (!baseData.item().equals(Items.AIR)) {
-                    resultStack = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), minStackSize);
-                    resultStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
-                            brewVariant,
-                            (int) Math.ceil((baseData.caffeineBase() + (ingredientsTotalCaffeine * baseData.caffeineMultiplier())) * 20),
-                            brewEffects.stream().map(eff ->
-                                    eff.scaleDuration(baseData.durationMultiplier())
-                                            .scaleMainValue(baseData.effectValuesMultiplier())
-                                            .scaleSecondaryValue(baseData.effectValuesMultiplier())
-                                            .build()
-                            ).toList()
-                    ));
-                }
+            resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, ingredientsTotalCaffeine);
         }
         this.resultContainer.setItem(0, resultStack);
+    }
+
+    private ItemStack assembleBrewItem(Item baseItem, List<BrewEffectDefinition.Builder> brewEffects, int ingredientsTotalCaffeine) {
+        ItemStack resultStack = ItemStack.EMPTY;
+        Optional<BrewBase> foundBaseData = BrewEffectsUtils.findBaseData(baseItem);
+        Optional<ResourceLocation> foundBrewVariant = BrewEffectsUtils.findBrewVariant(getIngredientItems());
+        if (foundBaseData.isPresent()) {
+            BrewBase baseData = foundBaseData.get();
+            if (!baseData.item().equals(Items.AIR)) {
+                resultStack = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), 1);
+                resultStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
+                        foundBrewVariant.orElse(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default")),
+                        (int) Math.ceil((baseData.caffeineBase() + (ingredientsTotalCaffeine * baseData.caffeineMultiplier())) * 20),
+                        brewEffects.stream().map(eff ->
+                                eff.scaleDuration(baseData.durationMultiplier())
+                                        .scaleMainValue(baseData.effectValuesMultiplier())
+                                        .scaleSecondaryValue(baseData.effectValuesMultiplier())
+                                        .build()
+                        ).toList()
+                ));
+            }
+        }
+        return resultStack;
     }
 
     public void consumeIngredients(int count) {
@@ -252,8 +270,10 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
         boolean movedSuccessfully = true;
 
-        ItemStack stackToMove = this.slots.get(originSlotIndex).getItem();
-        int countToMove = stackToMove.getCount();
+        ItemStack stackToMove = this.slots.get(originSlotIndex).getItem().copy();
+        int countToMove = this.calculateMaxBrewableCount();
+        stackToMove.setCount(countToMove);
+
         // ------------------------------------------------------ from the RESULT SLOT
         if(originSlotIndex == RESULT_SLOT_INDEX) {
             if(!this.moveItemStackTo(stackToMove, PLAYER_HOTBAR_START_INDEX, PLAYER_HOTBAR_END_INDEX, true))
@@ -313,16 +333,16 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
     public static final int PLAYER_INVENTORY_YPOS = 84;
 
     public static final int RESULT_SLOT_POS_X = 98;
-    public static final int RESULT_SLOT_POS_Y = 52;
+    public static final int RESULT_SLOT_POS_Y = 47;
 
     public static final int INGREDIENT_SLOT_POS_X = 78;
     public static final int INGREDIENT_SLOT_X_SPACING = 4;
-    public static final int INGREDIENT_SLOT_POS_Y = 24;
+    public static final int INGREDIENT_SLOT_POS_Y = 19;
     public static final int INGREDIENT_SLOT_WIDTH = 16;
 
     public static final int BASE_INGREDIENT_SLOT_POS_X = 45;
-    public static final int BASE_INGREDIENT_SLOT_POS_Y = 24;
+    public static final int BASE_INGREDIENT_SLOT_POS_Y = 19;
 
     public static final int MUGS_SLOT_POS_X = 45;
-    public static final int MUGS_SLOT_POS_Y = 52;
+    public static final int MUGS_SLOT_POS_Y = 47;
 }

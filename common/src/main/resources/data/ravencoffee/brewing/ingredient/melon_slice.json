@@ -1,9 +1,9 @@
 {
   "item": "minecraft:melon_slice",
-  "caffeine_increment": 5,
+  "caffeine_delta": 5,
   "effects": [
     {
-      "id": "ravencoffee:effect.heal",
+      "id": "ravenbrewslib:effect.heal",
       "main_value": 5.0
     }
   ]

@@ -1,9 +1,9 @@
 package com.thewandererraven.ravencoffee.mixin;
 
-import com.thewandererraven.ravencoffee.screen.IBrewEffectGuiDisplay;
+import com.thewandererraven.ravencoffee.platform.services.IBrewGuiDisplayHolder;
+import com.thewandererraven.ravencoffee.screen.BrewGuiDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.LayeredDraw;
 import net.neoforged.neoforge.client.gui.GuiLayerManager;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import org.spongepowered.asm.mixin.Final;
@@ -14,7 +14,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
-public class MixinGui {
+public class MixinGui implements IBrewGuiDisplayHolder {
+    private final BrewGuiDisplay brewGuiDisplay = new BrewGuiDisplay();
     @Shadow
     private GuiLayerManager layerManager;
     @Shadow @Final
@@ -22,14 +23,17 @@ public class MixinGui {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(Minecraft mc, CallbackInfo ci) {
-        //LayeredDraw layereddraw2 = IBrewEffectGuiDisplay.renderMultiEffectIndicator(mc);
-        //this.layers.add(layereddraw2, () -> !minecraft.options.hideGui);
         this.layerManager.add(
                 (new GuiLayerManager()).add(
                         VanillaGuiLayers.EFFECTS,
-                        IBrewEffectGuiDisplay::renderMultiEffectIndicator
+                        brewGuiDisplay::renderMultiEffectIndicator
                 ),
                 () -> !minecraft.options.hideGui
         );
+    }
+
+    @Override
+    public BrewGuiDisplay ravencoffee$getBrewGuiDisplayHolder() {
+        return brewGuiDisplay;
     }
 }

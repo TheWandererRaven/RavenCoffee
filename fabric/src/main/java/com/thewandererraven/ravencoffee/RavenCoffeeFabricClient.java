@@ -1,14 +1,13 @@
 package com.thewandererraven.ravencoffee;
 
-import com.thewandererraven.ravencoffee.block.CoffeeBrewingStation;
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
+import com.thewandererraven.ravencoffee.networking.*;
+import com.thewandererraven.ravencoffee.platform.services.IBrewGuiDisplayHolder;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
+import com.thewandererraven.ravencoffee.screen.BrewGuiDisplay;
 import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -30,39 +29,33 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
             if(dataGenItem.compostableValue > 0.0f)
                 ComposterBlock.COMPOSTABLES.put(dataGenItem.mainItem, dataGenItem.compostableValue);
         ClientPlayNetworking.registerGlobalReceiver(
-                SyncBrewManagerCaffeinePayload.TYPE,
+                SyncBrewGuiDisplayCaffeinePayload.TYPE,
                 (payload, context) -> {
-                    Minecraft client = Minecraft.getInstance();
-                    client.execute(() -> {
-                        Player player = client.player;
-                        IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                        if(payload.currentCaffeine() >= 0) {
-                            holder.ravencoffee$getBrewEffectManager().setCurrentCaffeine(payload.currentCaffeine());
+                    context.client().execute(() -> {
+                        IBrewGuiDisplayHolder holder = (IBrewGuiDisplayHolder) context.client().gui;
+                        if(payload.caffeinePercentage() >= 0) {
+                            holder.ravencoffee$getBrewGuiDisplayHolder().setCaffeinePercentage(payload.caffeinePercentage());
                         }
-                        holder.ravencoffee$getBrewEffectManager().setOverloaded(payload.isOverloaded());
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setCaffeineOverload(payload.isOverloaded());
                     });
                 }
         );
         ClientPlayNetworking.registerGlobalReceiver(
-                SyncBrewManagerDurationPayload.TYPE,
+                SyncBrewGuiDisplayDurationsPayload.TYPE,
                 (payload, context) -> {
-                    Minecraft client = Minecraft.getInstance();
-                    client.execute(() -> {
-                        Player player = client.player;
-                        IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                        holder.ravencoffee$getBrewEffectManager().setCurrentEffectRemainingTicks(payload.currentEffectRemainingTicks());
-                        holder.ravencoffee$getBrewEffectManager().setTotalRemainingTicks(payload.totalEffectRemainingTicks());
+                    context.client().execute(() -> {
+                        BrewGuiDisplay effDisplay = ((IBrewGuiDisplayHolder) context.client().gui).ravencoffee$getBrewGuiDisplayHolder();
+                        effDisplay.setCurrentEffectDurationSeconds(payload.currentEffectRemainingSeconds());
+                        effDisplay.setBrewTotalDurationSeconds(payload.brewTotalRemainingSeconds());
                     });
                 }
         );
         ClientPlayNetworking.registerGlobalReceiver(
-                SyncBrewManagerIconsPayload.TYPE,
+                SyncBrewGuiDisplayIconsPayload.TYPE,
                 (payload, context) -> {
-                    Minecraft client = Minecraft.getInstance();
-                    client.execute(() -> {
-                        Player player = client.player;
-                        IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                        holder.ravencoffee$getBrewEffectManager().setEffectIcons(payload.effectsIcons());
+                    context.client().execute(() -> {
+                        BrewGuiDisplay effDisplay = ((IBrewGuiDisplayHolder) context.client().gui).ravencoffee$getBrewGuiDisplayHolder();
+                        effDisplay.setEffectIcons(payload.effectIcons());
                     });
                 }
         );

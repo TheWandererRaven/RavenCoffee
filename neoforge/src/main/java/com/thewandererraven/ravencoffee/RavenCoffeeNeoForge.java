@@ -1,16 +1,14 @@
 package com.thewandererraven.ravencoffee;
 
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultBrewEffectsManager;
+import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerCaffeinePayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerDurationPayload;
-import com.thewandererraven.ravencoffee.networking.SyncBrewManagerIconsPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayDurationsPayload;
+import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayIconsPayload;
+import com.thewandererraven.ravencoffee.platform.services.IBrewGuiDisplayHolder;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewBaseReloadListener;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewIngredientReloadListener;
-import com.thewandererraven.ravencoffee.recipe.brewing.BrewVariantReloadListener;
 import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.Minecraft;
@@ -22,10 +20,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
-import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
@@ -58,60 +54,36 @@ public class RavenCoffeeNeoForge {
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {
             final PayloadRegistrar registrar = event.registrar("1");
 
-            registrar.playBidirectional(
-                    SyncBrewManagerCaffeinePayload.TYPE,
-                    SyncBrewManagerCaffeinePayload.STREAM_CODEC,
-                    new DirectionalPayloadHandler<>(
-                            // CLIENT
-                            (payload, context) -> {
-                                Minecraft client = Minecraft.getInstance();
-                                client.execute(() -> {
-                                    Player player = client.player;
-                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                                    if(payload.currentCaffeine() >= 0) {
-                                        holder.ravencoffee$getBrewEffectManager().setCurrentCaffeine(payload.currentCaffeine());
-                                    }
-                                    holder.ravencoffee$getBrewEffectManager().setOverloaded(payload.isOverloaded());
-                                });
-                            },
-                            // SERVER
-                            (payload, context) -> {}
-                    )
+            registrar.playToClient(
+                    SyncBrewGuiDisplayCaffeinePayload.TYPE,
+                    SyncBrewGuiDisplayCaffeinePayload.STREAM_CODEC,
+                    (payload, context) -> {
+                        Minecraft client = Minecraft.getInstance();
+                        IBrewGuiDisplayHolder holder = (IBrewGuiDisplayHolder) client.gui;
+                        if(payload.caffeinePercentage() >= 0) {
+                            holder.ravencoffee$getBrewGuiDisplayHolder().setCaffeinePercentage(payload.caffeinePercentage());
+                        }
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setCaffeineOverload(payload.isOverloaded());
+                    }
             );
-            registrar.playBidirectional(
-                    SyncBrewManagerDurationPayload.TYPE,
-                    SyncBrewManagerDurationPayload.STREAM_CODEC,
-                    new DirectionalPayloadHandler<>(
-                            // CLIENT
-                            (payload, context) -> {
-                                Minecraft client = Minecraft.getInstance();
-                                client.execute(() -> {
-                                    Player player = client.player;
-                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                                    holder.ravencoffee$getBrewEffectManager().setCurrentEffectRemainingTicks(payload.currentEffectRemainingTicks());
-                                    holder.ravencoffee$getBrewEffectManager().setTotalRemainingTicks(payload.totalEffectRemainingTicks());
-                                });
-                            },
-                            // SERVER
-                            (payload, context) -> {}
-                    )
+            registrar.playToClient(
+                    SyncBrewGuiDisplayDurationsPayload.TYPE,
+                    SyncBrewGuiDisplayDurationsPayload.STREAM_CODEC,
+                    (payload, context) -> {
+                        Minecraft client = Minecraft.getInstance();
+                        IBrewGuiDisplayHolder holder = (IBrewGuiDisplayHolder) client.gui;
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setCurrentEffectDurationSeconds(payload.currentEffectRemainingSeconds());
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setBrewTotalDurationSeconds(payload.brewTotalRemainingSeconds());
+                    }
             );
-            registrar.playBidirectional(
-                    SyncBrewManagerIconsPayload.TYPE,
-                    SyncBrewManagerIconsPayload.STREAM_CODEC,
-                    new DirectionalPayloadHandler<>(
-                            // CLIENT
-                            (payload, context) -> {
-                                Minecraft client = Minecraft.getInstance();
-                                client.execute(() -> {
-                                    Player player = client.player;
-                                    IBrewManagerHolder holder = (IBrewManagerHolder) player;
-                                    holder.ravencoffee$getBrewEffectManager().setEffectIcons(payload.effectsIcons());
-                                });
-                            },
-                            // SERVER
-                            (payload, context) -> {}
-                    )
+            registrar.playToClient(
+                    SyncBrewGuiDisplayIconsPayload.TYPE,
+                    SyncBrewGuiDisplayIconsPayload.STREAM_CODEC,
+                    (payload, context) -> {
+                        Minecraft client = Minecraft.getInstance();
+                        IBrewGuiDisplayHolder holder = (IBrewGuiDisplayHolder) client.gui;
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setEffectIcons(payload.effectIcons());
+                    }
             );
         }
 
@@ -131,16 +103,9 @@ public class RavenCoffeeNeoForge {
         @SubscribeEvent
         public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
             if(event.getEntity() instanceof ServerPlayer player) {
-                DefaultBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
+                DefaultCoffeeBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
                 manager.sendAllInfoToClient();
             }
-        }
-
-        @SubscribeEvent
-        public static void registerReloadListeners(AddServerReloadListenersEvent event) {
-            event.addListener(BrewIngredientReloadListener.getReloadListenerId(), new BrewIngredientReloadListener());
-            event.addListener(BrewBaseReloadListener.getReloadListenerId(), new BrewBaseReloadListener());
-            event.addListener(BrewVariantReloadListener.getReloadListenerId(), new BrewVariantReloadListener());
         }
     }
 }

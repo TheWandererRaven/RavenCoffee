@@ -1,8 +1,8 @@
 package com.thewandererraven.ravencoffee.item;
 
+import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
-import com.thewandererraven.ravencoffee.datacomponents.BrewEffectData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -27,13 +27,13 @@ public class DebugMug extends Item {
                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "cookies_and_cream"),
                 23 * 20,
                 List.of(
-                        new BrewEffectData(
+                        new BrewEffectDefinition(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
                                 5 * 20,
                                 1,
                                 0
                         ),
-                        new BrewEffectData(
+                        new BrewEffectDefinition(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
                                 10 * 20,
                                 -0.2,
@@ -45,7 +45,7 @@ public class DebugMug extends Item {
                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "melon_golden"),
                 23 * 20,
                 List.of(
-                        new BrewEffectData(
+                        new BrewEffectDefinition(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
                                 0,
                                 5,

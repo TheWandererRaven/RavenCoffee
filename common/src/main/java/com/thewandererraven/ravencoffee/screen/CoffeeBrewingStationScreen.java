@@ -24,7 +24,7 @@ public class CoffeeBrewingStationScreen extends AbstractContainerScreen<CoffeeBr
 
     public CoffeeBrewingStationScreen(CoffeeBrewingStationMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        titleLabelY = 10;
+        //titleLabelY = 6;
     }
 
     @Override

@@ -135,6 +135,7 @@
   "item.ravencoffee.coffee_beans_magma_block": "Magma Coffee Block",
   "item.ravencoffee.coffee_tree_leaves_block": "Coffee Tree Leaves",
   "item.ravencoffee.coffee_tree_trunk_block": "Coffee Tree Trunk",
+  "item.ravencoffee.coffee_brewing_station": "Coffee Brewing Station",
 
   "entity.minecraft.villager.ravencoffee.barista": "Barista",
   "entity.minecraft.villager.barista": "Barista",

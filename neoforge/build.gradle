@@ -38,3 +38,7 @@ neoForge {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies{
+    implementation "com.thewandererraven.ravenbrewslib:ravenbrewslib-neoforge-1.21.5:${raven_brews_lib_version}"
+}

@@ -4,8 +4,7 @@ package com.thewandererraven.ravencoffee.item.properties;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.thewandererraven.ravencoffee.Constants;
-import com.thewandererraven.ravencoffee.item.BrewItem;
-import com.thewandererraven.ravencoffee.util.BrewEffectsUtils;
+import com.thewandererraven.ravencoffee.util.CoffeeBrewEffectsUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
 import net.minecraft.resources.ResourceLocation;
@@ -26,8 +25,7 @@ public class BrewVariantProperty implements SelectItemModelProperty<ResourceLoca
 
     @Override
     public ResourceLocation get(ItemStack stack, ClientLevel level, LivingEntity entity, int seed, ItemDisplayContext displayContext) {
-        // When null, uses the fallback model
-        ResourceLocation variant = BrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant();
+        ResourceLocation variant = CoffeeBrewEffectsUtils.getItemBrewDataComponent(stack).brewVariant();
         return variant != null ? variant : ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default");
     }
 
