@@ -148,8 +148,9 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
         if(!this.isMugsSlotEmpty() && !this.baseIngredientContainer.isEmpty()) {
             int ingredientsTotalCaffeine = 0;
             List<BrewEffectDefinition.Builder> brewEffects = new ArrayList<>();
+            List<ResourceLocation> negatedEffects = new ArrayList<>();
 
-            // TODO: May be neeeded later
+            // TODO: May be needed later
             //ItemStack mugStack = this.mugsContainer.getItem(0);
             ItemStack baseStack = this.baseIngredientContainer.getItem(0);
 
@@ -170,6 +171,8 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 //                    continue;
 
                 ingredientsTotalCaffeine += foundData.get().caffeineDelta();
+
+                negatedEffects.addAll(foundData.get().negatedEffects());
 
                 for(BrewEffectDefinition effData : foundData.get().effects()) {
                     boolean isDuplicateEffect = false;
@@ -201,12 +204,12 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                 brewEffects.addAll(BrewEffectDefinition.getListOfDefaultEffects());
             }
 
-            resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, ingredientsTotalCaffeine);
+            resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, negatedEffects, ingredientsTotalCaffeine);
         }
         this.resultContainer.setItem(0, resultStack);
     }
 
-    private ItemStack assembleBrewItem(Item baseItem, List<BrewEffectDefinition.Builder> brewEffects, int ingredientsTotalCaffeine) {
+    private ItemStack assembleBrewItem(Item baseItem, List<BrewEffectDefinition.Builder> brewEffects, List<ResourceLocation> negatedEffects, int ingredientsTotalCaffeine) {
         ItemStack resultStack = ItemStack.EMPTY;
         Optional<BrewBase> foundBaseData = BrewEffectsUtils.findBaseData(baseItem);
         Optional<ResourceLocation> foundBrewVariant = BrewEffectsUtils.findBrewVariant(getIngredientItems());
@@ -217,12 +220,14 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                 resultStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
                         foundBrewVariant.orElse(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default")),
                         (int) Math.ceil((baseData.caffeineBase() + (ingredientsTotalCaffeine * baseData.caffeineMultiplier())) * 20),
-                        brewEffects.stream().map(eff ->
-                                eff.scaleDuration(baseData.durationMultiplier())
+                        brewEffects.stream()
+                                .filter(eff -> !negatedEffects.contains(eff.id))
+                                .map(eff ->
+                                        eff.scaleDuration(baseData.durationMultiplier())
                                         .scaleMainValue(baseData.effectValuesMultiplier())
                                         .scaleSecondaryValue(baseData.effectValuesMultiplier())
                                         .build()
-                        ).toList()
+                                ).toList()
                 ));
             }
         }
@@ -270,14 +275,13 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
         boolean movedSuccessfully = true;
 
-        ItemStack stackToMove = this.slots.get(originSlotIndex).getItem().copy();
-        int countToMove = this.calculateMaxBrewableCount();
-        stackToMove.setCount(countToMove);
+        ItemStack stackToMove = this.slots.get(originSlotIndex).getItem();
 
         // ------------------------------------------------------ from the RESULT SLOT
         if(originSlotIndex == RESULT_SLOT_INDEX) {
-            if(!this.moveItemStackTo(stackToMove, PLAYER_HOTBAR_START_INDEX, PLAYER_HOTBAR_END_INDEX, true))
-                if(!this.moveItemStackTo(stackToMove, PLAYER_INV_START_INDEX, PLAYER_HOTBAR_START_INDEX, true))
+            int countToMove = this.calculateMaxBrewableCount();
+            if(!this.moveItemStackTo(stackToMove.copyWithCount(countToMove), PLAYER_HOTBAR_START_INDEX, PLAYER_HOTBAR_END_INDEX, true))
+                if(!this.moveItemStackTo(stackToMove.copyWithCount(countToMove), PLAYER_INV_START_INDEX, PLAYER_HOTBAR_START_INDEX, true))
                     movedSuccessfully = false;
             if(movedSuccessfully)
                 consumeIngredients(countToMove);

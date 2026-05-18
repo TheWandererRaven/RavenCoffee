@@ -1,0 +1,12 @@
+{
+  "item": "minecraft:sugar",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.jump_boost",
+      "duration": 100,
+      "main_value": 2.0,
+      "secondary_value": 0.0
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-package com.thewandererraven.ravencoffee.effect.breweffect;
+package com.thewandererraven.ravencoffee.brew;
 
 public interface ICoffeeBrewEffectsManager {
     int getCurrentCaffeine();

@@ -13,5 +13,8 @@
       "main_value": 5.0,
       "secondary_value": 0.0
     }
+  ],
+  "negated_effects": [
+    "ravenbrewslib:effect.slowness"
   ]
 }

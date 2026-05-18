@@ -1,6 +1,6 @@
 package com.thewandererraven.ravencoffee;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
+import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayDurationsPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayIconsPayload;
