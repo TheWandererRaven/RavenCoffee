@@ -1,6 +1,6 @@
 package com.thewandererraven.ravencoffee.mixin;
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
+import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;

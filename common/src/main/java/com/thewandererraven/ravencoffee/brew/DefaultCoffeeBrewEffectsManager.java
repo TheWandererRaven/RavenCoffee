@@ -1,4 +1,4 @@
-package com.thewandererraven.ravencoffee.effect.breweffect;
+package com.thewandererraven.ravencoffee.brew;
 
 import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravenbrewslib.brew.effect.AttributeModifierBrewEffectBehaviour;
@@ -126,7 +126,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
 
     public void updateCurrentEffect() {
         if(!this.effectsStack.isEmpty())
-            this.currentEffect = new BrewEffectInstance(this.getEffect(0));
+            this.currentEffect = new BrewEffectInstance(this.ownerEntity.level(), this.getEffect(0));
         else
             this.currentEffect = null;
     }

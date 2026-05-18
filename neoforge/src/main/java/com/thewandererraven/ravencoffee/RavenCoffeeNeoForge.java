@@ -1,7 +1,7 @@
 package com.thewandererraven.ravencoffee;
 
 
-import com.thewandererraven.ravencoffee.effect.breweffect.DefaultCoffeeBrewEffectsManager;
+import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
@@ -14,7 +14,6 @@ import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -24,7 +23,6 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @Mod(Constants.MOD_ID)
