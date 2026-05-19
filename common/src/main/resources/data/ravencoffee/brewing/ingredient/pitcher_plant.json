@@ -1,0 +1,12 @@
+{
+  "item": "minecraft:pitcher_plant",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.giantism",
+      "duration": 1200,
+      "main_value": 3.0,
+      "secondary_value": 0.0
+    }
+  ]
+}
