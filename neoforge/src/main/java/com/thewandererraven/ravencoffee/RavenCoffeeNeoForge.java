@@ -1,6 +1,7 @@
 package com.thewandererraven.ravencoffee;
 
 
+import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
 import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
@@ -8,9 +9,9 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePay
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayDurationsPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayIconsPayload;
 import com.thewandererraven.ravencoffee.platform.services.IBrewGuiDisplayHolder;
-import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
+import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,6 +22,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -101,7 +104,11 @@ public class RavenCoffeeNeoForge {
         @SubscribeEvent
         public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
             if(event.getEntity() instanceof ServerPlayer player) {
-                DefaultCoffeeBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
+                DefaultCoffeeBrewEffectsManager manager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
+                if(manager == null) {
+                    Constants.LOG.warn("On player join event, no default coffee brew effects manager was found!");
+                    return;
+                }
                 manager.sendAllInfoToClient();
             }
         }
