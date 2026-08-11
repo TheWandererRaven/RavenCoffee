@@ -1,11 +1,11 @@
 {
-  "item": "minecraft:sugar",
+  "item": "minecraft:ink_sac",
   "caffeine_delta": 5,
   "effects": [
     {
-      "id": "ravenbrewslib:effect.jump_boost",
+      "id": "ravenbrewslib:effect.invisibility",
       "duration": 100,
-      "main_value": 2.0,
+      "main_value": 0.0,
       "secondary_value": 0.0
     }
   ]

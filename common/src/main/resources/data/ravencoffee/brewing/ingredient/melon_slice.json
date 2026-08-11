@@ -3,7 +3,8 @@
   "caffeine_delta": 5,
   "effects": [
     {
-      "id": "ravenbrewslib:effect.heal",
+      "id": "ravenbrewslib:effect.extra_pull",
+      "duration": 300,
       "main_value": 5.0
     }
   ]

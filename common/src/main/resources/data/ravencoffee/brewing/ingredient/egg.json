@@ -1,17 +1,17 @@
 {
-  "item": "minecraft:apple",
+  "item": "minecraft:egg",
   "caffeine_delta": 5,
   "effects": [
     {
-      "id": "ravenbrewslib:effect.speed",
+      "id": "ravencoffee:effect.lucky",
       "duration": 100,
-      "main_value": 1.0,
+      "main_value": 3.0,
       "secondary_value": 0.0
     },
     {
-      "id": "ravenbrewslib:effect.slowness",
+      "id": "ravencoffee:effect.unlucky",
       "duration": 100,
-      "main_value": 0.2,
+      "main_value": 3.0,
       "secondary_value": 0.0
     }
   ]

@@ -1,0 +1,18 @@
+{
+  "item": "minecraft:melon_seeds",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.health_boost",
+      "duration": 100,
+      "main_value": 2.0,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravencoffee:effect.slow_attack",
+      "duration": 100,
+      "main_value": 0.3,
+      "secondary_value": 0.0
+    }
+  ]
+}

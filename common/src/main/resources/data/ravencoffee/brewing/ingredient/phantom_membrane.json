@@ -1,0 +1,12 @@
+{
+  "item": "minecraft:phantom_membrane",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.levitation",
+      "duration": 160,
+      "main_value": 4.0,
+      "secondary_value": 0.0
+    }
+  ]
+}

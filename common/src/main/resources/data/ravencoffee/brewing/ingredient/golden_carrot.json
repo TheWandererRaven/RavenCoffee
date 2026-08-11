@@ -1,0 +1,12 @@
+{
+  "item": "minecraft:golden_carrot",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.fire_immunity",
+      "duration": 200,
+      "main_value": 1.0,
+      "secondary_value": 0.0
+    }
+  ]
+}
