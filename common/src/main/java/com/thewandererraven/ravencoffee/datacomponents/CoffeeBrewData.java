@@ -3,6 +3,7 @@ package com.thewandererraven.ravencoffee.datacomponents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
+import com.thewandererraven.ravenbrewslib.utils.BrewEffectsUtils;
 import com.thewandererraven.ravencoffee.Constants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponentGetter;
@@ -46,8 +47,13 @@ public record CoffeeBrewData(
     public void addToTooltip(Item.TooltipContext tooltipContext, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag, DataComponentGetter dataComponentGetter) {
         for(BrewEffectDefinition effectData : effects) {
 //            MutableComponent mutablecomponent = getPotionDescription(holder, i);
-            String duration = effectData.duration() > 0 ? String.valueOf(effectData.duration()) : "instant";
-            tooltipAdder.accept(Component.translatable(effectData.id().toLanguageKey()).append(" -> ").append(duration).withStyle(ChatFormatting.GRAY));
+            String duration = effectData.duration() > 0 ? BrewEffectsUtils.getDisplayableDurationFromTicks(effectData.duration()) : "instant";
+            tooltipAdder.accept(
+                    Component.literal(duration)
+                            .append(" of ")
+                            .append(Component.translatable(effectData.id().toLanguageKey()))
+                            .withStyle(ChatFormatting.GRAY)
+            );
         }
     }
 }
