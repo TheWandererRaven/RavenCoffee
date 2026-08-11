@@ -15,16 +15,6 @@ import java.util.List;
 public class RavenBrewEffectsRegistry {
     public static final RegistryProvider<BrewEffectBehaviour> BREW_EFFECT_BEHAVIOURS = RegistryProvider.get(RavenBrewsLibRegistryKeys.BREW_EFFECT_BEHAVIOUR, Constants.MOD_ID);
 
-    public static final String _jump_boost_id = "effect.jump_boost";
-    public static final RegistryObject<BrewEffectBehaviour> JUMP_BOOST = RavenBrewEffectsRegistry.BREW_EFFECT_BEHAVIOURS.register(
-            _jump_boost_id,
-            () -> BrewEffectBehaviour.attributeModifier(List.of(
-                    new AttributeModifierBrewEffectBehaviour.AttributeTemplate("jump_strength"),
-                    //new AttributeModifierBrewEffectBehaviour.AttributeTemplate("fall_damage_multiplier", -1),
-                    new AttributeModifierBrewEffectBehaviour.AttributeTemplate("safe_fall_distance")
-            ))
-    );
-
     public static final String _giantism_id = "effect.giantism";
     public static final RegistryObject<BrewEffectBehaviour> GIANTISM = RavenBrewEffectsRegistry.BREW_EFFECT_BEHAVIOURS.register(
             _giantism_id,
