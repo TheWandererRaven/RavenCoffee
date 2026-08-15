@@ -1,0 +1,13 @@
+{
+  "item": "minecraft:potato",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.regeneration",
+      "duration": 100,
+      "interval_duration": 20,
+      "main_value": 1.0,
+      "secondary_value": 0.0
+    }
+  ]
+}

@@ -16,6 +16,9 @@
     "minecraft:melon_seeds",
     "minecraft:carrot",
     "minecraft:golden_carrot",
-    "minecraft:glistering_melon_slice"
+    "minecraft:glistering_melon_slice",
+    "minecraft:potato",
+    "minecraft:poisonous_potato",
+    "minecraft:pufferfish"
   ]
 }
