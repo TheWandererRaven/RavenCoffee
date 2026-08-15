@@ -197,7 +197,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         if(currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END) {
             if(currentEffect.isEffectStarting())
                 currentEffect.applyPrimaryEffect(ownerEntity);
-        } else {
+        } else if(currentEffect.effectBehaviour.tickMode != BrewEffectBehaviour.TickMode.INTERVAL || currentEffect.isEffectAtInterval()) {
             currentEffect.applyPrimaryEffect(ownerEntity);
             currentEffect.applyAdditionalEffect(ownerEntity);
         }
@@ -315,6 +315,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
             CompoundTag effectTag = new CompoundTag();
             effectTag.putString("Id", effect.id().toString());
             effectTag.putInt("Duration", effect.duration());
+            effectTag.putInt("IntervalDuration", effect.duration());
             effectTag.putDouble("MainValue", effect.mainValue());
             effectTag.putDouble("SecondaryValue", effect.secondaryValue());
             list.add(effectTag);
@@ -338,6 +339,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
             effectsStack.add(new BrewEffectDefinition(
                     ResourceLocation.parse(effectTag.getString("Id").orElse(Constants.MOD_ID + ":effect.empty")),
                     effectTag.getInt("Duration").orElse(0),
+                    effectTag.getInt("IntervalDuration").orElse(0),
                     effectTag.getDouble("MainValue").orElse(0.0),
                     effectTag.getDouble("SecondaryValue").orElse(0.0)
             ));

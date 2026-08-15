@@ -199,6 +199,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                         brewEffects.add(new BrewEffectDefinition.Builder(
                                 effData.id(),
                                 effData.duration(),
+                                effData.intervalDuration(),
                                 effData.mainValue(),
                                 effData.secondaryValue()
                         ));

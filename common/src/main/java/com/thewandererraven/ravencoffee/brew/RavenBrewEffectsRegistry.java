@@ -28,6 +28,7 @@ public class RavenBrewEffectsRegistry {
                     new AttributeModifierBrewEffectBehaviour.AttributeTemplate("safe_fall_distance", AttributeModifier.Operation.ADD_VALUE)
             ))
     );
+
     public static void init() {
 
     }

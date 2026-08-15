@@ -30,12 +30,14 @@ public class DebugMug extends Item {
                         new BrewEffectDefinition(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
                                 5 * 20,
+                                0,
                                 1,
                                 0
                         ),
                         new BrewEffectDefinition(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
                                 10 * 20,
+                                0,
                                 -0.2,
                                 0
                         )
@@ -47,6 +49,7 @@ public class DebugMug extends Item {
                 List.of(
                         new BrewEffectDefinition(
                                 ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
+                                0,
                                 0,
                                 5,
                                 0
