@@ -193,29 +193,32 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         BrewEffectInstance currentEffect = getCurrentEffect();
         if(currentEffect == null)
             return;
+        Constants.LOG.info("=====================================");
+        Constants.LOG.info("CURR EFF REMAINING TICKS: {}", this.getCurrentEffectRemainingTicks());
+//        Constants.LOG.info("TOTAL REMAINING TICKS: {}", this.totalRemainingTicks);
 
-        if(currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END) {
-            if(currentEffect.isEffectStarting())
+        if(currentEffect.effectBehaviour.tickMode != BrewEffectBehaviour.TickMode.IGNORE) {
+            if (currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END) {
+                if (currentEffect.isEffectStarting())
+                    currentEffect.applyPrimaryEffect(ownerEntity);
+            } else if (currentEffect.effectBehaviour.tickMode != BrewEffectBehaviour.TickMode.INTERVAL || currentEffect.isEffectAtInterval()) {
                 currentEffect.applyPrimaryEffect(ownerEntity);
-        } else if(currentEffect.effectBehaviour.tickMode != BrewEffectBehaviour.TickMode.INTERVAL || currentEffect.isEffectAtInterval()) {
-            currentEffect.applyPrimaryEffect(ownerEntity);
-            currentEffect.applyAdditionalEffect(ownerEntity);
+                currentEffect.applyAdditionalEffect(ownerEntity);
+            }
         }
 
-        if(currentEffect.isEffectEnding()) {
-            if(currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END)
-                currentEffect.applyAdditionalEffect(ownerEntity); // AKA: remove attr modifier
-            this.effectsStack.removeFirst();
-            this.updateCurrentEffect();
-            this.sendDurationsToClient();
-            this.sendEffectIconsToClient();
-            return;
-        }
+            if (currentEffect.isEffectEnding()) {
+                if (currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END)
+                    currentEffect.applyAdditionalEffect(ownerEntity); // AKA: remove attr modifier
+                this.effectsStack.removeFirst();
+                this.updateCurrentEffect();
+                this.sendDurationsToClient();
+                this.sendEffectIconsToClient();
+                return;
+            }
+
         currentEffect.remainingTicks--;
         this.sendDurationsToClient();
-//        Constants.LOG.info("=====================================");
-//        Constants.LOG.info("CURR EFF REMAINING TICKS: {}", this.getCurrentEffectRemainingTicks());
-//        Constants.LOG.info("TOTAL REMAINING TICKS: {}", this.totalRemainingTicks);
     }
 
     @Override

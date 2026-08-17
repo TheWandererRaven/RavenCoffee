@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee.brew;
 
 import com.thewandererraven.ravenbrewslib.brew.effect.AttributeModifierBrewEffectBehaviour;
 import com.thewandererraven.ravenbrewslib.brew.effect.BrewEffectBehaviour;
+import com.thewandererraven.ravenbrewslib.brew.effect.BrewEffectsRegistry;
 import com.thewandererraven.ravenbrewslib.registry.RavenBrewsLibRegistryKeys;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
