@@ -1,0 +1,13 @@
+{
+  "item": "minecraft:white_wool",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravencoffee:effect.sheep_spawner",
+      "duration": 600,
+      "interval_duration": 40,
+      "main_value": 0.0,
+      "secondary_value": 0.0
+    }
+  ]
+}

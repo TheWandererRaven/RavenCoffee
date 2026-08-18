@@ -8,7 +8,12 @@ import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import com.thewandererraven.ravencoffee.registry.RegistryProvider;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.animal.sheep.Sheep;
 import net.minecraft.world.item.Item;
 
 import java.util.List;
@@ -28,6 +33,22 @@ public class RavenBrewEffectsRegistry {
                     new AttributeModifierBrewEffectBehaviour.AttributeTemplate("entity_interaction_range", AttributeModifier.Operation.ADD_VALUE),
                     new AttributeModifierBrewEffectBehaviour.AttributeTemplate("safe_fall_distance", AttributeModifier.Operation.ADD_VALUE)
             ))
+    );
+    public static final String _sheep_spawner_id = "effect.sheep_spawner";
+    public static final RegistryObject<BrewEffectBehaviour> SHEEP_SPAWNER = RavenBrewEffectsRegistry.BREW_EFFECT_BEHAVIOURS.register(
+            _sheep_spawner_id,
+            () -> new BrewEffectBehaviour(
+                    context -> {
+                        LivingEntity entity = context.entity();
+                        if(entity.level() instanceof ServerLevel serverLevel) {
+                            Sheep sheep = EntityType.SHEEP.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                            sheep.moveOrInterpolateTo(entity.getPosition(20).add(1.0, 0.0, 0.0), 0.0f, 0.0f);
+                            serverLevel.addFreshEntity(sheep);
+                        }
+                    },
+                    context -> {},
+                    BrewEffectBehaviour.TickMode.INTERVAL
+            )
     );
 
     public static void init() {
