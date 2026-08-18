@@ -46,13 +46,17 @@ public record CoffeeBrewData(
     @Override
     public void addToTooltip(Item.TooltipContext tooltipContext, Consumer<Component> tooltipAdder, TooltipFlag tooltipFlag, DataComponentGetter dataComponentGetter) {
         for(BrewEffectDefinition effectData : effects) {
-//            MutableComponent mutablecomponent = getPotionDescription(holder, i);
-            String duration = effectData.duration() > 0 ? BrewEffectsUtils.getDisplayableDurationFromTicks(effectData.duration()) : "instant";
+            String duration = effectData.duration() > 0 ? String.format(
+                    "%s%s of ",
+                    BrewEffectsUtils.getDisplayableDurationFromTicks(effectData.duration()), effectData.duration() < 1200 ? " seconds" : ""
+            ) : "instant ";
+            String intervalDuration = effectData.intervalDuration() > 0 ? String.format(" every %s sec", BrewEffectsUtils.getDisplayableSecondsFromTicks(effectData.intervalDuration())) : "";
             tooltipAdder.accept(
                     Component.literal(duration)
-                            .append(" of ")
                             .append(Component.translatable(effectData.id().toLanguageKey()))
+                            .append(intervalDuration)
                             .withStyle(ChatFormatting.GRAY)
+
             );
         }
     }
