@@ -90,7 +90,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
         this.updateEverything();
     }
 
-    void updateEverything() {
+    public void updateEverything() {
         this.reorganizeSlots();
         this.updateSlotsVisibility();
         this.updateResultSlot();
@@ -98,16 +98,16 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
     public void reorganizeSlots() {
         for(int i = INGREDIENTS_SLOTS_START_INDEX; i < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); i++) {
-            Slot currentSlot = this.slots.get(i);
-            if(currentSlot.getItem().isEmpty()) {
-                for(int j = i + 1; j < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); j++) {
-                    Slot subSlot = this.slots.get(j);
-                    if(!subSlot.getItem().isEmpty()) {
-                        currentSlot.set(subSlot.remove(subSlot.getItem().getCount()));
-                        break;
+            if(this.slots.get(i) instanceof CoffeeBrewingStationIngredientSlot currentIngredientSlot)
+                if(currentIngredientSlot.getItem().isEmpty()) {
+                    for(int j = i + 1; j < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); j++) {
+                        if(this.slots.get(j) instanceof CoffeeBrewingStationIngredientSlot subSlot)
+                            if(!subSlot.getItem().isEmpty()) {
+                                currentIngredientSlot.setItemNoUpdate(subSlot.container.removeItemNoUpdate(subSlot.getItem().getCount()));
+                                break;
+                            }
                     }
                 }
-            }
         }
     }
 

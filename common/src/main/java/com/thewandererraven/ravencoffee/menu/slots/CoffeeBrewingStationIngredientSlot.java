@@ -31,4 +31,8 @@ public class CoffeeBrewingStationIngredientSlot extends Slot {
     public void show() {
         isHidden = false;
     }
+
+    public void setItemNoUpdate(ItemStack stack) {
+        this.container.setItem(this.getContainerSlot(), stack);
+    }
 }
