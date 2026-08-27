@@ -1,10 +1,7 @@
 package com.thewandererraven.ravencoffee.brew;
 
 import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
-import com.thewandererraven.ravenbrewslib.brew.effect.AttributeModifierBrewEffectBehaviour;
-import com.thewandererraven.ravenbrewslib.brew.effect.BrewEffectBehaviour;
-import com.thewandererraven.ravenbrewslib.brew.effect.BrewEffectInstance;
-import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectsManager;
+import com.thewandererraven.ravenbrewslib.brew.effect.*;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
@@ -92,6 +89,11 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
     @Override
     public boolean isEmpty() {
         return this.effectsStack.isEmpty();
+    }
+
+    @Override
+    public boolean isCurrentEffect(ResourceLocation id) {
+        return this.currentEffect.effectBehaviour.id.equals(id);
     }
 
     public void setClientEffects(List<BrewEffectDefinition> list) {
