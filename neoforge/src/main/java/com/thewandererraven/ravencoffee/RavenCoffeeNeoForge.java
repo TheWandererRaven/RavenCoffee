@@ -70,8 +70,8 @@ public class RavenCoffeeNeoForge {
                     (payload, context) -> {
                         Minecraft client = Minecraft.getInstance();
                         IBrewGuiDisplayHolder holder = (IBrewGuiDisplayHolder) client.gui;
-                        holder.ravencoffee$getBrewGuiDisplayHolder().setCurrentEffectDurationSeconds(payload.currentEffectRemainingSeconds());
-                        holder.ravencoffee$getBrewGuiDisplayHolder().setBrewTotalDurationSeconds(payload.brewTotalRemainingSeconds());
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setCurrentActiveEffectsDurationSeconds(payload.activeEffectsDurations());
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setBrewTotalDurationSeconds(payload.totalDuration());
                     }
             );
             registrar.playToClient(
@@ -80,7 +80,8 @@ public class RavenCoffeeNeoForge {
                     (payload, context) -> {
                         Minecraft client = Minecraft.getInstance();
                         IBrewGuiDisplayHolder holder = (IBrewGuiDisplayHolder) client.gui;
-                        holder.ravencoffee$getBrewGuiDisplayHolder().setEffectIcons(payload.effectIcons());
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setActiveEffectIcons(payload.activeEffectIcons());
+                        holder.ravencoffee$getBrewGuiDisplayHolder().setInactiveEffectIcons(payload.inactiveEffectIcons());
                     }
             );
         }

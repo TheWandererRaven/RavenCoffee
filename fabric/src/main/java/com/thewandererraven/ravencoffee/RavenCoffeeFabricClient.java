@@ -9,6 +9,7 @@ import com.thewandererraven.ravencoffee.platform.services.IBrewGuiDisplayHolder;
 import com.thewandererraven.ravencoffee.screen.BrewGuiDisplay;
 import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
+import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
@@ -44,8 +45,8 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
                 (payload, context) -> {
                     context.client().execute(() -> {
                         BrewGuiDisplay effDisplay = ((IBrewGuiDisplayHolder) context.client().gui).ravencoffee$getBrewGuiDisplayHolder();
-                        effDisplay.setCurrentEffectDurationSeconds(payload.currentEffectRemainingSeconds());
-                        effDisplay.setBrewTotalDurationSeconds(payload.brewTotalRemainingSeconds());
+                        effDisplay.setCurrentActiveEffectsDurationSeconds(payload.activeEffectsDurations());
+                        effDisplay.setBrewTotalDurationSeconds(payload.totalDuration());
                     });
                 }
         );
@@ -54,7 +55,8 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
                 (payload, context) -> {
                     context.client().execute(() -> {
                         BrewGuiDisplay effDisplay = ((IBrewGuiDisplayHolder) context.client().gui).ravencoffee$getBrewGuiDisplayHolder();
-                        effDisplay.setEffectIcons(payload.effectIcons());
+                        effDisplay.setActiveEffectIcons(payload.activeEffectIcons());
+                        effDisplay.setInactiveEffectIcons(payload.inactiveEffectIcons());
                     });
                 }
         );
