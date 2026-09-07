@@ -1,7 +1,7 @@
 package com.thewandererraven.ravencoffee.screen;
 
+import com.thewandererraven.ravenbrewslib.utils.BrewEffectsUtils;
 import com.thewandererraven.ravencoffee.Constants;
-import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -73,9 +73,12 @@ public class BrewGuiDisplay {
                     guiGraphics.blit(RenderType::guiTextured, effectIcon, WIDGET_POS_X + 4, WIDGET_POS_Y + 4, 0, 0, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8);
 
                 }
-                String remainingDuration = String.format("%02d:%02d", (int) Math.floor((this.currentEffectDurationSeconds / 60.0)), (int) (this.currentEffectDurationSeconds % 60.0));
+                String remainingDuration = BrewEffectsUtils.getDisplayableDurationFromSeconds(this.currentEffectDurationSeconds);
                 if (this.effectIcons.size() > 1)
-                    remainingDuration = String.format("%s of -> T:%02d:%02d", remainingDuration, (int) Math.floor((this.brewTotalDurationSeconds / 60.0)), (int) (this.brewTotalDurationSeconds % 60.0));
+                    remainingDuration = String.format("%s | Total: %s",
+                            BrewEffectsUtils.getDisplayableDurationFromSeconds(this.currentEffectDurationSeconds),
+                            BrewEffectsUtils.getDisplayableDurationFromSeconds(this.brewTotalDurationSeconds)
+                    );
                 guiGraphics.drawString(mc.font, remainingDuration, ZONE_STARTING_POS_X + 3, ZONE_STARTING_POS_Y + 32, 0xFFFFFF, true);
             }
 

@@ -1,9 +1,11 @@
 package com.thewandererraven.ravencoffee.mixin;
 
+import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
 import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
-import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -11,17 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public class MixinLivingEntity implements IBrewManagerHolder {
-    private final DefaultCoffeeBrewEffectsManager brewEffectsManager = new DefaultCoffeeBrewEffectsManager((LivingEntity)(Object)this);
+public class MixinLivingEntity {
 
-    @Override
-    public DefaultCoffeeBrewEffectsManager ravencoffee$getBrewEffectManager() {
-        return brewEffectsManager;
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void ravenCoffee$initBrewEffectsManager(EntityType<? extends LivingEntity> entityType, Level level, CallbackInfo ci) {
+        ((IBrewEffectManagerHolder)this).ravenbrewslib$setBrewEffectManager(new DefaultCoffeeBrewEffectsManager((LivingEntity)(Object)this));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void ravenCoffee$addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        CompoundTag playerDataTag = ravencoffee$getBrewEffectManager().serializeNBT();
+        CompoundTag playerDataTag = ((IBrewEffectManagerHolder)this).ravenbrewslib$getBrewEffectManager().serializeNBT();
         tag.put("RavenCoffeePlayerEffectData", playerDataTag);
     }
 
@@ -29,13 +30,14 @@ public class MixinLivingEntity implements IBrewManagerHolder {
     private void ravenCoffee$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         if (tag.contains("RavenCoffeePlayerEffectData")) {
             CompoundTag playerDataTag = tag.getCompound("RavenCoffeePlayerEffectData").get();
-            ravencoffee$getBrewEffectManager().deserializeNBT(playerDataTag);
+            ((IBrewEffectManagerHolder)this).ravenbrewslib$getBrewEffectManager().deserializeNBT(playerDataTag);
         }
     }
 
     @Inject(method = "removeAllEffects", at = @At("HEAD"))
-    private void raven_coffee$removeAllEffects(CallbackInfoReturnable<Boolean> ret) {
-        if (!((LivingEntity)(Object)this).level().isClientSide && !ravencoffee$getBrewEffectManager().isEmpty())
-            ravencoffee$getBrewEffectManager().clearEffects();
+    private void ravenCoffee$removeAllEffects(CallbackInfoReturnable<Boolean> ret) {
+        IBrewEffectManagerHolder holder = (IBrewEffectManagerHolder)this;
+        if (!((LivingEntity)(Object)this).level().isClientSide && !holder.ravenbrewslib$getBrewEffectManager().isEmpty())
+            holder.ravenbrewslib$getBrewEffectManager().clearEffects();
     }
 }

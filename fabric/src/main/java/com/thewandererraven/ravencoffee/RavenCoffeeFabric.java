@@ -4,7 +4,7 @@ import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayDurationsPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayIconsPayload;
-import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
+import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -28,7 +28,11 @@ public class RavenCoffeeFabric implements ModInitializer {
 
         ServerPlayConnectionEvents.JOIN.register((listener, sender, server) -> {
             ServerPlayer player = listener.player;
-            DefaultCoffeeBrewEffectsManager manager = ((IBrewManagerHolder) player).ravencoffee$getBrewEffectManager();
+            DefaultCoffeeBrewEffectsManager manager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
+            if(manager == null) {
+                Constants.LOG.warn("On player join event, no default coffee brew effects manager was found!");
+                return;
+            }
             manager.sendAllInfoToClient();
         });
     }

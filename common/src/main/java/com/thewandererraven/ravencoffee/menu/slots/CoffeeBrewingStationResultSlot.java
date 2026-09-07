@@ -22,7 +22,6 @@ public class CoffeeBrewingStationResultSlot extends Slot {
     public void onTake(Player player, ItemStack stack) {
         super.onTake(player, stack);
         menu.consumeIngredients(stack.getCount());
-        menu.reorganizeSlots();
-        menu.updateResultSlot();
+        menu.updateEverything();
     }
 }

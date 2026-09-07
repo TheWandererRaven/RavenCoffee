@@ -90,7 +90,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
         this.updateEverything();
     }
 
-    void updateEverything() {
+    public void updateEverything() {
         this.reorganizeSlots();
         this.updateSlotsVisibility();
         this.updateResultSlot();
@@ -98,16 +98,16 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
     public void reorganizeSlots() {
         for(int i = INGREDIENTS_SLOTS_START_INDEX; i < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); i++) {
-            Slot currentSlot = this.slots.get(i);
-            if(currentSlot.getItem().isEmpty()) {
-                for(int j = i + 1; j < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); j++) {
-                    Slot subSlot = this.slots.get(j);
-                    if(!subSlot.getItem().isEmpty()) {
-                        currentSlot.set(subSlot.remove(subSlot.getItem().getCount()));
-                        break;
+            if(this.slots.get(i) instanceof CoffeeBrewingStationIngredientSlot currentIngredientSlot)
+                if(currentIngredientSlot.getItem().isEmpty()) {
+                    for(int j = i + 1; j < (INGREDIENTS_SLOTS_START_INDEX + INGREDIENT_SLOTS_COUNT); j++) {
+                        if(this.slots.get(j) instanceof CoffeeBrewingStationIngredientSlot subSlot)
+                            if(!subSlot.getItem().isEmpty()) {
+                                currentIngredientSlot.setItemNoUpdate(subSlot.container.removeItemNoUpdate(subSlot.getItem().getCount()));
+                                break;
+                            }
                     }
                 }
-            }
         }
     }
 
@@ -149,6 +149,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
             int ingredientsTotalCaffeine = 0;
             List<BrewEffectDefinition.Builder> brewEffects = new ArrayList<>();
             List<ResourceLocation> negatedEffects = new ArrayList<>();
+            double halveEffectsMultiplier = 1.0;
 
             // TODO: May be needed later
             //ItemStack mugStack = this.mugsContainer.getItem(0);
@@ -162,6 +163,12 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                 if(!ingStack.is(RavenCoffeeTags.Items.COFFEE_BREW_INGREDIENT)) {
                     this.resultContainer.setItem(0, ItemStack.EMPTY);
                     return;
+                }
+
+                // IF ingredient is a fermented spider eye, the duration of all the effects will be halved
+                if(ingStack.is(Items.FERMENTED_SPIDER_EYE)) {
+                    halveEffectsMultiplier = halveEffectsMultiplier / 2;
+                    continue;
                 }
 
                 Optional<BrewIngredient> foundData = BrewEffectsUtils.findIngredientData(ingStack.getItem());
@@ -179,7 +186,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                     for (BrewEffectDefinition.Builder eff : brewEffects) {
                         if (effData.id().equals(eff.id)) {
                             if (effData.duration() > 0)
-                                eff.addDuration(effData.duration() / 2);
+                                eff.addDuration(effData.duration() / 3);
                             if (effData.mainValue() > 0)
                                 eff.addMainValue(effData.mainValue() / 2);
                             if (effData.secondaryValue() > 0)
@@ -192,6 +199,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                         brewEffects.add(new BrewEffectDefinition.Builder(
                                 effData.id(),
                                 effData.duration(),
+                                effData.intervalDuration(),
                                 effData.mainValue(),
                                 effData.secondaryValue()
                         ));
@@ -200,16 +208,16 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
             }
 
-            if(this.ingredientsContainer.isEmpty()) {
+            if(brewEffects.isEmpty()) {
                 brewEffects.addAll(BrewEffectDefinition.getListOfDefaultEffects());
             }
 
-            resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, negatedEffects, ingredientsTotalCaffeine);
+            resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, negatedEffects, ingredientsTotalCaffeine, halveEffectsMultiplier);
         }
         this.resultContainer.setItem(0, resultStack);
     }
 
-    private ItemStack assembleBrewItem(Item baseItem, List<BrewEffectDefinition.Builder> brewEffects, List<ResourceLocation> negatedEffects, int ingredientsTotalCaffeine) {
+    private ItemStack assembleBrewItem(Item baseItem, List<BrewEffectDefinition.Builder> brewEffects, List<ResourceLocation> negatedEffects, int ingredientsTotalCaffeine, double halveEffectsMultiplier) {
         ItemStack resultStack = ItemStack.EMPTY;
         Optional<BrewBase> foundBaseData = BrewEffectsUtils.findBaseData(baseItem);
         Optional<ResourceLocation> foundBrewVariant = BrewEffectsUtils.findBrewVariant(getIngredientItems());
@@ -222,8 +230,9 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                         (int) Math.ceil((baseData.caffeineBase() + (ingredientsTotalCaffeine * baseData.caffeineMultiplier())) * 20),
                         brewEffects.stream()
                                 .filter(eff -> !negatedEffects.contains(eff.id))
-                                .map(eff ->
-                                        eff.scaleDuration(baseData.durationMultiplier())
+                                .map(eff -> eff
+                                        .scaleDuration(halveEffectsMultiplier)
+                                        .scaleDuration(baseData.durationMultiplier())
                                         .scaleMainValue(baseData.effectValuesMultiplier())
                                         .scaleSecondaryValue(baseData.effectValuesMultiplier())
                                         .build()

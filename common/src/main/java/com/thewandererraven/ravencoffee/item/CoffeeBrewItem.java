@@ -1,9 +1,11 @@
 package com.thewandererraven.ravencoffee.item;
 
+import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
+import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
-import com.thewandererraven.ravencoffee.platform.services.IBrewManagerHolder;
 import com.thewandererraven.ravencoffee.util.CoffeeBrewEffectsUtils;
+import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -24,11 +26,12 @@ public class CoffeeBrewItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if(livingEntity instanceof Player player) {
+            DefaultCoffeeBrewEffectsManager effManager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
             // If the player instance is from the server side, and the item has the brew data, add to the manager
             if(!level.isClientSide) {
                 CoffeeBrewData data = stack.get(DataComponentTypes.COFFEE_BREW.get());
-                if(data != null) {
-                    ((IBrewManagerHolder) livingEntity).ravencoffee$getBrewEffectManager().add(data);
+                if(data != null && effManager != null) {
+                    effManager.add(data);
                 }
             }
             // If player is in creative, don't shrink the stack
@@ -56,8 +59,9 @@ public class CoffeeBrewItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if(level.isClientSide)
             return InteractionResult.PASS;
-        if(player instanceof IBrewManagerHolder holder) {
-            if(!holder.ravencoffee$getBrewEffectManager().getOverloadStatus())
+        DefaultCoffeeBrewEffectsManager effManager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
+        if(effManager != null) {
+            if(!effManager.getOverloadStatus())
                 return ItemUtils.startUsingInstantly(level, player, hand);
         }
         return InteractionResult.FAIL;
@@ -72,7 +76,7 @@ public class CoffeeBrewItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> componentConsumer, TooltipFlag flag) {
         super.appendHoverText(stack, tooltipContext, tooltipDisplay, componentConsumer, flag);
-        CoffeeBrewData brewData = stack.get(DataComponentTypes.COFFEE_BREW.get());
+        //CoffeeBrewData brewData = stack.get(DataComponentTypes.COFFEE_BREW.get());
         stack.addToTooltip(DataComponentTypes.COFFEE_BREW.get(), tooltipContext, tooltipDisplay, componentConsumer, flag);
     }
 }

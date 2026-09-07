@@ -1,9 +1,7 @@
 package com.thewandererraven.ravencoffee.brew;
 
 import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
-import com.thewandererraven.ravenbrewslib.brew.effect.AttributeModifierBrewEffectBehaviour;
-import com.thewandererraven.ravenbrewslib.brew.effect.BrewEffectInstance;
-import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectsManager;
+import com.thewandererraven.ravenbrewslib.brew.effect.*;
 import com.thewandererraven.ravencoffee.Constants;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
@@ -22,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManager, IBrewEffectsManager {
-    private List<BrewEffectDefinition> effectsStack = null;
-    private BrewEffectInstance currentEffect = null;
+    private List<BrewEffectDefinition> effectsStack;
+    private BrewEffectInstance currentEffect;
     public int totalRemainingTicks = 0;
     private int currentCaffeine = 0;
     private boolean isOverloaded = false;
@@ -43,6 +41,17 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         for(BrewEffectDefinition effect: this.effectsStack)
             icons.add(effect.generateIconLocation());
         return icons;
+    }
+
+    @Override
+    public List<BrewEffectDefinition> getEffectsStack() {
+        return this.effectsStack;
+    }
+
+    @Override
+    public BrewEffectInstance getCurrentEffect()
+    {
+        return this.currentEffect;
     }
 
     public boolean add(CoffeeBrewData brewData) {
@@ -82,6 +91,11 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         return this.effectsStack.isEmpty();
     }
 
+    @Override
+    public boolean isCurrentEffect(ResourceLocation id) {
+        return this.currentEffect.effectBehaviour.id.equals(id);
+    }
+
     public void setClientEffects(List<BrewEffectDefinition> list) {
         this.effectsStack = list;
     }
@@ -108,11 +122,6 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         return this.effectsStack.get(index);
     }
 
-    public BrewEffectInstance getCurrentEffect()
-    {
-        return this.currentEffect;
-    }
-
     public void setCurrentEffectRemainingTicks(int remainingTicks) {
         if(this.getCurrentEffect() != null)
             this.getCurrentEffect().remainingTicks = remainingTicks;
@@ -129,6 +138,11 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
             this.currentEffect = new BrewEffectInstance(this.ownerEntity.level(), this.getEffect(0));
         else
             this.currentEffect = null;
+    }
+
+    @Override
+    public int getTotalRemainingTicks() {
+        return this.totalRemainingTicks;
     }
 
     public void calculateTotalRemainingTicks() {
@@ -181,31 +195,32 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
         BrewEffectInstance currentEffect = getCurrentEffect();
         if(currentEffect == null)
             return;
-        if(currentEffect.isEffectEnding()) {
-            if(currentEffect.effectBehaviour instanceof AttributeModifierBrewEffectBehaviour)
-                currentEffect.applyAdditionalEffect(ownerEntity); // AKA: remove attr modifier
-            this.effectsStack.removeFirst();
-            this.updateCurrentEffect();
-            this.sendDurationsToClient();
-            this.sendEffectIconsToClient();
-            return;
+        Constants.LOG.info("=====================================");
+        Constants.LOG.info("CURR EFF REMAINING TICKS: {}", this.getCurrentEffectRemainingTicks());
+//        Constants.LOG.info("TOTAL REMAINING TICKS: {}", this.totalRemainingTicks);
+
+        if(currentEffect.effectBehaviour.tickMode != BrewEffectBehaviour.TickMode.IGNORE) {
+            if (currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END) {
+                if (currentEffect.isEffectStarting())
+                    currentEffect.applyPrimaryEffect(ownerEntity);
+            } else if (currentEffect.effectBehaviour.tickMode != BrewEffectBehaviour.TickMode.INTERVAL || currentEffect.isEffectAtInterval()) {
+                currentEffect.applyPrimaryEffect(ownerEntity);
+                currentEffect.applyAdditionalEffect(ownerEntity);
+            }
         }
 
-        if(currentEffect.effectBehaviour instanceof AttributeModifierBrewEffectBehaviour) {
-            if(currentEffect.isEffectStarting())
-                currentEffect.applyPrimaryEffect(ownerEntity);
-        } else {
-            currentEffect.applyPrimaryEffect(ownerEntity);
-            currentEffect.applyAdditionalEffect(ownerEntity);
-        }
+            if (currentEffect.isEffectEnding()) {
+                if (currentEffect.effectBehaviour.tickMode == BrewEffectBehaviour.TickMode.START_AND_END)
+                    currentEffect.applyAdditionalEffect(ownerEntity); // AKA: remove attr modifier
+                this.effectsStack.removeFirst();
+                this.updateCurrentEffect();
+                this.sendDurationsToClient();
+                this.sendEffectIconsToClient();
+                return;
+            }
+
         currentEffect.remainingTicks--;
         this.sendDurationsToClient();
-        //Constants.LOG.info("CURR EFF REMAINING TICKS: {}", this.getCurrentEffectRemainingTicks());
-    }
-
-    @Override
-    public List<BrewEffectDefinition> getEffectsStack() {
-        return this.effectsStack;
     }
 
     @Override
@@ -305,6 +320,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
             CompoundTag effectTag = new CompoundTag();
             effectTag.putString("Id", effect.id().toString());
             effectTag.putInt("Duration", effect.duration());
+            effectTag.putInt("IntervalDuration", effect.duration());
             effectTag.putDouble("MainValue", effect.mainValue());
             effectTag.putDouble("SecondaryValue", effect.secondaryValue());
             list.add(effectTag);
@@ -328,6 +344,7 @@ public class DefaultCoffeeBrewEffectsManager implements ICoffeeBrewEffectsManage
             effectsStack.add(new BrewEffectDefinition(
                     ResourceLocation.parse(effectTag.getString("Id").orElse(Constants.MOD_ID + ":effect.empty")),
                     effectTag.getInt("Duration").orElse(0),
+                    effectTag.getInt("IntervalDuration").orElse(0),
                     effectTag.getDouble("MainValue").orElse(0.0),
                     effectTag.getDouble("SecondaryValue").orElse(0.0)
             ));
