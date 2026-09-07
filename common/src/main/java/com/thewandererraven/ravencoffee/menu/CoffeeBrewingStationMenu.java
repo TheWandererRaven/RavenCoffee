@@ -198,6 +198,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
                     if (!isDuplicateEffect) {
                         brewEffects.add(new BrewEffectDefinition.Builder(
                                 effData.id(),
+                                effData.priority(),
                                 effData.duration(),
                                 effData.intervalDuration(),
                                 effData.mainValue(),

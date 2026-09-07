@@ -1,6 +1,7 @@
 package com.thewandererraven.ravencoffee.item;
 
 import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
+import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
@@ -26,7 +27,7 @@ public class CoffeeBrewItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if(livingEntity instanceof Player player) {
-            DefaultCoffeeBrewEffectsManager effManager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
+            CoffeeBrewEffectsManager effManager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
             // If the player instance is from the server side, and the item has the brew data, add to the manager
             if(!level.isClientSide) {
                 CoffeeBrewData data = stack.get(DataComponentTypes.COFFEE_BREW.get());
@@ -59,7 +60,7 @@ public class CoffeeBrewItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if(level.isClientSide)
             return InteractionResult.PASS;
-        DefaultCoffeeBrewEffectsManager effManager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
+        CoffeeBrewEffectsManager effManager = RavenCoffeeGeneralUtils.getCastCoffeeBrewEffectsManager(player);
         if(effManager != null) {
             if(!effManager.getOverloadStatus())
                 return ItemUtils.startUsingInstantly(level, player, hand);
