@@ -1,32 +1,5 @@
 {
   "replace": false,
   "values": [
-    "minecraft:apple",
-    "minecraft:sweet_berries",
-    "minecraft:cookie",
-    "minecraft:milk_bucket",
-    "minecraft:honey_bottle",
-    "minecraft:melon_slice",
-    "minecraft:sugar",
-    "minecraft:pitcher_plant",
-    "minecraft:phantom_membrane",
-    "minecraft:ink_sac",
-    "minecraft:fermented_spider_eye",
-    "minecraft:egg",
-    "minecraft:melon_seeds",
-    "minecraft:carrot",
-    "minecraft:golden_carrot",
-    "minecraft:glistering_melon_slice",
-    "minecraft:potato",
-    "minecraft:poisonous_potato",
-    "minecraft:pufferfish",
-    "minecraft:beetroot",
-    "minecraft:glow_berries",
-    "minecraft:pumpkin",
-    "minecraft:cocoa_beans",
-    "minecraft:brown_mushroom",
-    "minecraft:red_mushroom",
-    "minecraft:kelp",
-    "minecraft:white_wool"
   ]
 }
