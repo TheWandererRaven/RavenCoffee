@@ -1,7 +1,7 @@
 package com.thewandererraven.ravencoffee.mixin;
 
 import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
-import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
+import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,7 +17,7 @@ public class MixinLivingEntity {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void ravenCoffee$initBrewEffectsManager(EntityType<? extends LivingEntity> entityType, Level level, CallbackInfo ci) {
-        ((IBrewEffectManagerHolder)this).ravenbrewslib$setBrewEffectManager(new DefaultCoffeeBrewEffectsManager((LivingEntity)(Object)this));
+        ((IBrewEffectManagerHolder)this).ravenbrewslib$setBrewEffectManager(new CoffeeBrewEffectsManager((LivingEntity)(Object)this));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -38,6 +38,6 @@ public class MixinLivingEntity {
     private void ravenCoffee$removeAllEffects(CallbackInfoReturnable<Boolean> ret) {
         IBrewEffectManagerHolder holder = (IBrewEffectManagerHolder)this;
         if (!((LivingEntity)(Object)this).level().isClientSide && !holder.ravenbrewslib$getBrewEffectManager().isEmpty())
-            holder.ravenbrewslib$getBrewEffectManager().clearEffects();
+            holder.ravenbrewslib$getBrewEffectManager().clearAllData();
     }
 }
