@@ -18,19 +18,24 @@ public class BrewGuiDisplay {
     ResourceLocation CAFFEINE_CONTENT_BAR = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "hud/caffeine_level.png");
     ResourceLocation OVERLOAD_INDICATOR = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "hud/caffeine_oveliad_indicator.png");
 
-    public List<ResourceLocation> effectIcons = List.of();
-    int currentEffectDurationSeconds = 0;
+    public List<ResourceLocation> inactiveEffectIcons = List.of();
+    public List<ResourceLocation> activeEffectIcons = List.of();
+    public List<Integer> activeEffectsDurationSeconds = List.of();
     int brewTotalDurationSeconds = 0;
     int caffeinePercentage = 0;
     boolean isCaffeineOverloaded = false;
 
-    public void setEffectIcons(List<ResourceLocation> icons) {
-        this.effectIcons = icons;
+    public void setInactiveEffectIcons(List<ResourceLocation> icons) {
+        this.inactiveEffectIcons = icons;
     }
 
-    public void setCurrentEffectDurationSeconds(int seconds)
+    public void setActiveEffectIcons(List<ResourceLocation> icons) {
+        this.activeEffectIcons = icons;
+    }
+
+    public void setCurrentActiveEffectsDurationSeconds(List<Integer> list)
     {
-        this.currentEffectDurationSeconds = seconds;
+        this.activeEffectsDurationSeconds = list;
     }
 
     public void setBrewTotalDurationSeconds(int seconds)
@@ -57,28 +62,34 @@ public class BrewGuiDisplay {
             int ZONE_STARTING_POS_X = 10;
             int ZONE_STARTING_POS_Y = 10;
             if (this.brewTotalDurationSeconds > 0) {
-                for (int i = 0; i < this.effectIcons.size(); i++) {
-                    ResourceLocation effectIcon = this.effectIcons.get(i);
+                for (int i = 0; i < this.activeEffectIcons.size(); i++) {
+                    ResourceLocation effectIcon = this.activeEffectIcons.get(i);
                     ResourceLocation backgroundSprite = this.MULTI_EFFECT_BACKGROUND_SPRITE;
-                    int WIDGET_WIDTH = 32;
-                    int WIDGET_HEIGHT = 32;
-                    if (i == 0) {
-                        WIDGET_WIDTH = 40;
-                        WIDGET_HEIGHT = 40;
-                    }
+                    int WIDGET_WIDTH = 40;
+                    int WIDGET_HEIGHT = 40;
 
                     int WIDGET_POS_X = ZONE_STARTING_POS_X + ((WIDGET_WIDTH + 10) * i);
                     int WIDGET_POS_Y = ZONE_STARTING_POS_Y;
                     guiGraphics.blit(RenderType::guiTextured, backgroundSprite, WIDGET_POS_X, WIDGET_POS_Y, 0, 0, WIDGET_WIDTH, WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_HEIGHT);
                     guiGraphics.blit(RenderType::guiTextured, effectIcon, WIDGET_POS_X + 4, WIDGET_POS_Y + 4, 0, 0, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8);
+                    if(i < this.activeEffectsDurationSeconds.size())
+                        guiGraphics.drawString(mc.font, this.activeEffectsDurationSeconds.get(i).toString(), ZONE_STARTING_POS_X + 3, ZONE_STARTING_POS_Y + 25, 0xFFFFFF, true);
+                }
+
+                for (int i = 0; i < this.inactiveEffectIcons.size(); i++) {
+                    ResourceLocation effectIcon = this.inactiveEffectIcons.get(i);
+                    ResourceLocation backgroundSprite = this.MULTI_EFFECT_BACKGROUND_SPRITE;
+                    int WIDGET_WIDTH = 32;
+                    int WIDGET_HEIGHT = 32;
+
+                    int WIDGET_POS_X = ZONE_STARTING_POS_X + ((WIDGET_WIDTH + 10) * (i + this.activeEffectIcons.size()));
+                    int WIDGET_POS_Y = ZONE_STARTING_POS_Y;
+                    guiGraphics.blit(RenderType::guiTextured, backgroundSprite, WIDGET_POS_X, WIDGET_POS_Y, 0, 0, WIDGET_WIDTH, WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_HEIGHT);
+                    guiGraphics.blit(RenderType::guiTextured, effectIcon, WIDGET_POS_X + 4, WIDGET_POS_Y + 4, 0, 0, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8);
 
                 }
-                String remainingDuration = BrewEffectsUtils.getDisplayableDurationFromSeconds(this.currentEffectDurationSeconds);
-                if (this.effectIcons.size() > 1)
-                    remainingDuration = String.format("%s | Total: %s",
-                            BrewEffectsUtils.getDisplayableDurationFromSeconds(this.currentEffectDurationSeconds),
-                            BrewEffectsUtils.getDisplayableDurationFromSeconds(this.brewTotalDurationSeconds)
-                    );
+
+                String remainingDuration = String.format("Total: %s", BrewEffectsUtils.getDisplayableDurationFromSeconds(this.brewTotalDurationSeconds));
                 guiGraphics.drawString(mc.font, remainingDuration, ZONE_STARTING_POS_X + 3, ZONE_STARTING_POS_Y + 32, 0xFFFFFF, true);
             }
 
