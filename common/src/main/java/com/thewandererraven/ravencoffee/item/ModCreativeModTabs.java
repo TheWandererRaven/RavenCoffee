@@ -24,6 +24,7 @@ public class ModCreativeModTabs {
                     .title(Component.translatable("itemgroup." + Constants.MOD_ID + "." + general_items_tab_id))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(GeneralItemsRegistry.DEBUG_MUG.get());
+                        output.accept(GeneralItemsRegistry.COFFEE_MUG.get());
                         output.accept(GeneralItemsRegistry.COFFEE_CHERRIES.get());
                         output.accept(GeneralItemsRegistry.ROASTED_COFFEE_BEANS.get());
                         output.accept(GeneralItemsRegistry.MAGMA_COFFEE_BEANS.get());

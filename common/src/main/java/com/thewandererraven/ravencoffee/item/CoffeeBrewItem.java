@@ -1,8 +1,6 @@
 package com.thewandererraven.ravencoffee.item;
 
-import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
 import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
-import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
 import com.thewandererraven.ravencoffee.util.CoffeeBrewEffectsUtils;
