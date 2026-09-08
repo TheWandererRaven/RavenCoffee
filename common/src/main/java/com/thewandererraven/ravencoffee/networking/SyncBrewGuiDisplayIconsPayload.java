@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
-public record SyncBrewGuiDisplayIconsPayload(List<ResourceLocation> effectIcons) implements CustomPacketPayload {
+public record SyncBrewGuiDisplayIconsPayload(List<ResourceLocation> inactiveEffectIcons, List<ResourceLocation> activeEffectIcons) implements CustomPacketPayload {
     public static final Type<SyncBrewGuiDisplayIconsPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "sync_brew_gui_display_icons_duration"));
     @Override
     public Type<? extends CustomPacketPayload> type() {
@@ -18,9 +18,10 @@ public record SyncBrewGuiDisplayIconsPayload(List<ResourceLocation> effectIcons)
     public static final StreamCodec<FriendlyByteBuf, SyncBrewGuiDisplayIconsPayload> STREAM_CODEC =
             StreamCodec.of(
                     (buf, payload) -> {
-                        buf.writeCollection(payload.effectIcons(), ResourceLocation.STREAM_CODEC);
+                        buf.writeCollection(payload.inactiveEffectIcons(), ResourceLocation.STREAM_CODEC);
+                        buf.writeCollection(payload.activeEffectIcons(), ResourceLocation.STREAM_CODEC);
                     },
-                    buf -> new SyncBrewGuiDisplayIconsPayload(buf.readList(ResourceLocation.STREAM_CODEC))
+                    buf -> new SyncBrewGuiDisplayIconsPayload(buf.readList(ResourceLocation.STREAM_CODEC), buf.readList(ResourceLocation.STREAM_CODEC))
             );
 
 }

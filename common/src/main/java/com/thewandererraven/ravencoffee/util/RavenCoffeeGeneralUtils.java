@@ -1,13 +1,12 @@
 package com.thewandererraven.ravencoffee.util;
 
 import com.thewandererraven.ravenbrewslib.brew.effect.IBrewEffectManagerHolder;
-import com.thewandererraven.ravencoffee.brew.DefaultCoffeeBrewEffectsManager;
-import net.minecraft.world.entity.LivingEntity;
+import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
 
 public class RavenCoffeeGeneralUtils {
-    public static DefaultCoffeeBrewEffectsManager getCastCoffeeBrewEffectsManager(Object entity) {
+    public static CoffeeBrewEffectsManager getCastCoffeeBrewEffectsManager(Object entity) {
         if(entity instanceof IBrewEffectManagerHolder holder)
-            if(holder.ravenbrewslib$getBrewEffectManager() instanceof DefaultCoffeeBrewEffectsManager defCoffeeBrewEffManager)
+            if(holder.ravenbrewslib$getBrewEffectManager() instanceof CoffeeBrewEffectsManager defCoffeeBrewEffManager)
                 return defCoffeeBrewEffManager;
         return null;
     }
