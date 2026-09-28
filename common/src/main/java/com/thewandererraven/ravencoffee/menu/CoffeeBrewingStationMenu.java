@@ -8,6 +8,7 @@ import com.thewandererraven.ravenbrewslib.brewing.ingredient.BrewIngredientRegis
 import com.thewandererraven.ravenbrewslib.brewing.variant.BrewVariantRegistry;
 import com.thewandererraven.ravenbrewslib.utils.BrewEffectsUtils;
 import com.thewandererraven.ravencoffee.Constants;
+import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.datacomponents.*;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.menu.slots.CoffeeBrewingStationIngredientSlot;
@@ -210,7 +211,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
             }
 
             if(brewEffects.isEmpty()) {
-                brewEffects.addAll(BrewEffectDefinition.getListOfDefaultEffects());
+                brewEffects.addAll(CoffeeBrewEffectsManager.getListOfDefaultEffects());
             }
 
             resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, negatedEffects, ingredientsTotalCaffeine, halveEffectsMultiplier);

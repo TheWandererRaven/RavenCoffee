@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee.item;
 
 import com.thewandererraven.ravenbrewslib.brew.data.BrewEffectDefinition;
 import com.thewandererraven.ravencoffee.Constants;
+import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
 import com.thewandererraven.ravencoffee.datacomponents.CoffeeBrewData;
 import com.thewandererraven.ravencoffee.registry.RegistryObject;
 import com.thewandererraven.ravencoffee.registry.RegistryProvider;
@@ -65,7 +66,7 @@ public class ModCreativeModTabs {
                                 new CoffeeBrewData(
                                         ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default"),
                                         10 * 20,
-                                        BrewEffectDefinition.getListOfDefaultEffects().stream().map(BrewEffectDefinition.Builder::build).toList()
+                                        CoffeeBrewEffectsManager.getListOfDefaultEffects().stream().map(BrewEffectDefinition.Builder::build).toList()
                                 )
                         ));
                         output.accept(CoffeeBrewEffectsUtils.createBrewItemStack(

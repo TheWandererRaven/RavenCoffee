@@ -180,6 +180,27 @@ public class CoffeeBrewEffectsManager implements IBrewEffectsManager, ICoffeeBre
         return false;
     }
 
+    public static List<BrewEffectDefinition.Builder> getListOfDefaultEffects() {
+        return List.of(
+                new BrewEffectDefinition.Builder(
+                        ResourceLocation.fromNamespaceAndPath(com.thewandererraven.ravenbrewslib.Constants.MOD_ID, "effect.mining_efficiency"),
+                        10,
+                        15 * 20,
+                        0,
+                        5.0,
+                        0.0
+                ),
+                new BrewEffectDefinition.Builder(
+                        ResourceLocation.fromNamespaceAndPath(com.thewandererraven.ravenbrewslib.Constants.MOD_ID, "effect.mining_fatigue"),
+                        15,
+                        7 * 20,
+                        0,
+                        0.2,
+                        0.0
+                )
+        );
+    }
+
     // ================================================== TICK
     @Override
     public void tick() {
