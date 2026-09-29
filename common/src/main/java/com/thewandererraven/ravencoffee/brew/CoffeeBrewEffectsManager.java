@@ -29,7 +29,7 @@ public class CoffeeBrewEffectsManager implements IBrewEffectsManager, ICoffeeBre
     private List<BrewEffectInstance> activeEffects;
     private List<ResourceLocation> finishedEffects;
 
-    private final int maxCaffeine = 30 * 20;
+    private final int maxCaffeine = 180 * 20;
     private int currentCaffeine = 0;
     private boolean isOverloaded = false;
 
