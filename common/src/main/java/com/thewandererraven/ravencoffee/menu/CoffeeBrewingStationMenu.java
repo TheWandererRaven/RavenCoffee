@@ -29,6 +29,7 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
     private static final int BASE_INGREDIENTS_SLOTS_COUNT = 1;
@@ -210,9 +211,9 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
             }
 
-            if(brewEffects.isEmpty()) {
-                brewEffects.addAll(CoffeeBrewEffectsManager.getListOfDefaultEffects());
-            }
+//            if(brewEffects.isEmpty()) {
+//                brewEffects.addAll(CoffeeBrewEffectsManager.getListOfDefaultEffects());
+//            }
 
             resultStack = this.assembleBrewItem(baseStack.getItem(), brewEffects, negatedEffects, ingredientsTotalCaffeine, halveEffectsMultiplier);
         }
@@ -227,18 +228,22 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
             BrewBase baseData = foundBaseData.get();
             if (!baseData.item().equals(Items.AIR)) {
                 resultStack = new ItemStack(GeneralItemsRegistry.COFFEE_BREW.get(), 1);
+                List<BrewEffectDefinition.Builder> filteredEffects = brewEffects.stream()
+                        .filter(eff -> !negatedEffects.contains(eff.id)).toList();
+
+                if(filteredEffects.isEmpty())
+                    filteredEffects = CoffeeBrewEffectsManager.getListOfDefaultEffects();
+
                 resultStack.set(DataComponentTypes.COFFEE_BREW.get(), new CoffeeBrewData(
                         foundBrewVariant.orElse(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "default")),
                         (int) Math.ceil((baseData.caffeineBase() + (ingredientsTotalCaffeine * baseData.caffeineMultiplier())) * 20),
-                        brewEffects.stream()
-                                .filter(eff -> !negatedEffects.contains(eff.id))
-                                .map(eff -> eff
-                                        .scaleDuration(halveEffectsMultiplier)
-                                        .scaleDuration(baseData.durationMultiplier())
-                                        .scaleMainValue(baseData.effectValuesMultiplier())
-                                        .scaleSecondaryValue(baseData.effectValuesMultiplier())
-                                        .build()
-                                ).toList()
+                        filteredEffects.stream().map(eff -> eff
+                                .scaleDuration(halveEffectsMultiplier)
+                                .scaleDuration(baseData.durationMultiplier())
+                                .scaleMainValue(baseData.effectValuesMultiplier())
+                                .scaleSecondaryValue(baseData.effectValuesMultiplier())
+                                .build()
+                        ).toList()
                 ));
             }
         }
