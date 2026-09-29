@@ -1,0 +1,16 @@
+{
+  "item": "minecraft:pufferfish",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.fatal_poison",
+      "duration": 100,
+      "interval_duration": 20,
+      "main_value": 1.0,
+      "secondary_value": 0.0
+    }
+  ],
+  "negated_effects": [
+    "ravenbrewslib:effect.regeneration"
+  ]
+}

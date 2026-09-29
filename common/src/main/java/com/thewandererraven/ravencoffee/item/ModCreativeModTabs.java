@@ -75,7 +75,7 @@ public class ModCreativeModTabs {
                                         23 * 20,
                                         List.of(
                                                 new BrewEffectDefinition(
-                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.speed"),
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.movement_speed"),
                                                         10,
                                                         5 * 20,
                                                         0,
@@ -83,7 +83,7 @@ public class ModCreativeModTabs {
                                                         0
                                                 ),
                                                 new BrewEffectDefinition(
-                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.movement_slowness"),
                                                         15,
                                                         5 * 20,
                                                         0,
@@ -99,11 +99,11 @@ public class ModCreativeModTabs {
                                         15 * 20,
                                         List.of(
                                                 new BrewEffectDefinition(
-                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.heal"),
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.regeneration"),
                                                         10,
-                                                        0,
-                                                        0,
-                                                        5,
+                                                        120,
+                                                        40,
+                                                        1,
                                                         0
                                                 )
                                         )
@@ -147,23 +147,23 @@ public class ModCreativeModTabs {
                                                         0
                                                 ),
                                                 new BrewEffectDefinition(
-                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.slowness"),
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.movement_slowness"),
                                                         15,
                                                         5 * 20,
                                                         0,
-                                                        -0.2,
+                                                        0.2,
                                                         0
                                                 ),
                                                 new BrewEffectDefinition(
-                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.strong_legs"),
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.decreased_fall_damage"),
                                                         10,
                                                         15 * 20,
                                                         0,
-                                                        -1.0,
+                                                        1.0,
                                                         0
                                                 ),
                                                 new BrewEffectDefinition(
-                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.weak_legs"),
+                                                        ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "effect.increased_fall_damage"),
                                                         15,
                                                         20 * 20,
                                                         0,

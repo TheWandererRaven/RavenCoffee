@@ -1,0 +1,18 @@
+{
+  "item": "minecraft:kelp",
+  "caffeine_delta": 5,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.water_breathing",
+      "duration": 300,
+      "main_value": 0.0,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.fire_weakness",
+      "duration": 300,
+      "main_value": 3.0,
+      "secondary_value": 0.0
+    }
+  ]
+}

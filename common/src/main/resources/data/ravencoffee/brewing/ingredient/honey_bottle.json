@@ -1,0 +1,17 @@
+{
+  "item": "minecraft:honey_bottle",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.regeneration",
+      "duration": 120,
+      "interval_duration": 40,
+      "main_value": 1.0,
+      "secondary_value": 0.0
+    }
+  ],
+  "negated_effects": [
+    "ravenbrewslib:effect.poison",
+    "ravenbrewslib:effect.fatal_poison"
+  ]
+}

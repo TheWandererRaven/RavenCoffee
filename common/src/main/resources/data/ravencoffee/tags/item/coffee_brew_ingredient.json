@@ -1,5 +1,17 @@
 {
   "replace": false,
   "values": [
+    "minecraft:kelp",
+    "minecraft:glistering_melon_slice",
+    "minecraft:blaze_powder",
+    "minecraft:prismarine_shard",
+    "minecraft:phantom_membrane",
+    "minecraft:resin_clump",
+    "minecraft:sugar",
+    "minecraft:honey_bottle",
+    "minecraft:sweet_berries",
+    "minecraft:glow_berries",
+    "minecraft:poisonous_potato",
+    "minecraft:pufferfish"
   ]
 }

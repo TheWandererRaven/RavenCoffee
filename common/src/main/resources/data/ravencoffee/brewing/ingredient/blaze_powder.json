@@ -1,0 +1,12 @@
+{
+  "item": "minecraft:blaze_powder",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.fire_resistance",
+      "duration": 140,
+      "main_value": 2.0,
+      "secondary_value": 0.0
+    }
+  ]
+}

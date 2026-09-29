@@ -1,0 +1,24 @@
+{
+  "item": "minecraft:resin_clump",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.invisibility",
+      "duration": 140,
+      "main_value": 0.0,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.movement_slow",
+      "duration": 140,
+      "main_value": 0.3,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.grounding",
+      "duration": 140,
+      "main_value": 2.0,
+      "secondary_value": 0.0
+    }
+  ]
+}
