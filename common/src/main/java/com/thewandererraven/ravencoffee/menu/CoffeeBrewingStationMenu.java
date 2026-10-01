@@ -80,6 +80,7 @@ public class CoffeeBrewingStationMenu extends AbstractContainerMenu {
 
     @Override
     public void removed(Player player) {
+        super.removed(player);
         if (player instanceof ServerPlayer) {
             this.clearContainer(player, this.mugsContainer);
             this.clearContainer(player, this.baseIngredientContainer);
