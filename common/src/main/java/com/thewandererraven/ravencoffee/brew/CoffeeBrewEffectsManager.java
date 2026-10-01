@@ -42,6 +42,10 @@ public class CoffeeBrewEffectsManager implements IBrewEffectsManager, ICoffeeBre
         this.finishedEffects = new ArrayList<>();
     }
 
+    @Override
+    public LivingEntity getOwnerEntity() {
+        return ownerEntity;
+    }
 
     @Override
     public void clearAllData() {
