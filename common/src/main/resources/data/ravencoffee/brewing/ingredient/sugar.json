@@ -1,0 +1,12 @@
+{
+  "item": "minecraft:sugar",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.movement_boost",
+      "duration": 100,
+      "main_value": 0.7,
+      "secondary_value": 0.0
+    }
+  ]
+}

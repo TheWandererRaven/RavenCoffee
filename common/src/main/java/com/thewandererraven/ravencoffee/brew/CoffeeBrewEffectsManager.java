@@ -29,7 +29,7 @@ public class CoffeeBrewEffectsManager implements IBrewEffectsManager, ICoffeeBre
     private List<BrewEffectInstance> activeEffects;
     private List<ResourceLocation> finishedEffects;
 
-    private final int maxCaffeine = 30 * 20;
+    private final int maxCaffeine = 180 * 20;
     private int currentCaffeine = 0;
     private boolean isOverloaded = false;
 
@@ -42,6 +42,10 @@ public class CoffeeBrewEffectsManager implements IBrewEffectsManager, ICoffeeBre
         this.finishedEffects = new ArrayList<>();
     }
 
+    @Override
+    public LivingEntity getOwnerEntity() {
+        return ownerEntity;
+    }
 
     @Override
     public void clearAllData() {
@@ -178,6 +182,27 @@ public class CoffeeBrewEffectsManager implements IBrewEffectsManager, ICoffeeBre
             return true;
         }
         return false;
+    }
+
+    public static List<BrewEffectDefinition.Builder> getListOfDefaultEffects() {
+        return List.of(
+                new BrewEffectDefinition.Builder(
+                        ResourceLocation.fromNamespaceAndPath(com.thewandererraven.ravenbrewslib.Constants.MOD_ID, "effect.mining_efficiency"),
+                        10,
+                        15 * 20,
+                        0,
+                        5.0,
+                        0.0
+                ),
+                new BrewEffectDefinition.Builder(
+                        ResourceLocation.fromNamespaceAndPath(com.thewandererraven.ravenbrewslib.Constants.MOD_ID, "effect.mining_fatigue"),
+                        15,
+                        7 * 20,
+                        0,
+                        0.2,
+                        0.0
+                )
+        );
     }
 
     // ================================================== TICK

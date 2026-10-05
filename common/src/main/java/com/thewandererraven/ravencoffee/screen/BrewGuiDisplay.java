@@ -73,7 +73,7 @@ public class BrewGuiDisplay {
                     guiGraphics.blit(RenderType::guiTextured, backgroundSprite, WIDGET_POS_X, WIDGET_POS_Y, 0, 0, WIDGET_WIDTH, WIDGET_HEIGHT, WIDGET_WIDTH, WIDGET_HEIGHT);
                     guiGraphics.blit(RenderType::guiTextured, effectIcon, WIDGET_POS_X + 4, WIDGET_POS_Y + 4, 0, 0, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8, WIDGET_WIDTH - 8, WIDGET_HEIGHT - 8);
                     if(i < this.activeEffectsDurationSeconds.size())
-                        guiGraphics.drawString(mc.font, this.activeEffectsDurationSeconds.get(i).toString(), ZONE_STARTING_POS_X + 3, ZONE_STARTING_POS_Y + 25, 0xFFFFFF, true);
+                        guiGraphics.drawString(mc.font, this.activeEffectsDurationSeconds.get(i).toString(), WIDGET_POS_X + 3, ZONE_STARTING_POS_Y + 25, 0xFFFFFF, true);
                 }
 
                 for (int i = 0; i < this.inactiveEffectIcons.size(); i++) {
@@ -90,7 +90,7 @@ public class BrewGuiDisplay {
                 }
 
                 String remainingDuration = String.format("Total: %s", BrewEffectsUtils.getDisplayableDurationFromSeconds(this.brewTotalDurationSeconds));
-                guiGraphics.drawString(mc.font, remainingDuration, ZONE_STARTING_POS_X + 3, ZONE_STARTING_POS_Y + 32, 0xFFFFFF, true);
+                guiGraphics.drawString(mc.font, remainingDuration, ZONE_STARTING_POS_X + 3, ZONE_STARTING_POS_Y + 36, 0xFFFFFF, true);
             }
 
             int CAFFEINE_BAR_WIDTH = 32;

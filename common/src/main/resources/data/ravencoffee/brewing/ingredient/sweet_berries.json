@@ -1,0 +1,22 @@
+{
+  "item": "minecraft:sweet_berries",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.attack_rush",
+      "duration": 200,
+      "main_value": 0.5,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.attack_delay",
+      "priority": 15,
+      "duration": 260,
+      "main_value": 0.5,
+      "secondary_value": 0.0
+    }
+  ],
+  "negated_effects": [
+    "ravenbrewslib:effect.movement_boost"
+  ]
+}

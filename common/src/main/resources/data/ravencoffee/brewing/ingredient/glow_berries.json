@@ -1,0 +1,26 @@
+{
+  "item": "minecraft:glow_berries",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.attack_rush",
+      "duration": 200,
+      "main_value": 0.5,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.poison",
+      "duration": 120,
+      "interval_duration": 40,
+      "main_value": 1.0,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.attack_delay",
+      "priority": 15,
+      "duration": 260,
+      "main_value": 0.5,
+      "secondary_value": 0.0
+    }
+  ]
+}

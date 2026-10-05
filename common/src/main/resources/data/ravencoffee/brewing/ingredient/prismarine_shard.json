@@ -1,0 +1,26 @@
+{
+  "item": "minecraft:prismarine_shard",
+  "caffeine_delta": 10,
+  "effects": [
+    {
+      "id": "ravenbrewslib:effect.underwater_mining_speed",
+      "duration": 160,
+      "main_value": 0.5,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.underwater_mining_slowness",
+      "priority": 15,
+      "duration": 200,
+      "main_value": 0.2,
+      "secondary_value": 0.0
+    },
+    {
+      "id": "ravenbrewslib:effect.mining_fatigue",
+      "priority": 15,
+      "duration": 200,
+      "main_value": 0.2,
+      "secondary_value": 0.0
+    }
+  ]
+}
