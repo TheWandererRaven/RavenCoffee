@@ -1,13 +1,16 @@
 package com.thewandererraven.ravencoffee.datagen;
 
 import com.thewandererraven.ravencoffee.block.BlocksRegistry;
+import com.thewandererraven.ravencoffee.block.CoffeeTreeLeavesBlock;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
@@ -15,6 +18,14 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -362,6 +373,32 @@ public class DataGenDefinitions {
         );
         ITEMS.add(new DataGenItem(GeneralItemsRegistry.COFFEE_BREWING_STATION.get())
                 .setItemModelGenerationType(DataGenItem.ItemModelGenTypes.IGNORE)
+        );
+        BLOCKS.add(new DataGenBlock(BlocksRegistry.COFFEE_TREE_LEAVES.get())
+                .withLookupLootTable((lookupProvider) -> (new LootTable.Builder())
+                        .withPool(
+                                LootPool.lootPool().add(
+                                        LootItem.lootTableItem(GeneralItemsRegistry.COFFEE_CHERRIES.get())
+                                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(
+                                                        BlocksRegistry.COFFEE_TREE_LEAVES.get())
+                                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                                        .hasProperty(CoffeeTreeLeavesBlock.AGE, 3)
+                                                                )
+                                                )
+                                                .apply(ApplyBonusCount.addBonusBinomialDistributionCount(
+                                                        lookupProvider.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE),
+                                                        0.5714286f,
+                                                        3
+                                                ))
+                                )
+                        )
+                        .apply(ApplyExplosionDecay.explosionDecay())
+                )
+                .setBlockModelGenerationType(DataGenBlock.BlockModelGenTypes.IGNORE)
+        );
+        BLOCKS.add(new DataGenBlock(BlocksRegistry.COFFEE_TREE_TRUNK.get())
+                .setBlockModelGenerationType(DataGenBlock.BlockModelGenTypes.IGNORE)
+                .withSingleItemLootTable(GeneralItemsRegistry.COFFEE_CHERRIES.get())
         );
     }
 }
