@@ -1,26 +1,21 @@
 package com.thewandererraven.ravencoffee.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.List;
-
 public class CoffeeTreeLeavesBlock extends CoffeeTreeBlock {
     public static final IntegerProperty AGE;
-    private static final VoxelShape[] SHAPE_BY_AGE;
+    private static final VoxelShape[] SHAPE;
 
     public CoffeeTreeLeavesBlock(Properties p_i48421_1_) {
         super(p_i48421_1_);
@@ -28,13 +23,23 @@ public class CoffeeTreeLeavesBlock extends CoffeeTreeBlock {
     }
 
     @Override
-    protected boolean mayPlaceOn(BlockState p_200014_1_, BlockGetter p_200014_2_, BlockPos p_200014_3_) {
-        return p_200014_1_.is(BlocksRegistry.COFFEE_TREE_TRUNK.get());
+    protected IntegerProperty getAgeProperty() {
+        return AGE;
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_220053_1_, BlockGetter p_220053_2_, BlockPos p_220053_3_, CollisionContext p_220053_4_) {
-        return SHAPE_BY_AGE[p_220053_1_.getValue(this.getAgeProperty())];
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(new Property[]{AGE});
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+        return SHAPE[blockState.getValue(this.getAgeProperty())];
+    }
+
+    @Override
+    protected boolean mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+        return false; //blockState.is(BlocksRegistry.COFFEE_TREE_TRUNK.get());
     }
 
     @Override
@@ -57,20 +62,9 @@ public class CoffeeTreeLeavesBlock extends CoffeeTreeBlock {
         }
     }
 
-//    @Override
-//    public void onRemove(BlockState oldState, Level level, BlockPos blockPos, BlockState newState, boolean isClient) {
-//        super.onRemove(oldState, level, blockPos, newState, isClient);
-//        if(!isClient) {
-//            BlockState blockDown = level.getBlockState(blockPos.below());
-//            if (blockDown.is(BlocksRegistry.COFFEE_TREE_TRUNK.get()) && !newState.is(this))
-//                if (blockDown.getValue(CoffeeTreeTrunkBlock.HAS_LEAVES))
-//                    level.setBlock(blockPos.below(), blockDown.setValue(CoffeeTreeTrunkBlock.HAS_LEAVES, false), 2);
-//        }
-//    }
-
     static {
         AGE = BlockStateProperties.AGE_3;
-        SHAPE_BY_AGE = new VoxelShape[]{
+        SHAPE = new VoxelShape[]{
                 Block.box(
                         4.0D,// BOTTOM
                         0.0D,// VOLUME BOTTOM

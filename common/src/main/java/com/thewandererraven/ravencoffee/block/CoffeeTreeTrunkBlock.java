@@ -2,23 +2,26 @@ package com.thewandererraven.ravencoffee.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
     public static final IntegerProperty AGE;
     public static final BooleanProperty HAS_LEAVES;
-    private static final VoxelShape[] SHAPE_BY_AGE;
+    private static final VoxelShape[] SHAPES;
     private static final Block LEAVES_BLOCK;
 
     public CoffeeTreeTrunkBlock(Properties p_i48421_1_) {
@@ -30,8 +33,18 @@ public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
     }
 
     @Override
+    protected IntegerProperty getAgeProperty() {
+        return AGE;
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+        return SHAPES[blockState.getValue(this.getAgeProperty())];
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
+        builder.add(new Property[]{AGE});
         builder.add(HAS_LEAVES);
     }
 
@@ -40,13 +53,25 @@ public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
     }
 
     @Override
+    protected SoundType getSoundType(BlockState state) {
+        if(state.getValue(this.getAgeProperty()) <= 1)
+            return SoundType.CHERRY_LEAVES;
+        return super.getSoundType(state);
+    }
+
+    @Override
+    protected boolean mayPlaceOn(BlockState floor, BlockGetter getter, BlockPos pos) {
+        return floor.is(BlockTags.DIRT);
+    }
+
+    @Override
     public boolean isRandomlyTicking(BlockState state) {
         return !super.isMaxAge(state) || !state.getValue(HAS_LEAVES);
     }
 
     @Override
-    public boolean isAboveBlockAcceptable(Level level, BlockPos blockPos) {
-        return level.isEmptyBlock(blockPos.above());
+    public boolean canGrowByTick(BlockState blockState) {
+        return !blockState.getValue(HAS_LEAVES) || !this.isMaxAge(blockState);
     }
 
     public void growLeaves(ServerLevel level, BlockPos trunkPos, BlockState trunkState, BlockPos leavesPos) {
@@ -59,14 +84,11 @@ public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
     }
 
     @Override
-    public void tickGrow(int age, BlockState blockState, ServerLevel level, BlockPos blockPos) {
-        super.tickGrow(age, blockState, level, blockPos);
-        BlockPos abovePos = blockPos.above();
-        BlockState newState = level.getBlockState(blockPos);
-        if ((age + 1) >= this.getMaxAge() && level.isEmptyBlock(abovePos)) {
-            growLeaves(level, blockPos, newState, abovePos);
-        } else if (level.getBlockState(abovePos).is(getLeavesBlock()))
-            level.destroyBlock(abovePos, true);
+    public void growTree(ServerLevel level, BlockPos pos, BlockState state, boolean isBonemealGrow) {
+        if(!this.isMaxAge(state))
+            super.growTree(level, pos, state, isBonemealGrow);
+        if(state.getValue(AGE) >= this.getMaxAge() - 1 && !state.getValue(HAS_LEAVES))
+            growLeaves(level, pos, level.getBlockState(pos), pos.above());
     }
 
     @Override
@@ -78,15 +100,17 @@ public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
         }
     }
 
-    @Override
-    public VoxelShape getShape(BlockState p_220053_1_, BlockGetter p_220053_2_, BlockPos p_220053_3_, CollisionContext p_220053_4_) {
-        return SHAPE_BY_AGE[p_220053_1_.getValue(this.getAgeProperty())];
-    }
-
     // ##################################### BONEMEAL #####################################
 
-
     @Override
+    public boolean isValidBonemealTarget(LevelReader reader, BlockPos blockPos, BlockState blockState) {
+        BlockState aboveBlock = reader.getBlockState(blockPos.above());
+        if(aboveBlock.is(this.getLeavesBlock())) {
+            return !((CoffeeTreeLeavesBlock) aboveBlock.getBlock()).isMaxAge(aboveBlock);
+        }
+        return !this.isMaxAge(blockState);
+    }
+
     public void applyGrowth(ServerLevel world, BlockPos pos, BlockState state) {
         super.applyGrowth(world, pos, state);
         BlockState trunkState = world.getBlockState(pos);
@@ -112,20 +136,11 @@ public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
         BlockState latestState = level.getBlockState(blockPos);
     }
 
-    @Override
-    public boolean isValidBonemealTarget(LevelReader reader, BlockPos blockPos, BlockState blockState) {
-        if (reader.getBlockState(blockPos.above()).is(this.getLeavesBlock())) {
-            BlockState upBlock = reader.getBlockState(blockPos.above());
-            return !this.isMaxAge(blockState) || !blockState.getValue(HAS_LEAVES) || !((CoffeeTreeLeavesBlock) upBlock.getBlock()).isMaxAge(upBlock);
-        } else
-            return !this.isMaxAge(blockState) || !blockState.getValue(HAS_LEAVES);
-    }
-
     static {
-        LEAVES_BLOCK = BlocksRegistry.COFFEE_TREE_LEAVES.get();
         AGE = BlockStateProperties.AGE_3;
+        LEAVES_BLOCK = BlocksRegistry.COFFEE_TREE_LEAVES.get();
         HAS_LEAVES = BooleanProperty.create("has_leaves");
-        SHAPE_BY_AGE = new VoxelShape[]{
+        SHAPES = new VoxelShape[]{
                 Block.box(
                         6.0D,//
                         0.0D,// VOLUME BOTTOM
@@ -139,7 +154,7 @@ public class CoffeeTreeTrunkBlock extends CoffeeTreeBlock {
                 4.0D,
                 12.0D,
                 8.0D,
-                10.0D
+                12.0D
         ), Block.box(
                 3.0D,
                 0.0D,
