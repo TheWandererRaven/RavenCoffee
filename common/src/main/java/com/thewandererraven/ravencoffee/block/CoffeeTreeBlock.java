@@ -149,7 +149,7 @@ public class CoffeeTreeBlock extends CropBlock implements BonemealableBlock {
             blockstate = levelReader.getBlockState(blockPos.relative(direction));
         } while (
                 (!blockstate.isSolid() || blockstate.is(BlockTags.LEAVES) || blockstate.is(BlockTags.FENCES) || blockstate.is(BlockTags.FENCE_GATES) || blockstate.is(Blocks.JIGSAW))
-                        && !levelReader.getFluidState(blockPos.relative(direction)).is(FluidTags.LAVA) && super.hasSufficientLight(levelReader, blockPos));
+                        && !levelReader.getFluidState(blockPos.relative(direction)).is(FluidTags.LAVA));
         return false;
     }
 
