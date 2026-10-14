@@ -1,6 +1,8 @@
 package com.thewandererraven.ravencoffee.block;
 
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
+import com.thewandererraven.ravencoffee.platform.Services;
+import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -61,12 +63,56 @@ public class CoffeeTreeBlock extends CropBlock implements BonemealableBlock {
         if (serverLevel.getRawBrightness(blockPos, 0) >= 9) {
             int i = this.getAge(blockState);
             if (this.canGrowByTick(blockState)) {
-                float f = getGrowthSpeed(this, serverLevel, blockPos);
+                float f = improvisedGetGrowthSpeed(this, serverLevel, blockPos);
+//                float f = getGrowthSpeed(this, serverLevel, blockPos);
                 if (randomSource.nextInt((int) (25.0F / f) + 1) == 0) {
                     this.growTree(serverLevel, blockPos, blockState, false);
                 }
             }
         }
+    }
+
+    // TODO: Remove this later ----- Something got updated and I was unable to cal the parent class method
+    //                         ----- In NeoForge it is using blockstate instead of block, so this might change later
+    public static float improvisedGetGrowthSpeed(Block block, BlockGetter level, BlockPos pos) {
+        float f = 1.0F;
+        BlockPos blockPos = pos.below();
+
+        for(int i = -1; i <= 1; ++i) {
+            for(int j = -1; j <= 1; ++j) {
+                float g = 0.0F;
+                BlockState blockState = level.getBlockState(blockPos.offset(i, 0, j));
+                if (blockState.is(Blocks.FARMLAND)) {
+                    g = 1.0F;
+                    if ((Integer)blockState.getValue(FarmBlock.MOISTURE) > 0) {
+                        g = 3.0F;
+                    }
+                }
+
+                if (i != 0 || j != 0) {
+                    g /= 4.0F;
+                }
+
+                f += g;
+            }
+        }
+
+        BlockPos blockPos2 = pos.north();
+        BlockPos blockPos3 = pos.south();
+        BlockPos blockPos4 = pos.west();
+        BlockPos blockPos5 = pos.east();
+        boolean bl = level.getBlockState(blockPos4).is(block) || level.getBlockState(blockPos5).is(block);
+        boolean bl2 = level.getBlockState(blockPos2).is(block) || level.getBlockState(blockPos3).is(block);
+        if (bl && bl2) {
+            f /= 2.0F;
+        } else {
+            boolean bl3 = level.getBlockState(blockPos4.north()).is(block) || level.getBlockState(blockPos5.north()).is(block) || level.getBlockState(blockPos5.south()).is(block) || level.getBlockState(blockPos4.south()).is(block);
+            if (bl3) {
+                f /= 2.0F;
+            }
+        }
+
+        return f;
     }
 
     // ##################################### BONEMEAL #####################################
