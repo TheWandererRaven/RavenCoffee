@@ -5,10 +5,15 @@ import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePay
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayDurationsPayload;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayIconsPayload;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
+import com.thewandererraven.ravencoffee.worldgen.RavenCoffeeWorldPlacedFeatures;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.levelgen.GenerationStep;
 
 public class RavenCoffeeFabric implements ModInitializer {
     
@@ -22,6 +27,16 @@ public class RavenCoffeeFabric implements ModInitializer {
         // Use Fabric to bootstrap the Common mod.
         Constants.LOG.info("Hello Fabric world!");
         RavenCoffeeCommon.init();
+        BiomeModifications.addFeature(
+                BiomeSelectors.tag(BiomeTags.IS_SAVANNA),
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                RavenCoffeeWorldPlacedFeatures.COFFEE_TREE_SAVANNAH_PATCH
+        );
+        BiomeModifications.addFeature(
+                BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
+                GenerationStep.Decoration.VEGETAL_DECORATION,
+                RavenCoffeeWorldPlacedFeatures.COFFEE_TREE_JUNGLE_PATCH
+        );
         PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayIconsPayload.TYPE, SyncBrewGuiDisplayIconsPayload.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayDurationsPayload.TYPE, SyncBrewGuiDisplayDurationsPayload.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayCaffeinePayload.TYPE, SyncBrewGuiDisplayCaffeinePayload.STREAM_CODEC);
