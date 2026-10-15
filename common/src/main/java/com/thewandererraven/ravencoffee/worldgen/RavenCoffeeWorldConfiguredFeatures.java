@@ -67,7 +67,7 @@ public class RavenCoffeeWorldConfiguredFeatures {
         context.register(COFFEE_TREE_CONFIGURED_FEATURE, new ConfiguredFeature(
                 Feature.RANDOM_PATCH,
                 new RandomPatchConfiguration(
-                        6,
+                        8,
                         5,
                         0,
                         PlacementUtils.inlinePlaced(

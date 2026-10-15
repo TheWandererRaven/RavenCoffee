@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 
 public class RavenCoffeeFabric implements ModInitializer {
@@ -28,14 +29,14 @@ public class RavenCoffeeFabric implements ModInitializer {
         Constants.LOG.info("Hello Fabric world!");
         RavenCoffeeCommon.init();
         BiomeModifications.addFeature(
-                BiomeSelectors.tag(BiomeTags.IS_SAVANNA),
+                BiomeSelectors.tag(BiomeTags.IS_SAVANNA).and(BiomeSelectors.includeByKey(Biomes.SPARSE_JUNGLE)).and(BiomeSelectors.includeByKey(Biomes.BAMBOO_JUNGLE)),
                 GenerationStep.Decoration.VEGETAL_DECORATION,
-                RavenCoffeeWorldPlacedFeatures.COFFEE_TREE_SAVANNAH_PATCH
+                RavenCoffeeWorldPlacedFeatures.COFFEE_TREE_REGULAR_BIOME_PATCH
         );
         BiomeModifications.addFeature(
-                BiomeSelectors.tag(BiomeTags.IS_JUNGLE),
+                BiomeSelectors.includeByKey(Biomes.JUNGLE),
                 GenerationStep.Decoration.VEGETAL_DECORATION,
-                RavenCoffeeWorldPlacedFeatures.COFFEE_TREE_JUNGLE_PATCH
+                RavenCoffeeWorldPlacedFeatures.COFFEE_TREE_DENSE_BIOME_PATCH
         );
         PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayIconsPayload.TYPE, SyncBrewGuiDisplayIconsPayload.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(SyncBrewGuiDisplayDurationsPayload.TYPE, SyncBrewGuiDisplayDurationsPayload.STREAM_CODEC);
