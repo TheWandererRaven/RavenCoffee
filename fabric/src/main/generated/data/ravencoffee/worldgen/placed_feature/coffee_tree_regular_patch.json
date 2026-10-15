@@ -19,7 +19,7 @@
     },
     {
       "type": "minecraft:rarity_filter",
-      "chance": 300
+      "chance": 250
     },
     {
       "type": "minecraft:biome"
