@@ -41,9 +41,9 @@ public class GeneralItemsRegistry {
 
     // ############################################### BASIC COFFEE STUFF ##############################################
     public static final String _coffee_cherries_id = "coffee_cherries";
-    //TODO: MAKE SEEDS
     public static final RegistryObject<Item> COFFEE_CHERRIES =
-            ITEMS.register(_coffee_cherries_id, () -> new Item(new Item.Properties()
+            ITEMS.register(_coffee_cherries_id, () -> new BlockItem(BlocksRegistry.COFFEE_TREE_TRUNK.get(),
+                    new Item.Properties()
                     .setId(ResourceKey.create(
                             Registries.ITEM,
                             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_cherries_id)
@@ -53,7 +53,6 @@ public class GeneralItemsRegistry {
                             .saturationModifier(0.05f)
                             .build()
                     )
-
             ));
 
     public static final String _coffee_beans_id = "coffee_beans";

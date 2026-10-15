@@ -67,6 +67,36 @@ public class BlocksRegistry {
                     .destroyTime(1.0F)
             ));
 
+    public static final String _coffee_tree_leaves_id = "coffee_tree_leaves";
+    public static final RegistryObject<Block> COFFEE_TREE_LEAVES =
+            BLOCKS.register(_coffee_tree_leaves_id, () -> new CoffeeTreeLeavesBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(
+                            Registries.BLOCK,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_tree_leaves_id)
+                    ))
+                    .forceSolidOn()
+                    .pushReaction(PushReaction.DESTROY)
+                    .sound(SoundType.CHERRY_LEAVES)
+                    .destroyTime(0.15F)
+                    .ignitedByLava()
+                    .noOcclusion()
+                    //.randomTicks()
+            ));
+
+    public static final String _coffee_tree_trunk_id = "coffee_tree_trunk";
+    public static final RegistryObject<Block> COFFEE_TREE_TRUNK =
+            BLOCKS.register(_coffee_tree_trunk_id, () -> new CoffeeTreeTrunkBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(
+                            Registries.BLOCK,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _coffee_tree_trunk_id)
+                    ))
+                    .forceSolidOn()
+                    .pushReaction(PushReaction.DESTROY)
+                    .sound(SoundType.WOOD)
+                    .destroyTime(0.3F)
+                    .ignitedByLava()
+            ));
+
     public static void init() {
 
     }

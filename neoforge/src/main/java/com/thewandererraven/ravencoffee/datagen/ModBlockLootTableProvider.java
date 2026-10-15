@@ -20,6 +20,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 this.dropSelf(dataGenBlock.mainBlock);
             else if(dataGenBlock.lootTable != null)
                 this.add(dataGenBlock.mainBlock, dataGenBlock.lootTable);
+            else if(dataGenBlock.lookupLootTable != null)
+                this.add(dataGenBlock.mainBlock, dataGenBlock.lookupLootTable.apply(registries));
         }
     }
 

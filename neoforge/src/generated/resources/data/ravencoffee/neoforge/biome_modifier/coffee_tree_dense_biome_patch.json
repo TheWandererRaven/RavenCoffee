@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "minecraft:jungle",
+  "features": "ravencoffee:coffee_tree_dense_biome_patch",
+  "step": "vegetal_decoration"
+}

@@ -3,3 +3,5 @@
 a43f0cff04547a59804fee5e65c1dbc6e6e504c7 data/ravencoffee/loot_table/blocks/coffee_brewing_station.json
 e05acb4fb60871a8152d02b4ff1b8183b5431ff8 data/ravencoffee/loot_table/blocks/coffee_grinder.json
 87b59a9269b2d117324fd9debbd18889f1663bb9 data/ravencoffee/loot_table/blocks/coffee_machine.json
+30eec99ceea3b1c249ad91bb91521c18f580e802 data/ravencoffee/loot_table/blocks/coffee_tree_leaves.json
+3fd9161cc95250b8cfff7e908ffc9fa9817e7a7f data/ravencoffee/loot_table/blocks/coffee_tree_trunk.json

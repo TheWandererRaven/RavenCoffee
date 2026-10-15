@@ -22,3 +22,7 @@ build
 eclipse
 run
 runs
+
+fabric/src/main/generated/.cache/
+
+neoforge/src/generated/resources/.cache/
