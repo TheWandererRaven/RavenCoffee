@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "bites=0": {
+      "model": "ravencoffee:block/rosca_de_reyes_0"
+    },
+    "bites=1": {
+      "model": "ravencoffee:block/rosca_de_reyes_1"
+    },
+    "bites=2": {
+      "model": "ravencoffee:block/rosca_de_reyes_2"
+    },
+    "bites=3": {
+      "model": "ravencoffee:block/rosca_de_reyes_3"
+    },
+    "bites=4": {
+      "model": "ravencoffee:block/rosca_de_reyes_4"
+    },
+    "bites=5": {
+      "model": "ravencoffee:block/rosca_de_reyes_5"
+    },
+    "bites=6": {
+      "model": "ravencoffee:block/rosca_de_reyes_6"
+    },
+    "bites=7": {
+      "model": "ravencoffee:block/rosca_de_reyes_7"
+    },
+    "bites=8": {
+      "model": "ravencoffee:block/rosca_de_reyes_8"
+    },
+    "bites=9": {
+      "model": "ravencoffee:block/rosca_de_reyes_9"
+    },
+    "bites=10": {
+      "model": "ravencoffee:block/rosca_de_reyes_10"
+    },
+    "bites=11": {
+      "model": "ravencoffee:block/rosca_de_reyes_11"
+    }
+  }
+}

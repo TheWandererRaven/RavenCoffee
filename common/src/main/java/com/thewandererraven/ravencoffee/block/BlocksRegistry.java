@@ -27,6 +27,22 @@ public class BlocksRegistry {
                     .destroyTime(0.5F)
             ));
 
+    public static final String _rosca_de_reyes_id = "rosca_de_reyes";
+    public static final RegistryObject<Block> ROSCA_DE_REYES =
+            BLOCKS.register(_rosca_de_reyes_id, () -> new RoscaDeReyesBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(
+                            Registries.BLOCK,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _rosca_de_reyes_id)
+                    ))
+                    .forceSolidOn()
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY)
+                    .sound(SoundType.WOOL)
+                    .destroyTime(0.5F),
+                    2,
+                    1.5f
+            ));
+
     public static final String _coffee_grinder_id = "coffee_grinder";
     public static final RegistryObject<Block> COFFEE_GRINDER =
             BLOCKS.register(_coffee_grinder_id, () -> new CoffeeGrinderBlock(BlockBehaviour.Properties.of()

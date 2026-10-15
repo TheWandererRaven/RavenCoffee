@@ -360,6 +360,18 @@ public class GeneralItemsRegistry {
                             ).component(DataComponents.LORE,new ItemLore(generateComponentTranslatableByItemId(_brownie_block_item_id, true)))
             ));
 
+    public static final String _rosca_de_reyes_id = "rosca_de_reyes";
+    public static final RegistryObject<Item> ROSCA_DE_REYES =
+            ITEMS.register(_rosca_de_reyes_id, () -> new BlockItem(
+                    BlocksRegistry.ROSCA_DE_REYES.get(),
+                    new Item.Properties()
+                            .setId(ResourceKey.create(
+                                    Registries.ITEM,
+                                    ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _rosca_de_reyes_id)
+                            ))
+                            .component(DataComponents.LORE,new ItemLore(generateComponentTranslatableByItemId(_rosca_de_reyes_id, true)))
+            ));
+
     public static final String _coffee_machine_item_id = "coffee_machine";
     public static final RegistryObject<Item> COFFEE_MACHINE_ITEM =
             ITEMS.register(_coffee_machine_item_id, () -> new BlockItem(
