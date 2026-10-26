@@ -176,7 +176,7 @@ public class GeneralItemsRegistry {
 
     public static final String _tiramisu_slice_id = "tiramisu_slice";
     public static final RegistryObject<Item> TIRAMISU_SLICE =
-            ITEMS.register(_tiramisu_slice_id, () -> new Item(new Item.Properties()
+            ITEMS.register(_tiramisu_slice_id, () -> new BlockItem(BlocksRegistry.TIRAMISU.get(), new Item.Properties()
                     .setId(ResourceKey.create(
                             Registries.ITEM,
                             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _tiramisu_slice_id)
@@ -370,6 +370,17 @@ public class GeneralItemsRegistry {
                                     ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _rosca_de_reyes_id)
                             ))
                             .component(DataComponents.LORE,new ItemLore(generateComponentTranslatableByItemId(_rosca_de_reyes_id, true)))
+            ));
+
+    public static final String _tiramisu_id = "tiramisu";
+    public static final RegistryObject<Item> TIRAMISU =
+            ITEMS.register(_tiramisu_id, () -> new BlockItem(
+                    BlocksRegistry.TIRAMISU.get(),
+                    new Item.Properties()
+                            .setId(ResourceKey.create(
+                                    Registries.ITEM,
+                                    ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _tiramisu_id)
+                            ))
             ));
 
     public static final String _coffee_machine_item_id = "coffee_machine";

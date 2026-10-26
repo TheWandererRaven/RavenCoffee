@@ -43,6 +43,22 @@ public class BlocksRegistry {
                     1.5f
             ));
 
+    public static final String _tiramisu_id = "tiramisu";
+    public static final RegistryObject<Block> TIRAMISU =
+            BLOCKS.register(_tiramisu_id, () -> new TiramisuBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(
+                            Registries.BLOCK,
+                            ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _tiramisu_id)
+                    ))
+                    .forceSolidOn()
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY)
+                    .sound(SoundType.WOOL)
+                    .destroyTime(0.5F),
+                    2,
+                    1.5f
+            ));
+
     public static final String _coffee_grinder_id = "coffee_grinder";
     public static final RegistryObject<Block> COFFEE_GRINDER =
             BLOCKS.register(_coffee_grinder_id, () -> new CoffeeGrinderBlock(BlockBehaviour.Properties.of()
