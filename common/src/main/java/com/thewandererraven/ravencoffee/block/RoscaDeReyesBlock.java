@@ -76,7 +76,7 @@ public class RoscaDeReyesBlock extends Block {
 
         InteractionResult eatRes = eatRosca(level, blockPos, blockState, player);
 
-        int rand = level.getRandom().nextInt(5);//60000);
+        int rand = level.getRandom().nextInt(60000);
         if (rand < 1) {
             ItemEntity droppedItem = new ItemEntity(
                     player.level(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(Items.TOTEM_OF_UNDYING)
