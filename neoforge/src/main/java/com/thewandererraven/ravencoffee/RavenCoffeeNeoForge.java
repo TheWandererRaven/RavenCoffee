@@ -2,6 +2,7 @@ package com.thewandererraven.ravencoffee;
 
 
 import com.thewandererraven.ravencoffee.brew.CoffeeBrewEffectsManager;
+import com.thewandererraven.ravencoffee.entitites.EntityTypesRegistry;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.SyncBrewGuiDisplayCaffeinePayload;
@@ -12,6 +13,7 @@ import com.thewandererraven.ravencoffee.screen.CoffeeBrewingStationScreen;
 import com.thewandererraven.ravencoffee.screen.CoffeeGrinderScreen;
 import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.api.distmarker.Dist;
@@ -19,6 +21,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -93,6 +96,14 @@ public class RavenCoffeeNeoForge {
                     ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "brew_variant"),
                     // The map codec
                     BrewVariantProperty.TYPE
+            );
+        }
+
+        @SubscribeEvent
+        public static void registerEntityRenderer(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(
+                    EntityTypesRegistry.MUFFIN.get(),
+                    ThrownItemRenderer::new
             );
         }
     }

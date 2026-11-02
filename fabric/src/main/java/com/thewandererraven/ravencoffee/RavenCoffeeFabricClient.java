@@ -3,6 +3,8 @@ package com.thewandererraven.ravencoffee;
 import com.thewandererraven.ravencoffee.block.BlocksRegistry;
 import com.thewandererraven.ravencoffee.datagen.DataGenDefinitions;
 import com.thewandererraven.ravencoffee.datagen.DataGenItem;
+import com.thewandererraven.ravencoffee.entitites.EntityTypesRegistry;
+import com.thewandererraven.ravencoffee.entitites.ThrowableFoodEntity;
 import com.thewandererraven.ravencoffee.item.properties.BrewVariantProperty;
 import com.thewandererraven.ravencoffee.menu.MenusRegistry;
 import com.thewandererraven.ravencoffee.networking.*;
@@ -14,9 +16,11 @@ import com.thewandererraven.ravencoffee.util.RavenCoffeeGeneralUtils;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -69,5 +73,9 @@ public class RavenCoffeeFabricClient implements ClientModInitializer {
         );
         BlockRenderLayerMap.INSTANCE.putBlock(BlocksRegistry.COFFEE_TREE_TRUNK.get(), RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlocksRegistry.COFFEE_TREE_LEAVES.get(), RenderType.cutout());
+        EntityRendererRegistry.register(
+                EntityTypesRegistry.MUFFIN.get(),
+                ThrownItemRenderer::new
+        );
     }
 }

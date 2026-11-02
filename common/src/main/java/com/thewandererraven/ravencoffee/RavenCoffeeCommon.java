@@ -3,6 +3,7 @@ package com.thewandererraven.ravencoffee;
 import com.thewandererraven.ravenbrewslib.RavenBrewsLibCommon;
 import com.thewandererraven.ravencoffee.block.BlocksRegistry;
 import com.thewandererraven.ravencoffee.brew.RavenBrewEffectsRegistry;
+import com.thewandererraven.ravencoffee.entitites.EntityTypesRegistry;
 import com.thewandererraven.ravencoffee.item.GeneralItemsRegistry;
 import com.thewandererraven.ravencoffee.item.ModCreativeModTabs;
 import com.thewandererraven.ravencoffee.datacomponents.DataComponentTypes;
@@ -41,6 +42,7 @@ public class RavenCoffeeCommon {
         MenusRegistry.init();
         BlocksRegistry.init();
         GeneralItemsRegistry.init();
+        EntityTypesRegistry.init();
         ModCreativeModTabs.init();
         RecipesRegistry.init();
     }

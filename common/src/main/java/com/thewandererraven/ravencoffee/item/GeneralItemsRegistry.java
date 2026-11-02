@@ -118,9 +118,8 @@ public class GeneralItemsRegistry {
                     )
             ));
     public static final String _muffin_id = "muffin";
-    // TODO: Create muffin food item
     public static final RegistryObject<Item> MUFFIN =
-            ITEMS.register(_muffin_id, () -> new Item(new Item.Properties()
+            ITEMS.register(_muffin_id, () -> new MuffinItem(new Item.Properties()
                     .setId(ResourceKey.create(
                             Registries.ITEM,
                             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _muffin_id)
