@@ -86,33 +86,19 @@ public class TiramisuBlock extends Block {
         return result;
     }
 
-//    @Override
-//    protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult hitResult) {
-//        InteractionResult result = InteractionResult.FAIL;
-//        if(!level.isClientSide) {
-//            result = removeSlice(level, blockPos, blockState, player);
-//            if(result == InteractionResult.SUCCESS_SERVER) {
-//                ItemStack slice = new ItemStack(GeneralItemsRegistry.TIRAMISU_SLICE.get());
-//                ItemEntity droppedItem = new ItemEntity(level, hitResult.getLocation().x, hitResult.getLocation().y + 0.1, hitResult.getLocation().z, slice);
-//                droppedItem.setDefaultPickUpDelay();
-//                level.addFreshEntity(droppedItem);
-//            }
-//        }
-//        return result;
-//    }
     private InteractionResult addSlice(LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState, Player player) {
         Integer slices = blockState.getValue(SLICES);
         if(slices >= MAX_SLICES) return InteractionResult.PASS;
-        updateBlcokstate(levelAccessor, blockPos, blockState, player, blockState.getValue(SLICES) + 1);
+        updateBlockstate(levelAccessor, blockPos, blockState, player, blockState.getValue(SLICES) + 1);
         return InteractionResult.CONSUME;
     }
 
     private InteractionResult removeSlice(LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState, Player player) {
-        updateBlcokstate(levelAccessor, blockPos, blockState, player, blockState.getValue(SLICES) - 1);
+        updateBlockstate(levelAccessor, blockPos, blockState, player, blockState.getValue(SLICES) - 1);
         return InteractionResult.CONSUME;
     }
 
-    private static void updateBlcokstate(LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState, Player player, Integer newSlices) {
+    private static void updateBlockstate(LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState, Player player, Integer newSlices) {
         if (newSlices > 0) {
             levelAccessor.setBlock(blockPos, blockState.setValue(SLICES, newSlices), 3);
         } else {

@@ -34,15 +34,20 @@ public class MuffinItem extends Item implements ProjectileItem {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        Player player = context.getPlayer();
-        InteractionHand hand = context.getHand();
+        return super.useOn(context);
+//        Player player = context.getPlayer();
+//        InteractionHand hand = context.getHand();
+//        ItemStack itemInHand = context.getItemInHand();
+//
+//        return this.eatMuffin(player, hand, itemInHand);
+    }
 
+    private InteractionResult eatMuffin(Player player, InteractionHand hand, ItemStack itemInHand) {
         if(player == null) return InteractionResult.FAIL;
         FoodProperties foodProps = this.components().getOrDefault(DataComponents.FOOD, null);
         if (player.canEat(foodProps.canAlwaysEat())) {
             player.startUsingItem(hand);
-            return InteractionResult.CONSUME.heldItemTransformedTo(context.getItemInHand());
+            return InteractionResult.CONSUME.heldItemTransformedTo(itemInHand);
         } else {
             return InteractionResult.FAIL;
         }
@@ -50,20 +55,20 @@ public class MuffinItem extends Item implements ProjectileItem {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack itemInHand = player.getItemInHand(hand);
+
+        if(player.isCrouching())
+            return eatMuffin(player, hand, itemInHand);
+
         level.playSound((Entity)null, player.getX(), player.getY(), player.getZ(), SoundEvents.SNOWBALL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
 
         if (level instanceof ServerLevel serverLevel) {
-            Projectile.spawnProjectileFromRotation(ThrowableFoodEntity::new, serverLevel, itemstack, player, 0.0F, 1.5F, 0.25F);
-//            ThrowableFoodEntity foodEntity = new ThrowableFoodEntity(level, player, itemstack);
-//            foodEntity.setItem(itemstack);
-//            foodEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-//            level.addFreshEntity(foodEntity);
+            Projectile.spawnProjectileFromRotation(ThrowableFoodEntity::new, serverLevel, itemInHand, player, 0.0F, 1.5F, 0.25F);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
         if (!player.isCreative()) {
-            itemstack.shrink(1);
+            itemInHand.shrink(1);
         }
 
         return InteractionResult.SUCCESS_SERVER;

@@ -33,45 +33,45 @@ public class ThrowableFoodEntity extends ThrowableItemProjectile {
 
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
+        if(this.level().isClientSide) return;
         Entity hitEntity = hitResult.getEntity();
-        if(hitEntity instanceof Animal) ((Animal)hitEntity).ate();
+        FoodProperties foodProps = this.getItem().getComponents().get(DataComponents.FOOD);
+        float projectileDamage = foodProps != null ? foodProps.nutrition() : 1.0f;
 
-        if (hitEntity instanceof Player) {
+        if(hitEntity instanceof Player) {
             Player hitPlayer = (Player)hitEntity;
-            FoodProperties foodProps = this.getItem().getComponents().get(DataComponents.FOOD);
             if (hitPlayer.canEat(false) && foodProps != null) {
                 hitPlayer.getFoodData().eat(foodProps);
                 hitPlayer.level().playSound(null, hitPlayer.blockPosition(), SoundEvents.GENERIC_EAT.value(), SoundSource.AMBIENT, 1.0f, 1.0f);
                 hitPlayer.level().playSound(null, hitPlayer.blockPosition(), SoundEvents.PLAYER_BURP, SoundSource.AMBIENT, 1.0f, 1.0f);
             } else
-                hitPlayer.hurt(damageSources().thrown(this, this.getOwner()), foodProps.nutrition());
+                hitPlayer.hurt(damageSources().thrown(this, this.getOwner()), projectileDamage);
         }
         else if (hitEntity instanceof Villager) {
             Villager hitVillager = (Villager)hitEntity;
             if (hitVillager.wantsMoreFood()) hitVillager.eatAndDigestFood();
-            hitVillager.knockback(0.5f, this.position().x - hitEntity.getX(), this.position().z - hitEntity.getZ());
+            hitVillager.knockback(0.25f, this.position().x - hitEntity.getX(), this.position().z - hitEntity.getZ());
         }
         else if(hitEntity instanceof Animal) {
             Animal hitAnimal = (Animal)hitEntity;
             hitAnimal.setInLoveTime(600);
             this.level().broadcastEntityEvent(hitAnimal, (byte)18);
-            hitAnimal.knockback(0.5f, this.position().x - hitEntity.getX(), this.position().z - hitEntity.getZ());
+            hitAnimal.knockback(0.25f, this.position().x - hitEntity.getX(), this.position().z - hitEntity.getZ());
             hitAnimal.level().playSound(null, hitAnimal.blockPosition(), SoundEvents.GENERIC_EAT.value(), SoundSource.AMBIENT, 1.0f, 1.15f);
             hitAnimal.level().playSound(null, hitAnimal.blockPosition(), SoundEvents.PLAYER_BURP, SoundSource.AMBIENT, 1.0f, 1.1f);
         }
         else {
-            hitEntity.hurt(damageSources().thrown(this, this.getOwner()), (float) 1.0);
+            hitEntity.hurt(damageSources().thrown(this, this.getOwner()), projectileDamage);
         }
     }
 
     @Override
     protected void onHit(HitResult hitResult) {
-        super.onHit(hitResult);
-        if (this.level().isClientSide) {
-            this.addParticles();
+        if(!this.level().isClientSide) {
+            super.onHit(hitResult);
             this.discard();
-        }
-
+        } else
+            this.addParticles();
     }
 
     private void addParticles() {
