@@ -9,10 +9,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.ItemLore;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +117,8 @@ public class GeneralItemsRegistry {
                     .food((new FoodProperties.Builder())
                             .nutrition(12)
                             .saturationModifier(0.15f)
-                            .build()
+                            .build(),
+                            Consumables.CHORUS_FRUIT
                     )
             ));
     public static final String _muffin_id = "muffin";
@@ -175,7 +179,7 @@ public class GeneralItemsRegistry {
 
     public static final String _tiramisu_slice_id = "tiramisu_slice";
     public static final RegistryObject<Item> TIRAMISU_SLICE =
-            ITEMS.register(_tiramisu_slice_id, () -> new BlockItem(BlocksRegistry.TIRAMISU.get(), new Item.Properties()
+            ITEMS.register(_tiramisu_slice_id, () -> new Item(new Item.Properties()
                     .setId(ResourceKey.create(
                             Registries.ITEM,
                             ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, _tiramisu_slice_id)
@@ -355,7 +359,9 @@ public class GeneralItemsRegistry {
                             .food((new FoodProperties.Builder())
                                     .nutrition(11)
                                     .saturationModifier(1.2f/2f)
-                                    .build()
+                                    .build(),
+                            Consumables.defaultFood()
+                                    .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.SLOWNESS, 5 * 60 * 20, 5))).build()
                             ).component(DataComponents.LORE,new ItemLore(generateComponentTranslatableByItemId(_brownie_block_item_id, true)))
             ));
 
